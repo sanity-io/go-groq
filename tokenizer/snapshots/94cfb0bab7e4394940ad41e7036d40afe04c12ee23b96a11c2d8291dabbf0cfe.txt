@@ -1,0 +1,3272 @@
+//groq:version=2.x.x
+//groq:param:myParam="abc"
+
+// The following query exercises all parser-related features for GROQ 2
+
+coalesce({count($myParam) > "d" => {c["e"] => {..., null == c => {count([(!b-> || !c.c), ^.^.c->][(true > c && false <= c)][!(b->)][1000000000000000]) <= "g" => {..., b->a => {b.a => {"e": b, ...}, c-> => {"g": count(* | order(a)), "b": @}}}, !a => {..., "f": {!b->.a => {select(@.b => * | {..., "f": *[(!a[] || "f" == b)][(pt::text(c) => 2 && select([!(-1 != c)] => ([[[], 1 % -3e12, 2][!b[].b][-100..-100], (null != a || a.c != 100)][(a->c)] | order(b))) < 2)]}) != 100 => {"a": $myParam, b[] < 3e-12 => {coalesce([*{c["d"] < true => {false > c => {a => {..., "f": *[null <= a]}}, ..., b->b < "d" => {"d": -100 + 3e12 | order(b), "c": [b | order(a) | order(b)]}}, ...}, ...[(* | {"f": *[!(!b)][!a->a][c->c == 100], ..., "a": c}), @.b]][(-3e-12 > c && count([*{"b": ({pt::text(c) != 3e12 => {"a": [b, [][(!c->c || null < a)][(b[].b > true || b[].b)][1..1], -3e12 + -1][100], true == a => {!a => {..., "b": (b | order(a) | order(b))}, b[].c => {..., count(*[b->][a[].c <= false][!(select(@.a => $myParam) != -100)] | {c["g"] => {..., "d": [*[2]][(b-> || pt::text(a) < -1.1)][!(!a[].a)] | {..., "g": "d" + "c"}}, ...}) < 3e-12 => {"f": "f" + "f"}}}}, ...}), !c-> => {"f": [(1.1 == b && !c), 1.1 + -1, ^.^.a[].b][1000000000000000..100], ..., !a.c => {"a": *[!b[].a][(select([[*{"f": [(count(*[b[] < -1.1][(b-> => false && pt::text(c) > true)][(a[].c <= null || select("a" == c => b) < null)]) < "g" && coalesce(-3e-12 * 1.1, ^.^.^.c->b) == true), [][!(c <= "d")][!a->c][(-100 => b)][(coalesce((*[a][a]{a => {"a": a}, ..., a => {"a": a}}), (a->a && b.c)) < "g" && c->.b)][b <= 3e-12][(b->a && !c["b"])][-1], * | {-1.1 <= c => {"c": * | {..., pt::text(a) != 3e-12 => {null == a => {"a": a}}} | order(c), ...}, ..., "f": $myParam}][false < b][(!a.a || a->.a)][(!a.a)][1..1], ..., count(-100 / 1.1) > -3e12 => {"d": b, ..., c[].a == 3e-12 => {"g": coalesce(coalesce(b->, count(^.a->)), null), "f": 1.1 * 3e12}}}, 1000000000000000 - 3e-12][(select("a" + "a" => ^.^.^.b->) != 2 || !a->b)][(c->c || b < 3.141592653589793)] | {..., "c": ^.^.a->c}, ...[a, 3.141592653589793 / -1 | order(a), @.b]][(count(*[1...1]) <= -3e-12 || -1 > c)][!(b.c == 3e12)][(true > c || coalesce(*[1000000000000000], ^.^.^.c[]) != null)] => *{"f": (1 % -1.1)}) < 1000000000000000 && count("b" + "d") <= 2)], ..., "b": [*[c->.b], [[[*[1000000000000000]][(!c-> || !c.b)][(b > -3e12 && !c->)], ...[]]][!("a" <= a)][-100..100]][(!b->b && a->.b => null)]}}}, (coalesce($myParam, $myParam))][(!a["b"] && count(pt::text(b)) != -1)][null < c][(!b->b && null < a)][(b => 3.141592653589793 || c[])][(true <= b || "g" == b)][(count("a" + "c") > null)][-100] | order(b)) > 1)] | {"e": $myParam}, coalesce([[1000000000000000 % 1.1, ...[$myParam]], 1, (count(pt::text(a)))][100], @)) => 3e12 => {b[] > 3e12 => {..., "g": 3.141592653589793 + 3.141592653589793}, b-> => {..., count(*{a->.a <= -1 => {"d": (c["e"] == 3e12), ..., false == b => {"e": count(^.b->.c), ..., b[].c => {"f": -100 - -3e-12, a-> => {"f": "f" + "d", c[].c => {b["a"] <= null => {..., a.b => {c->b => {"e": select(^.^.^.c-> => (-1 / -3e12)), ..., pt::text(a) <= 3e-12 => {false == a => {!c[].b => {a["a"] < false => {b["b"] => {"b": [$myParam | order(c), ("a" + "e" | order(a))][-100...1]}, ...}, ...}, ..., c[].b => {"f": (*[1000000000000000]), ..., "b": *}}}}, ...}}}}}}}}) != true => {"f": select(*[100] => c | order(b)), ..., !c.a => {null => c => {!b.b => {"e": a, "d": *[(select("d" + "e" => (c)) <= false || coalesce(*[(b->a)], *) < false)][(3.141592653589793 < c)][100]}}, b-> => {null > b => {b.a < 100 => {b.a => {"a": ^.c, !c->a => {-1.1 != b => {..., a->b => {1 != a => {b["e"] != 1.1 => {c[].b <= 3.141592653589793 => {..., pt::text(b) < true => {"a": {c[] => {"g": *, ..., "d": [count(b[]), ...[@, -1.1 - -1, pt::text(c)]][1]}}, count(@) > 1000000000000000 => {select(select(^.c->b => @.a) => @) <= null => {..., "d": [{!a->c => {select(!(c[]) => ^.a) > 1 => {"c": *[(count(*[!c[]][(!a[] || !a.b)]) == null)]{..., !c[] => {pt::text(c) == null => {..., "e": @.c}, ...}}}, ...}}, ...[*[!("a" != a)][(3.141592653589793 != c || count([[2 + 3.141592653589793], (*[(a->b || b["b"] => "b")][!(select(a => (count(a) => true && count(!(!b->a)) != null)) <= false)]) | order(b), "f" + "e"]{"b": $myParam, ..., "e": {..., "d": [a, ...[$myParam]][-100]} | order(c)}) <= "c")], ...[(a), select($myParam => *{..., "b": []}), (a-> == true && c[].c)]]][coalesce($myParam, 1) != "c"]}}}}, "g": *[1...-1] | order(a)}}, ..., !c["g"] => {!b-> => {..., "g": a}, ..., "g": *[-100]}}}}}, ...}, ...}}}}}}, ...}}, "a": *[2]}, ..., -3e12 > a => {"f": *[(b == true)][1000000000000000], ...}}}}}, "a": ["g" + "d"]}, "d": ([* | {c->.c < false => {"c": @, ..., c["f"] => {!c => {"c": [-100 <= c][-100...1], ..., !c->a => {"d": [$myParam, [@.c, [-1 % 1][(b->a || true < c)] | order(c), c][null == a] | {"d": [][1]}]}}, ...}}, ...}, [([a, "c" + "g"][!(a[])][(c[].c || b[] < "d")])][(select(!(b->.b == -100) => [*[-1], ...[]]) => 1 && "b" < c)]])}, null <= b)
+----
+"\n" whitespace 48
+"\n" whitespace 121
+"coalesce" identifier 122
+"(" parenLeft 130
+"{" braceLeft 131
+"count" identifier 132
+"(" parenLeft 137
+"$myParam" identifier 138
+")" parenRight 146
+" " whitespace 147
+">" gt 148
+" " whitespace 149
+"\"d\"" string 150
+" " whitespace 153
+"=>" rocket 154
+" " whitespace 156
+"{" braceLeft 157
+"c" identifier 158
+"[" bracketLeft 159
+"\"e\"" string 160
+"]" bracketRight 163
+" " whitespace 164
+"=>" rocket 165
+" " whitespace 167
+"{" braceLeft 168
+"..." dotDotDot 169
+"," comma 172
+" " whitespace 173
+"null" null 174
+" " whitespace 178
+"==" equals 179
+" " whitespace 181
+"c" identifier 182
+" " whitespace 183
+"=>" rocket 184
+" " whitespace 186
+"{" braceLeft 187
+"count" identifier 188
+"(" parenLeft 193
+"[" bracketLeft 194
+"(" parenLeft 195
+"!" not 196
+"b" identifier 197
+"->" arrow 198
+" " whitespace 200
+"||" or 201
+" " whitespace 203
+"!" not 204
+"c" identifier 205
+"." dot 206
+"c" identifier 207
+")" parenRight 208
+"," comma 209
+" " whitespace 210
+"^" hat 211
+"." dot 212
+"^" hat 213
+"." dot 214
+"c" identifier 215
+"->" arrow 216
+"]" bracketRight 218
+"[" bracketLeft 219
+"(" parenLeft 220
+"true" bool 221
+" " whitespace 225
+">" gt 226
+" " whitespace 227
+"c" identifier 228
+" " whitespace 229
+"&&" and 230
+" " whitespace 232
+"false" bool 233
+" " whitespace 238
+"<=" lte 239
+" " whitespace 241
+"c" identifier 242
+")" parenRight 243
+"]" bracketRight 244
+"[" bracketLeft 245
+"!" not 246
+"(" parenLeft 247
+"b" identifier 248
+"->" arrow 249
+")" parenRight 251
+"]" bracketRight 252
+"[" bracketLeft 253
+"1000000000000000" integer 254
+"]" bracketRight 270
+")" parenRight 271
+" " whitespace 272
+"<=" lte 273
+" " whitespace 275
+"\"g\"" string 276
+" " whitespace 279
+"=>" rocket 280
+" " whitespace 282
+"{" braceLeft 283
+"..." dotDotDot 284
+"," comma 287
+" " whitespace 288
+"b" identifier 289
+"->" arrow 290
+"a" identifier 292
+" " whitespace 293
+"=>" rocket 294
+" " whitespace 296
+"{" braceLeft 297
+"b" identifier 298
+"." dot 299
+"a" identifier 300
+" " whitespace 301
+"=>" rocket 302
+" " whitespace 304
+"{" braceLeft 305
+"\"e\"" string 306
+":" colon 309
+" " whitespace 310
+"b" identifier 311
+"," comma 312
+" " whitespace 313
+"..." dotDotDot 314
+"}" braceRight 317
+"," comma 318
+" " whitespace 319
+"c" identifier 320
+"->" arrow 321
+" " whitespace 323
+"=>" rocket 324
+" " whitespace 326
+"{" braceLeft 327
+"\"g\"" string 328
+":" colon 331
+" " whitespace 332
+"count" identifier 333
+"(" parenLeft 338
+"*" * 339
+" " whitespace 340
+"|" pipe 341
+" " whitespace 342
+"order" identifier 343
+"(" parenLeft 348
+"a" identifier 349
+")" parenRight 350
+")" parenRight 351
+"," comma 352
+" " whitespace 353
+"\"b\"" string 354
+":" colon 357
+" " whitespace 358
+"@" at 359
+"}" braceRight 360
+"}" braceRight 361
+"}" braceRight 362
+"," comma 363
+" " whitespace 364
+"!" not 365
+"a" identifier 366
+" " whitespace 367
+"=>" rocket 368
+" " whitespace 370
+"{" braceLeft 371
+"..." dotDotDot 372
+"," comma 375
+" " whitespace 376
+"\"f\"" string 377
+":" colon 380
+" " whitespace 381
+"{" braceLeft 382
+"!" not 383
+"b" identifier 384
+"->" arrow 385
+"." dot 387
+"a" identifier 388
+" " whitespace 389
+"=>" rocket 390
+" " whitespace 392
+"{" braceLeft 393
+"select" identifier 394
+"(" parenLeft 400
+"@" at 401
+"." dot 402
+"b" identifier 403
+" " whitespace 404
+"=>" rocket 405
+" " whitespace 407
+"*" * 408
+" " whitespace 409
+"|" pipe 410
+" " whitespace 411
+"{" braceLeft 412
+"..." dotDotDot 413
+"," comma 416
+" " whitespace 417
+"\"f\"" string 418
+":" colon 421
+" " whitespace 422
+"*" * 423
+"[" bracketLeft 424
+"(" parenLeft 425
+"!" not 426
+"a" identifier 427
+"[" bracketLeft 428
+"]" bracketRight 429
+" " whitespace 430
+"||" or 431
+" " whitespace 433
+"\"f\"" string 434
+" " whitespace 437
+"==" equals 438
+" " whitespace 440
+"b" identifier 441
+")" parenRight 442
+"]" bracketRight 443
+"[" bracketLeft 444
+"(" parenLeft 445
+"pt" identifier 446
+"::" doubleColon 448
+"text" identifier 450
+"(" parenLeft 454
+"c" identifier 455
+")" parenRight 456
+" " whitespace 457
+"=>" rocket 458
+" " whitespace 460
+"2" integer 461
+" " whitespace 462
+"&&" and 463
+" " whitespace 465
+"select" identifier 466
+"(" parenLeft 472
+"[" bracketLeft 473
+"!" not 474
+"(" parenLeft 475
+"-" - 476
+"1" integer 477
+" " whitespace 478
+"!=" neq 479
+" " whitespace 481
+"c" identifier 482
+")" parenRight 483
+"]" bracketRight 484
+" " whitespace 485
+"=>" rocket 486
+" " whitespace 488
+"(" parenLeft 489
+"[" bracketLeft 490
+"[" bracketLeft 491
+"[" bracketLeft 492
+"]" bracketRight 493
+"," comma 494
+" " whitespace 495
+"1" integer 496
+" " whitespace 497
+"%" % 498
+" " whitespace 499
+"-" - 500
+"3e12" float 501
+"," comma 505
+" " whitespace 506
+"2" integer 507
+"]" bracketRight 508
+"[" bracketLeft 509
+"!" not 510
+"b" identifier 511
+"[" bracketLeft 512
+"]" bracketRight 513
+"." dot 514
+"b" identifier 515
+"]" bracketRight 516
+"[" bracketLeft 517
+"-" - 518
+"100" integer 519
+".." dotDot 522
+"-" - 524
+"100" integer 525
+"]" bracketRight 528
+"," comma 529
+" " whitespace 530
+"(" parenLeft 531
+"null" null 532
+" " whitespace 536
+"!=" neq 537
+" " whitespace 539
+"a" identifier 540
+" " whitespace 541
+"||" or 542
+" " whitespace 544
+"a" identifier 545
+"." dot 546
+"c" identifier 547
+" " whitespace 548
+"!=" neq 549
+" " whitespace 551
+"100" integer 552
+")" parenRight 555
+"]" bracketRight 556
+"[" bracketLeft 557
+"(" parenLeft 558
+"a" identifier 559
+"->" arrow 560
+"c" identifier 562
+")" parenRight 563
+"]" bracketRight 564
+" " whitespace 565
+"|" pipe 566
+" " whitespace 567
+"order" identifier 568
+"(" parenLeft 573
+"b" identifier 574
+")" parenRight 575
+")" parenRight 576
+")" parenRight 577
+" " whitespace 578
+"<" lt 579
+" " whitespace 580
+"2" integer 581
+")" parenRight 582
+"]" bracketRight 583
+"}" braceRight 584
+")" parenRight 585
+" " whitespace 586
+"!=" neq 587
+" " whitespace 589
+"100" integer 590
+" " whitespace 593
+"=>" rocket 594
+" " whitespace 596
+"{" braceLeft 597
+"\"a\"" string 598
+":" colon 601
+" " whitespace 602
+"$myParam" identifier 603
+"," comma 611
+" " whitespace 612
+"b" identifier 613
+"[" bracketLeft 614
+"]" bracketRight 615
+" " whitespace 616
+"<" lt 617
+" " whitespace 618
+"3e-12" float 619
+" " whitespace 624
+"=>" rocket 625
+" " whitespace 627
+"{" braceLeft 628
+"coalesce" identifier 629
+"(" parenLeft 637
+"[" bracketLeft 638
+"*" * 639
+"{" braceLeft 640
+"c" identifier 641
+"[" bracketLeft 642
+"\"d\"" string 643
+"]" bracketRight 646
+" " whitespace 647
+"<" lt 648
+" " whitespace 649
+"true" bool 650
+" " whitespace 654
+"=>" rocket 655
+" " whitespace 657
+"{" braceLeft 658
+"false" bool 659
+" " whitespace 664
+">" gt 665
+" " whitespace 666
+"c" identifier 667
+" " whitespace 668
+"=>" rocket 669
+" " whitespace 671
+"{" braceLeft 672
+"a" identifier 673
+" " whitespace 674
+"=>" rocket 675
+" " whitespace 677
+"{" braceLeft 678
+"..." dotDotDot 679
+"," comma 682
+" " whitespace 683
+"\"f\"" string 684
+":" colon 687
+" " whitespace 688
+"*" * 689
+"[" bracketLeft 690
+"null" null 691
+" " whitespace 695
+"<=" lte 696
+" " whitespace 698
+"a" identifier 699
+"]" bracketRight 700
+"}" braceRight 701
+"}" braceRight 702
+"," comma 703
+" " whitespace 704
+"..." dotDotDot 705
+"," comma 708
+" " whitespace 709
+"b" identifier 710
+"->" arrow 711
+"b" identifier 713
+" " whitespace 714
+"<" lt 715
+" " whitespace 716
+"\"d\"" string 717
+" " whitespace 720
+"=>" rocket 721
+" " whitespace 723
+"{" braceLeft 724
+"\"d\"" string 725
+":" colon 728
+" " whitespace 729
+"-" - 730
+"100" integer 731
+" " whitespace 734
+"+" + 735
+" " whitespace 736
+"3e12" float 737
+" " whitespace 741
+"|" pipe 742
+" " whitespace 743
+"order" identifier 744
+"(" parenLeft 749
+"b" identifier 750
+")" parenRight 751
+"," comma 752
+" " whitespace 753
+"\"c\"" string 754
+":" colon 757
+" " whitespace 758
+"[" bracketLeft 759
+"b" identifier 760
+" " whitespace 761
+"|" pipe 762
+" " whitespace 763
+"order" identifier 764
+"(" parenLeft 769
+"a" identifier 770
+")" parenRight 771
+" " whitespace 772
+"|" pipe 773
+" " whitespace 774
+"order" identifier 775
+"(" parenLeft 780
+"b" identifier 781
+")" parenRight 782
+"]" bracketRight 783
+"}" braceRight 784
+"}" braceRight 785
+"," comma 786
+" " whitespace 787
+"..." dotDotDot 788
+"}" braceRight 791
+"," comma 792
+" " whitespace 793
+"..." dotDotDot 794
+"[" bracketLeft 797
+"(" parenLeft 798
+"*" * 799
+" " whitespace 800
+"|" pipe 801
+" " whitespace 802
+"{" braceLeft 803
+"\"f\"" string 804
+":" colon 807
+" " whitespace 808
+"*" * 809
+"[" bracketLeft 810
+"!" not 811
+"(" parenLeft 812
+"!" not 813
+"b" identifier 814
+")" parenRight 815
+"]" bracketRight 816
+"[" bracketLeft 817
+"!" not 818
+"a" identifier 819
+"->" arrow 820
+"a" identifier 822
+"]" bracketRight 823
+"[" bracketLeft 824
+"c" identifier 825
+"->" arrow 826
+"c" identifier 828
+" " whitespace 829
+"==" equals 830
+" " whitespace 832
+"100" integer 833
+"]" bracketRight 836
+"," comma 837
+" " whitespace 838
+"..." dotDotDot 839
+"," comma 842
+" " whitespace 843
+"\"a\"" string 844
+":" colon 847
+" " whitespace 848
+"c" identifier 849
+"}" braceRight 850
+")" parenRight 851
+"," comma 852
+" " whitespace 853
+"@" at 854
+"." dot 855
+"b" identifier 856
+"]" bracketRight 857
+"]" bracketRight 858
+"[" bracketLeft 859
+"(" parenLeft 860
+"-" - 861
+"3e-12" float 862
+" " whitespace 867
+">" gt 868
+" " whitespace 869
+"c" identifier 870
+" " whitespace 871
+"&&" and 872
+" " whitespace 874
+"count" identifier 875
+"(" parenLeft 880
+"[" bracketLeft 881
+"*" * 882
+"{" braceLeft 883
+"\"b\"" string 884
+":" colon 887
+" " whitespace 888
+"(" parenLeft 889
+"{" braceLeft 890
+"pt" identifier 891
+"::" doubleColon 893
+"text" identifier 895
+"(" parenLeft 899
+"c" identifier 900
+")" parenRight 901
+" " whitespace 902
+"!=" neq 903
+" " whitespace 905
+"3e12" float 906
+" " whitespace 910
+"=>" rocket 911
+" " whitespace 913
+"{" braceLeft 914
+"\"a\"" string 915
+":" colon 918
+" " whitespace 919
+"[" bracketLeft 920
+"b" identifier 921
+"," comma 922
+" " whitespace 923
+"[" bracketLeft 924
+"]" bracketRight 925
+"[" bracketLeft 926
+"(" parenLeft 927
+"!" not 928
+"c" identifier 929
+"->" arrow 930
+"c" identifier 932
+" " whitespace 933
+"||" or 934
+" " whitespace 936
+"null" null 937
+" " whitespace 941
+"<" lt 942
+" " whitespace 943
+"a" identifier 944
+")" parenRight 945
+"]" bracketRight 946
+"[" bracketLeft 947
+"(" parenLeft 948
+"b" identifier 949
+"[" bracketLeft 950
+"]" bracketRight 951
+"." dot 952
+"b" identifier 953
+" " whitespace 954
+">" gt 955
+" " whitespace 956
+"true" bool 957
+" " whitespace 961
+"||" or 962
+" " whitespace 964
+"b" identifier 965
+"[" bracketLeft 966
+"]" bracketRight 967
+"." dot 968
+"b" identifier 969
+")" parenRight 970
+"]" bracketRight 971
+"[" bracketLeft 972
+"1" integer 973
+".." dotDot 974
+"1" integer 976
+"]" bracketRight 977
+"," comma 978
+" " whitespace 979
+"-" - 980
+"3e12" float 981
+" " whitespace 985
+"+" + 986
+" " whitespace 987
+"-" - 988
+"1" integer 989
+"]" bracketRight 990
+"[" bracketLeft 991
+"100" integer 992
+"]" bracketRight 995
+"," comma 996
+" " whitespace 997
+"true" bool 998
+" " whitespace 1002
+"==" equals 1003
+" " whitespace 1005
+"a" identifier 1006
+" " whitespace 1007
+"=>" rocket 1008
+" " whitespace 1010
+"{" braceLeft 1011
+"!" not 1012
+"a" identifier 1013
+" " whitespace 1014
+"=>" rocket 1015
+" " whitespace 1017
+"{" braceLeft 1018
+"..." dotDotDot 1019
+"," comma 1022
+" " whitespace 1023
+"\"b\"" string 1024
+":" colon 1027
+" " whitespace 1028
+"(" parenLeft 1029
+"b" identifier 1030
+" " whitespace 1031
+"|" pipe 1032
+" " whitespace 1033
+"order" identifier 1034
+"(" parenLeft 1039
+"a" identifier 1040
+")" parenRight 1041
+" " whitespace 1042
+"|" pipe 1043
+" " whitespace 1044
+"order" identifier 1045
+"(" parenLeft 1050
+"b" identifier 1051
+")" parenRight 1052
+")" parenRight 1053
+"}" braceRight 1054
+"," comma 1055
+" " whitespace 1056
+"b" identifier 1057
+"[" bracketLeft 1058
+"]" bracketRight 1059
+"." dot 1060
+"c" identifier 1061
+" " whitespace 1062
+"=>" rocket 1063
+" " whitespace 1065
+"{" braceLeft 1066
+"..." dotDotDot 1067
+"," comma 1070
+" " whitespace 1071
+"count" identifier 1072
+"(" parenLeft 1077
+"*" * 1078
+"[" bracketLeft 1079
+"b" identifier 1080
+"->" arrow 1081
+"]" bracketRight 1083
+"[" bracketLeft 1084
+"a" identifier 1085
+"[" bracketLeft 1086
+"]" bracketRight 1087
+"." dot 1088
+"c" identifier 1089
+" " whitespace 1090
+"<=" lte 1091
+" " whitespace 1093
+"false" bool 1094
+"]" bracketRight 1099
+"[" bracketLeft 1100
+"!" not 1101
+"(" parenLeft 1102
+"select" identifier 1103
+"(" parenLeft 1109
+"@" at 1110
+"." dot 1111
+"a" identifier 1112
+" " whitespace 1113
+"=>" rocket 1114
+" " whitespace 1116
+"$myParam" identifier 1117
+")" parenRight 1125
+" " whitespace 1126
+"!=" neq 1127
+" " whitespace 1129
+"-" - 1130
+"100" integer 1131
+")" parenRight 1134
+"]" bracketRight 1135
+" " whitespace 1136
+"|" pipe 1137
+" " whitespace 1138
+"{" braceLeft 1139
+"c" identifier 1140
+"[" bracketLeft 1141
+"\"g\"" string 1142
+"]" bracketRight 1145
+" " whitespace 1146
+"=>" rocket 1147
+" " whitespace 1149
+"{" braceLeft 1150
+"..." dotDotDot 1151
+"," comma 1154
+" " whitespace 1155
+"\"d\"" string 1156
+":" colon 1159
+" " whitespace 1160
+"[" bracketLeft 1161
+"*" * 1162
+"[" bracketLeft 1163
+"2" integer 1164
+"]" bracketRight 1165
+"]" bracketRight 1166
+"[" bracketLeft 1167
+"(" parenLeft 1168
+"b" identifier 1169
+"->" arrow 1170
+" " whitespace 1172
+"||" or 1173
+" " whitespace 1175
+"pt" identifier 1176
+"::" doubleColon 1178
+"text" identifier 1180
+"(" parenLeft 1184
+"a" identifier 1185
+")" parenRight 1186
+" " whitespace 1187
+"<" lt 1188
+" " whitespace 1189
+"-" - 1190
+"1.1" float 1191
+")" parenRight 1194
+"]" bracketRight 1195
+"[" bracketLeft 1196
+"!" not 1197
+"(" parenLeft 1198
+"!" not 1199
+"a" identifier 1200
+"[" bracketLeft 1201
+"]" bracketRight 1202
+"." dot 1203
+"a" identifier 1204
+")" parenRight 1205
+"]" bracketRight 1206
+" " whitespace 1207
+"|" pipe 1208
+" " whitespace 1209
+"{" braceLeft 1210
+"..." dotDotDot 1211
+"," comma 1214
+" " whitespace 1215
+"\"g\"" string 1216
+":" colon 1219
+" " whitespace 1220
+"\"d\"" string 1221
+" " whitespace 1224
+"+" + 1225
+" " whitespace 1226
+"\"c\"" string 1227
+"}" braceRight 1230
+"}" braceRight 1231
+"," comma 1232
+" " whitespace 1233
+"..." dotDotDot 1234
+"}" braceRight 1237
+")" parenRight 1238
+" " whitespace 1239
+"<" lt 1240
+" " whitespace 1241
+"3e-12" float 1242
+" " whitespace 1247
+"=>" rocket 1248
+" " whitespace 1250
+"{" braceLeft 1251
+"\"f\"" string 1252
+":" colon 1255
+" " whitespace 1256
+"\"f\"" string 1257
+" " whitespace 1260
+"+" + 1261
+" " whitespace 1262
+"\"f\"" string 1263
+"}" braceRight 1266
+"}" braceRight 1267
+"}" braceRight 1268
+"}" braceRight 1269
+"," comma 1270
+" " whitespace 1271
+"..." dotDotDot 1272
+"}" braceRight 1275
+")" parenRight 1276
+"," comma 1277
+" " whitespace 1278
+"!" not 1279
+"c" identifier 1280
+"->" arrow 1281
+" " whitespace 1283
+"=>" rocket 1284
+" " whitespace 1286
+"{" braceLeft 1287
+"\"f\"" string 1288
+":" colon 1291
+" " whitespace 1292
+"[" bracketLeft 1293
+"(" parenLeft 1294
+"1.1" float 1295
+" " whitespace 1298
+"==" equals 1299
+" " whitespace 1301
+"b" identifier 1302
+" " whitespace 1303
+"&&" and 1304
+" " whitespace 1306
+"!" not 1307
+"c" identifier 1308
+")" parenRight 1309
+"," comma 1310
+" " whitespace 1311
+"1.1" float 1312
+" " whitespace 1315
+"+" + 1316
+" " whitespace 1317
+"-" - 1318
+"1" integer 1319
+"," comma 1320
+" " whitespace 1321
+"^" hat 1322
+"." dot 1323
+"^" hat 1324
+"." dot 1325
+"a" identifier 1326
+"[" bracketLeft 1327
+"]" bracketRight 1328
+"." dot 1329
+"b" identifier 1330
+"]" bracketRight 1331
+"[" bracketLeft 1332
+"1000000000000000" integer 1333
+".." dotDot 1349
+"100" integer 1351
+"]" bracketRight 1354
+"," comma 1355
+" " whitespace 1356
+"..." dotDotDot 1357
+"," comma 1360
+" " whitespace 1361
+"!" not 1362
+"a" identifier 1363
+"." dot 1364
+"c" identifier 1365
+" " whitespace 1366
+"=>" rocket 1367
+" " whitespace 1369
+"{" braceLeft 1370
+"\"a\"" string 1371
+":" colon 1374
+" " whitespace 1375
+"*" * 1376
+"[" bracketLeft 1377
+"!" not 1378
+"b" identifier 1379
+"[" bracketLeft 1380
+"]" bracketRight 1381
+"." dot 1382
+"a" identifier 1383
+"]" bracketRight 1384
+"[" bracketLeft 1385
+"(" parenLeft 1386
+"select" identifier 1387
+"(" parenLeft 1393
+"[" bracketLeft 1394
+"[" bracketLeft 1395
+"*" * 1396
+"{" braceLeft 1397
+"\"f\"" string 1398
+":" colon 1401
+" " whitespace 1402
+"[" bracketLeft 1403
+"(" parenLeft 1404
+"count" identifier 1405
+"(" parenLeft 1410
+"*" * 1411
+"[" bracketLeft 1412
+"b" identifier 1413
+"[" bracketLeft 1414
+"]" bracketRight 1415
+" " whitespace 1416
+"<" lt 1417
+" " whitespace 1418
+"-" - 1419
+"1.1" float 1420
+"]" bracketRight 1423
+"[" bracketLeft 1424
+"(" parenLeft 1425
+"b" identifier 1426
+"->" arrow 1427
+" " whitespace 1429
+"=>" rocket 1430
+" " whitespace 1432
+"false" bool 1433
+" " whitespace 1438
+"&&" and 1439
+" " whitespace 1441
+"pt" identifier 1442
+"::" doubleColon 1444
+"text" identifier 1446
+"(" parenLeft 1450
+"c" identifier 1451
+")" parenRight 1452
+" " whitespace 1453
+">" gt 1454
+" " whitespace 1455
+"true" bool 1456
+")" parenRight 1460
+"]" bracketRight 1461
+"[" bracketLeft 1462
+"(" parenLeft 1463
+"a" identifier 1464
+"[" bracketLeft 1465
+"]" bracketRight 1466
+"." dot 1467
+"c" identifier 1468
+" " whitespace 1469
+"<=" lte 1470
+" " whitespace 1472
+"null" null 1473
+" " whitespace 1477
+"||" or 1478
+" " whitespace 1480
+"select" identifier 1481
+"(" parenLeft 1487
+"\"a\"" string 1488
+" " whitespace 1491
+"==" equals 1492
+" " whitespace 1494
+"c" identifier 1495
+" " whitespace 1496
+"=>" rocket 1497
+" " whitespace 1499
+"b" identifier 1500
+")" parenRight 1501
+" " whitespace 1502
+"<" lt 1503
+" " whitespace 1504
+"null" null 1505
+")" parenRight 1509
+"]" bracketRight 1510
+")" parenRight 1511
+" " whitespace 1512
+"<" lt 1513
+" " whitespace 1514
+"\"g\"" string 1515
+" " whitespace 1518
+"&&" and 1519
+" " whitespace 1521
+"coalesce" identifier 1522
+"(" parenLeft 1530
+"-" - 1531
+"3e-12" float 1532
+" " whitespace 1537
+"*" * 1538
+" " whitespace 1539
+"1.1" float 1540
+"," comma 1543
+" " whitespace 1544
+"^" hat 1545
+"." dot 1546
+"^" hat 1547
+"." dot 1548
+"^" hat 1549
+"." dot 1550
+"c" identifier 1551
+"->" arrow 1552
+"b" identifier 1554
+")" parenRight 1555
+" " whitespace 1556
+"==" equals 1557
+" " whitespace 1559
+"true" bool 1560
+")" parenRight 1564
+"," comma 1565
+" " whitespace 1566
+"[" bracketLeft 1567
+"]" bracketRight 1568
+"[" bracketLeft 1569
+"!" not 1570
+"(" parenLeft 1571
+"c" identifier 1572
+" " whitespace 1573
+"<=" lte 1574
+" " whitespace 1576
+"\"d\"" string 1577
+")" parenRight 1580
+"]" bracketRight 1581
+"[" bracketLeft 1582
+"!" not 1583
+"a" identifier 1584
+"->" arrow 1585
+"c" identifier 1587
+"]" bracketRight 1588
+"[" bracketLeft 1589
+"(" parenLeft 1590
+"-" - 1591
+"100" integer 1592
+" " whitespace 1595
+"=>" rocket 1596
+" " whitespace 1598
+"b" identifier 1599
+")" parenRight 1600
+"]" bracketRight 1601
+"[" bracketLeft 1602
+"(" parenLeft 1603
+"coalesce" identifier 1604
+"(" parenLeft 1612
+"(" parenLeft 1613
+"*" * 1614
+"[" bracketLeft 1615
+"a" identifier 1616
+"]" bracketRight 1617
+"[" bracketLeft 1618
+"a" identifier 1619
+"]" bracketRight 1620
+"{" braceLeft 1621
+"a" identifier 1622
+" " whitespace 1623
+"=>" rocket 1624
+" " whitespace 1626
+"{" braceLeft 1627
+"\"a\"" string 1628
+":" colon 1631
+" " whitespace 1632
+"a" identifier 1633
+"}" braceRight 1634
+"," comma 1635
+" " whitespace 1636
+"..." dotDotDot 1637
+"," comma 1640
+" " whitespace 1641
+"a" identifier 1642
+" " whitespace 1643
+"=>" rocket 1644
+" " whitespace 1646
+"{" braceLeft 1647
+"\"a\"" string 1648
+":" colon 1651
+" " whitespace 1652
+"a" identifier 1653
+"}" braceRight 1654
+"}" braceRight 1655
+")" parenRight 1656
+"," comma 1657
+" " whitespace 1658
+"(" parenLeft 1659
+"a" identifier 1660
+"->" arrow 1661
+"a" identifier 1663
+" " whitespace 1664
+"&&" and 1665
+" " whitespace 1667
+"b" identifier 1668
+"." dot 1669
+"c" identifier 1670
+")" parenRight 1671
+")" parenRight 1672
+" " whitespace 1673
+"<" lt 1674
+" " whitespace 1675
+"\"g\"" string 1676
+" " whitespace 1679
+"&&" and 1680
+" " whitespace 1682
+"c" identifier 1683
+"->" arrow 1684
+"." dot 1686
+"b" identifier 1687
+")" parenRight 1688
+"]" bracketRight 1689
+"[" bracketLeft 1690
+"b" identifier 1691
+" " whitespace 1692
+"<=" lte 1693
+" " whitespace 1695
+"3e-12" float 1696
+"]" bracketRight 1701
+"[" bracketLeft 1702
+"(" parenLeft 1703
+"b" identifier 1704
+"->" arrow 1705
+"a" identifier 1707
+" " whitespace 1708
+"&&" and 1709
+" " whitespace 1711
+"!" not 1712
+"c" identifier 1713
+"[" bracketLeft 1714
+"\"b\"" string 1715
+"]" bracketRight 1718
+")" parenRight 1719
+"]" bracketRight 1720
+"[" bracketLeft 1721
+"-" - 1722
+"1" integer 1723
+"]" bracketRight 1724
+"," comma 1725
+" " whitespace 1726
+"*" * 1727
+" " whitespace 1728
+"|" pipe 1729
+" " whitespace 1730
+"{" braceLeft 1731
+"-" - 1732
+"1.1" float 1733
+" " whitespace 1736
+"<=" lte 1737
+" " whitespace 1739
+"c" identifier 1740
+" " whitespace 1741
+"=>" rocket 1742
+" " whitespace 1744
+"{" braceLeft 1745
+"\"c\"" string 1746
+":" colon 1749
+" " whitespace 1750
+"*" * 1751
+" " whitespace 1752
+"|" pipe 1753
+" " whitespace 1754
+"{" braceLeft 1755
+"..." dotDotDot 1756
+"," comma 1759
+" " whitespace 1760
+"pt" identifier 1761
+"::" doubleColon 1763
+"text" identifier 1765
+"(" parenLeft 1769
+"a" identifier 1770
+")" parenRight 1771
+" " whitespace 1772
+"!=" neq 1773
+" " whitespace 1775
+"3e-12" float 1776
+" " whitespace 1781
+"=>" rocket 1782
+" " whitespace 1784
+"{" braceLeft 1785
+"null" null 1786
+" " whitespace 1790
+"==" equals 1791
+" " whitespace 1793
+"a" identifier 1794
+" " whitespace 1795
+"=>" rocket 1796
+" " whitespace 1798
+"{" braceLeft 1799
+"\"a\"" string 1800
+":" colon 1803
+" " whitespace 1804
+"a" identifier 1805
+"}" braceRight 1806
+"}" braceRight 1807
+"}" braceRight 1808
+" " whitespace 1809
+"|" pipe 1810
+" " whitespace 1811
+"order" identifier 1812
+"(" parenLeft 1817
+"c" identifier 1818
+")" parenRight 1819
+"," comma 1820
+" " whitespace 1821
+"..." dotDotDot 1822
+"}" braceRight 1825
+"," comma 1826
+" " whitespace 1827
+"..." dotDotDot 1828
+"," comma 1831
+" " whitespace 1832
+"\"f\"" string 1833
+":" colon 1836
+" " whitespace 1837
+"$myParam" identifier 1838
+"}" braceRight 1846
+"]" bracketRight 1847
+"[" bracketLeft 1848
+"false" bool 1849
+" " whitespace 1854
+"<" lt 1855
+" " whitespace 1856
+"b" identifier 1857
+"]" bracketRight 1858
+"[" bracketLeft 1859
+"(" parenLeft 1860
+"!" not 1861
+"a" identifier 1862
+"." dot 1863
+"a" identifier 1864
+" " whitespace 1865
+"||" or 1866
+" " whitespace 1868
+"a" identifier 1869
+"->" arrow 1870
+"." dot 1872
+"a" identifier 1873
+")" parenRight 1874
+"]" bracketRight 1875
+"[" bracketLeft 1876
+"(" parenLeft 1877
+"!" not 1878
+"a" identifier 1879
+"." dot 1880
+"a" identifier 1881
+")" parenRight 1882
+"]" bracketRight 1883
+"[" bracketLeft 1884
+"1" integer 1885
+".." dotDot 1886
+"1" integer 1888
+"]" bracketRight 1889
+"," comma 1890
+" " whitespace 1891
+"..." dotDotDot 1892
+"," comma 1895
+" " whitespace 1896
+"count" identifier 1897
+"(" parenLeft 1902
+"-" - 1903
+"100" integer 1904
+" " whitespace 1907
+"/" / 1908
+" " whitespace 1909
+"1.1" float 1910
+")" parenRight 1913
+" " whitespace 1914
+">" gt 1915
+" " whitespace 1916
+"-" - 1917
+"3e12" float 1918
+" " whitespace 1922
+"=>" rocket 1923
+" " whitespace 1925
+"{" braceLeft 1926
+"\"d\"" string 1927
+":" colon 1930
+" " whitespace 1931
+"b" identifier 1932
+"," comma 1933
+" " whitespace 1934
+"..." dotDotDot 1935
+"," comma 1938
+" " whitespace 1939
+"c" identifier 1940
+"[" bracketLeft 1941
+"]" bracketRight 1942
+"." dot 1943
+"a" identifier 1944
+" " whitespace 1945
+"==" equals 1946
+" " whitespace 1948
+"3e-12" float 1949
+" " whitespace 1954
+"=>" rocket 1955
+" " whitespace 1957
+"{" braceLeft 1958
+"\"g\"" string 1959
+":" colon 1962
+" " whitespace 1963
+"coalesce" identifier 1964
+"(" parenLeft 1972
+"coalesce" identifier 1973
+"(" parenLeft 1981
+"b" identifier 1982
+"->" arrow 1983
+"," comma 1985
+" " whitespace 1986
+"count" identifier 1987
+"(" parenLeft 1992
+"^" hat 1993
+"." dot 1994
+"a" identifier 1995
+"->" arrow 1996
+")" parenRight 1998
+")" parenRight 1999
+"," comma 2000
+" " whitespace 2001
+"null" null 2002
+")" parenRight 2006
+"," comma 2007
+" " whitespace 2008
+"\"f\"" string 2009
+":" colon 2012
+" " whitespace 2013
+"1.1" float 2014
+" " whitespace 2017
+"*" * 2018
+" " whitespace 2019
+"3e12" float 2020
+"}" braceRight 2024
+"}" braceRight 2025
+"}" braceRight 2026
+"," comma 2027
+" " whitespace 2028
+"1000000000000000" integer 2029
+" " whitespace 2045
+"-" - 2046
+" " whitespace 2047
+"3e-12" float 2048
+"]" bracketRight 2053
+"[" bracketLeft 2054
+"(" parenLeft 2055
+"select" identifier 2056
+"(" parenLeft 2062
+"\"a\"" string 2063
+" " whitespace 2066
+"+" + 2067
+" " whitespace 2068
+"\"a\"" string 2069
+" " whitespace 2072
+"=>" rocket 2073
+" " whitespace 2075
+"^" hat 2076
+"." dot 2077
+"^" hat 2078
+"." dot 2079
+"^" hat 2080
+"." dot 2081
+"b" identifier 2082
+"->" arrow 2083
+")" parenRight 2085
+" " whitespace 2086
+"!=" neq 2087
+" " whitespace 2089
+"2" integer 2090
+" " whitespace 2091
+"||" or 2092
+" " whitespace 2094
+"!" not 2095
+"a" identifier 2096
+"->" arrow 2097
+"b" identifier 2099
+")" parenRight 2100
+"]" bracketRight 2101
+"[" bracketLeft 2102
+"(" parenLeft 2103
+"c" identifier 2104
+"->" arrow 2105
+"c" identifier 2107
+" " whitespace 2108
+"||" or 2109
+" " whitespace 2111
+"b" identifier 2112
+" " whitespace 2113
+"<" lt 2114
+" " whitespace 2115
+"3.141592653589793" float 2116
+")" parenRight 2133
+"]" bracketRight 2134
+" " whitespace 2135
+"|" pipe 2136
+" " whitespace 2137
+"{" braceLeft 2138
+"..." dotDotDot 2139
+"," comma 2142
+" " whitespace 2143
+"\"c\"" string 2144
+":" colon 2147
+" " whitespace 2148
+"^" hat 2149
+"." dot 2150
+"^" hat 2151
+"." dot 2152
+"a" identifier 2153
+"->" arrow 2154
+"c" identifier 2156
+"}" braceRight 2157
+"," comma 2158
+" " whitespace 2159
+"..." dotDotDot 2160
+"[" bracketLeft 2163
+"a" identifier 2164
+"," comma 2165
+" " whitespace 2166
+"3.141592653589793" float 2167
+" " whitespace 2184
+"/" / 2185
+" " whitespace 2186
+"-" - 2187
+"1" integer 2188
+" " whitespace 2189
+"|" pipe 2190
+" " whitespace 2191
+"order" identifier 2192
+"(" parenLeft 2197
+"a" identifier 2198
+")" parenRight 2199
+"," comma 2200
+" " whitespace 2201
+"@" at 2202
+"." dot 2203
+"b" identifier 2204
+"]" bracketRight 2205
+"]" bracketRight 2206
+"[" bracketLeft 2207
+"(" parenLeft 2208
+"count" identifier 2209
+"(" parenLeft 2214
+"*" * 2215
+"[" bracketLeft 2216
+"1" integer 2217
+"..." dotDotDot 2218
+"1" integer 2221
+"]" bracketRight 2222
+")" parenRight 2223
+" " whitespace 2224
+"<=" lte 2225
+" " whitespace 2227
+"-" - 2228
+"3e-12" float 2229
+" " whitespace 2234
+"||" or 2235
+" " whitespace 2237
+"-" - 2238
+"1" integer 2239
+" " whitespace 2240
+">" gt 2241
+" " whitespace 2242
+"c" identifier 2243
+")" parenRight 2244
+"]" bracketRight 2245
+"[" bracketLeft 2246
+"!" not 2247
+"(" parenLeft 2248
+"b" identifier 2249
+"." dot 2250
+"c" identifier 2251
+" " whitespace 2252
+"==" equals 2253
+" " whitespace 2255
+"3e12" float 2256
+")" parenRight 2260
+"]" bracketRight 2261
+"[" bracketLeft 2262
+"(" parenLeft 2263
+"true" bool 2264
+" " whitespace 2268
+">" gt 2269
+" " whitespace 2270
+"c" identifier 2271
+" " whitespace 2272
+"||" or 2273
+" " whitespace 2275
+"coalesce" identifier 2276
+"(" parenLeft 2284
+"*" * 2285
+"[" bracketLeft 2286
+"1000000000000000" integer 2287
+"]" bracketRight 2303
+"," comma 2304
+" " whitespace 2305
+"^" hat 2306
+"." dot 2307
+"^" hat 2308
+"." dot 2309
+"^" hat 2310
+"." dot 2311
+"c" identifier 2312
+"[" bracketLeft 2313
+"]" bracketRight 2314
+")" parenRight 2315
+" " whitespace 2316
+"!=" neq 2317
+" " whitespace 2319
+"null" null 2320
+")" parenRight 2324
+"]" bracketRight 2325
+" " whitespace 2326
+"=>" rocket 2327
+" " whitespace 2329
+"*" * 2330
+"{" braceLeft 2331
+"\"f\"" string 2332
+":" colon 2335
+" " whitespace 2336
+"(" parenLeft 2337
+"1" integer 2338
+" " whitespace 2339
+"%" % 2340
+" " whitespace 2341
+"-" - 2342
+"1.1" float 2343
+")" parenRight 2346
+"}" braceRight 2347
+")" parenRight 2348
+" " whitespace 2349
+"<" lt 2350
+" " whitespace 2351
+"1000000000000000" integer 2352
+" " whitespace 2368
+"&&" and 2369
+" " whitespace 2371
+"count" identifier 2372
+"(" parenLeft 2377
+"\"b\"" string 2378
+" " whitespace 2381
+"+" + 2382
+" " whitespace 2383
+"\"d\"" string 2384
+")" parenRight 2387
+" " whitespace 2388
+"<=" lte 2389
+" " whitespace 2391
+"2" integer 2392
+")" parenRight 2393
+"]" bracketRight 2394
+"," comma 2395
+" " whitespace 2396
+"..." dotDotDot 2397
+"," comma 2400
+" " whitespace 2401
+"\"b\"" string 2402
+":" colon 2405
+" " whitespace 2406
+"[" bracketLeft 2407
+"*" * 2408
+"[" bracketLeft 2409
+"c" identifier 2410
+"->" arrow 2411
+"." dot 2413
+"b" identifier 2414
+"]" bracketRight 2415
+"," comma 2416
+" " whitespace 2417
+"[" bracketLeft 2418
+"[" bracketLeft 2419
+"[" bracketLeft 2420
+"*" * 2421
+"[" bracketLeft 2422
+"1000000000000000" integer 2423
+"]" bracketRight 2439
+"]" bracketRight 2440
+"[" bracketLeft 2441
+"(" parenLeft 2442
+"!" not 2443
+"c" identifier 2444
+"->" arrow 2445
+" " whitespace 2447
+"||" or 2448
+" " whitespace 2450
+"!" not 2451
+"c" identifier 2452
+"." dot 2453
+"b" identifier 2454
+")" parenRight 2455
+"]" bracketRight 2456
+"[" bracketLeft 2457
+"(" parenLeft 2458
+"b" identifier 2459
+" " whitespace 2460
+">" gt 2461
+" " whitespace 2462
+"-" - 2463
+"3e12" float 2464
+" " whitespace 2468
+"&&" and 2469
+" " whitespace 2471
+"!" not 2472
+"c" identifier 2473
+"->" arrow 2474
+")" parenRight 2476
+"]" bracketRight 2477
+"," comma 2478
+" " whitespace 2479
+"..." dotDotDot 2480
+"[" bracketLeft 2483
+"]" bracketRight 2484
+"]" bracketRight 2485
+"]" bracketRight 2486
+"[" bracketLeft 2487
+"!" not 2488
+"(" parenLeft 2489
+"\"a\"" string 2490
+" " whitespace 2493
+"<=" lte 2494
+" " whitespace 2496
+"a" identifier 2497
+")" parenRight 2498
+"]" bracketRight 2499
+"[" bracketLeft 2500
+"-" - 2501
+"100" integer 2502
+".." dotDot 2505
+"100" integer 2507
+"]" bracketRight 2510
+"]" bracketRight 2511
+"[" bracketLeft 2512
+"(" parenLeft 2513
+"!" not 2514
+"b" identifier 2515
+"->" arrow 2516
+"b" identifier 2518
+" " whitespace 2519
+"&&" and 2520
+" " whitespace 2522
+"a" identifier 2523
+"->" arrow 2524
+"." dot 2526
+"b" identifier 2527
+" " whitespace 2528
+"=>" rocket 2529
+" " whitespace 2531
+"null" null 2532
+")" parenRight 2536
+"]" bracketRight 2537
+"}" braceRight 2538
+"}" braceRight 2539
+"}" braceRight 2540
+"," comma 2541
+" " whitespace 2542
+"(" parenLeft 2543
+"coalesce" identifier 2544
+"(" parenLeft 2552
+"$myParam" identifier 2553
+"," comma 2561
+" " whitespace 2562
+"$myParam" identifier 2563
+")" parenRight 2571
+")" parenRight 2572
+"]" bracketRight 2573
+"[" bracketLeft 2574
+"(" parenLeft 2575
+"!" not 2576
+"a" identifier 2577
+"[" bracketLeft 2578
+"\"b\"" string 2579
+"]" bracketRight 2582
+" " whitespace 2583
+"&&" and 2584
+" " whitespace 2586
+"count" identifier 2587
+"(" parenLeft 2592
+"pt" identifier 2593
+"::" doubleColon 2595
+"text" identifier 2597
+"(" parenLeft 2601
+"b" identifier 2602
+")" parenRight 2603
+")" parenRight 2604
+" " whitespace 2605
+"!=" neq 2606
+" " whitespace 2608
+"-" - 2609
+"1" integer 2610
+")" parenRight 2611
+"]" bracketRight 2612
+"[" bracketLeft 2613
+"null" null 2614
+" " whitespace 2618
+"<" lt 2619
+" " whitespace 2620
+"c" identifier 2621
+"]" bracketRight 2622
+"[" bracketLeft 2623
+"(" parenLeft 2624
+"!" not 2625
+"b" identifier 2626
+"->" arrow 2627
+"b" identifier 2629
+" " whitespace 2630
+"&&" and 2631
+" " whitespace 2633
+"null" null 2634
+" " whitespace 2638
+"<" lt 2639
+" " whitespace 2640
+"a" identifier 2641
+")" parenRight 2642
+"]" bracketRight 2643
+"[" bracketLeft 2644
+"(" parenLeft 2645
+"b" identifier 2646
+" " whitespace 2647
+"=>" rocket 2648
+" " whitespace 2650
+"3.141592653589793" float 2651
+" " whitespace 2668
+"||" or 2669
+" " whitespace 2671
+"c" identifier 2672
+"[" bracketLeft 2673
+"]" bracketRight 2674
+")" parenRight 2675
+"]" bracketRight 2676
+"[" bracketLeft 2677
+"(" parenLeft 2678
+"true" bool 2679
+" " whitespace 2683
+"<=" lte 2684
+" " whitespace 2686
+"b" identifier 2687
+" " whitespace 2688
+"||" or 2689
+" " whitespace 2691
+"\"g\"" string 2692
+" " whitespace 2695
+"==" equals 2696
+" " whitespace 2698
+"b" identifier 2699
+")" parenRight 2700
+"]" bracketRight 2701
+"[" bracketLeft 2702
+"(" parenLeft 2703
+"count" identifier 2704
+"(" parenLeft 2709
+"\"a\"" string 2710
+" " whitespace 2713
+"+" + 2714
+" " whitespace 2715
+"\"c\"" string 2716
+")" parenRight 2719
+" " whitespace 2720
+">" gt 2721
+" " whitespace 2722
+"null" null 2723
+")" parenRight 2727
+"]" bracketRight 2728
+"[" bracketLeft 2729
+"-" - 2730
+"100" integer 2731
+"]" bracketRight 2734
+" " whitespace 2735
+"|" pipe 2736
+" " whitespace 2737
+"order" identifier 2738
+"(" parenLeft 2743
+"b" identifier 2744
+")" parenRight 2745
+")" parenRight 2746
+" " whitespace 2747
+">" gt 2748
+" " whitespace 2749
+"1" integer 2750
+")" parenRight 2751
+"]" bracketRight 2752
+" " whitespace 2753
+"|" pipe 2754
+" " whitespace 2755
+"{" braceLeft 2756
+"\"e\"" string 2757
+":" colon 2760
+" " whitespace 2761
+"$myParam" identifier 2762
+"}" braceRight 2770
+"," comma 2771
+" " whitespace 2772
+"coalesce" identifier 2773
+"(" parenLeft 2781
+"[" bracketLeft 2782
+"[" bracketLeft 2783
+"1000000000000000" integer 2784
+" " whitespace 2800
+"%" % 2801
+" " whitespace 2802
+"1.1" float 2803
+"," comma 2806
+" " whitespace 2807
+"..." dotDotDot 2808
+"[" bracketLeft 2811
+"$myParam" identifier 2812
+"]" bracketRight 2820
+"]" bracketRight 2821
+"," comma 2822
+" " whitespace 2823
+"1" integer 2824
+"," comma 2825
+" " whitespace 2826
+"(" parenLeft 2827
+"count" identifier 2828
+"(" parenLeft 2833
+"pt" identifier 2834
+"::" doubleColon 2836
+"text" identifier 2838
+"(" parenLeft 2842
+"a" identifier 2843
+")" parenRight 2844
+")" parenRight 2845
+")" parenRight 2846
+"]" bracketRight 2847
+"[" bracketLeft 2848
+"100" integer 2849
+"]" bracketRight 2852
+"," comma 2853
+" " whitespace 2854
+"@" at 2855
+")" parenRight 2856
+")" parenRight 2857
+" " whitespace 2858
+"=>" rocket 2859
+" " whitespace 2861
+"3e12" float 2862
+" " whitespace 2866
+"=>" rocket 2867
+" " whitespace 2869
+"{" braceLeft 2870
+"b" identifier 2871
+"[" bracketLeft 2872
+"]" bracketRight 2873
+" " whitespace 2874
+">" gt 2875
+" " whitespace 2876
+"3e12" float 2877
+" " whitespace 2881
+"=>" rocket 2882
+" " whitespace 2884
+"{" braceLeft 2885
+"..." dotDotDot 2886
+"," comma 2889
+" " whitespace 2890
+"\"g\"" string 2891
+":" colon 2894
+" " whitespace 2895
+"3.141592653589793" float 2896
+" " whitespace 2913
+"+" + 2914
+" " whitespace 2915
+"3.141592653589793" float 2916
+"}" braceRight 2933
+"," comma 2934
+" " whitespace 2935
+"b" identifier 2936
+"->" arrow 2937
+" " whitespace 2939
+"=>" rocket 2940
+" " whitespace 2942
+"{" braceLeft 2943
+"..." dotDotDot 2944
+"," comma 2947
+" " whitespace 2948
+"count" identifier 2949
+"(" parenLeft 2954
+"*" * 2955
+"{" braceLeft 2956
+"a" identifier 2957
+"->" arrow 2958
+"." dot 2960
+"a" identifier 2961
+" " whitespace 2962
+"<=" lte 2963
+" " whitespace 2965
+"-" - 2966
+"1" integer 2967
+" " whitespace 2968
+"=>" rocket 2969
+" " whitespace 2971
+"{" braceLeft 2972
+"\"d\"" string 2973
+":" colon 2976
+" " whitespace 2977
+"(" parenLeft 2978
+"c" identifier 2979
+"[" bracketLeft 2980
+"\"e\"" string 2981
+"]" bracketRight 2984
+" " whitespace 2985
+"==" equals 2986
+" " whitespace 2988
+"3e12" float 2989
+")" parenRight 2993
+"," comma 2994
+" " whitespace 2995
+"..." dotDotDot 2996
+"," comma 2999
+" " whitespace 3000
+"false" bool 3001
+" " whitespace 3006
+"==" equals 3007
+" " whitespace 3009
+"b" identifier 3010
+" " whitespace 3011
+"=>" rocket 3012
+" " whitespace 3014
+"{" braceLeft 3015
+"\"e\"" string 3016
+":" colon 3019
+" " whitespace 3020
+"count" identifier 3021
+"(" parenLeft 3026
+"^" hat 3027
+"." dot 3028
+"b" identifier 3029
+"->" arrow 3030
+"." dot 3032
+"c" identifier 3033
+")" parenRight 3034
+"," comma 3035
+" " whitespace 3036
+"..." dotDotDot 3037
+"," comma 3040
+" " whitespace 3041
+"b" identifier 3042
+"[" bracketLeft 3043
+"]" bracketRight 3044
+"." dot 3045
+"c" identifier 3046
+" " whitespace 3047
+"=>" rocket 3048
+" " whitespace 3050
+"{" braceLeft 3051
+"\"f\"" string 3052
+":" colon 3055
+" " whitespace 3056
+"-" - 3057
+"100" integer 3058
+" " whitespace 3061
+"-" - 3062
+" " whitespace 3063
+"-" - 3064
+"3e-12" float 3065
+"," comma 3070
+" " whitespace 3071
+"a" identifier 3072
+"->" arrow 3073
+" " whitespace 3075
+"=>" rocket 3076
+" " whitespace 3078
+"{" braceLeft 3079
+"\"f\"" string 3080
+":" colon 3083
+" " whitespace 3084
+"\"f\"" string 3085
+" " whitespace 3088
+"+" + 3089
+" " whitespace 3090
+"\"d\"" string 3091
+"," comma 3094
+" " whitespace 3095
+"c" identifier 3096
+"[" bracketLeft 3097
+"]" bracketRight 3098
+"." dot 3099
+"c" identifier 3100
+" " whitespace 3101
+"=>" rocket 3102
+" " whitespace 3104
+"{" braceLeft 3105
+"b" identifier 3106
+"[" bracketLeft 3107
+"\"a\"" string 3108
+"]" bracketRight 3111
+" " whitespace 3112
+"<=" lte 3113
+" " whitespace 3115
+"null" null 3116
+" " whitespace 3120
+"=>" rocket 3121
+" " whitespace 3123
+"{" braceLeft 3124
+"..." dotDotDot 3125
+"," comma 3128
+" " whitespace 3129
+"a" identifier 3130
+"." dot 3131
+"b" identifier 3132
+" " whitespace 3133
+"=>" rocket 3134
+" " whitespace 3136
+"{" braceLeft 3137
+"c" identifier 3138
+"->" arrow 3139
+"b" identifier 3141
+" " whitespace 3142
+"=>" rocket 3143
+" " whitespace 3145
+"{" braceLeft 3146
+"\"e\"" string 3147
+":" colon 3150
+" " whitespace 3151
+"select" identifier 3152
+"(" parenLeft 3158
+"^" hat 3159
+"." dot 3160
+"^" hat 3161
+"." dot 3162
+"^" hat 3163
+"." dot 3164
+"c" identifier 3165
+"->" arrow 3166
+" " whitespace 3168
+"=>" rocket 3169
+" " whitespace 3171
+"(" parenLeft 3172
+"-" - 3173
+"1" integer 3174
+" " whitespace 3175
+"/" / 3176
+" " whitespace 3177
+"-" - 3178
+"3e12" float 3179
+")" parenRight 3183
+")" parenRight 3184
+"," comma 3185
+" " whitespace 3186
+"..." dotDotDot 3187
+"," comma 3190
+" " whitespace 3191
+"pt" identifier 3192
+"::" doubleColon 3194
+"text" identifier 3196
+"(" parenLeft 3200
+"a" identifier 3201
+")" parenRight 3202
+" " whitespace 3203
+"<=" lte 3204
+" " whitespace 3206
+"3e-12" float 3207
+" " whitespace 3212
+"=>" rocket 3213
+" " whitespace 3215
+"{" braceLeft 3216
+"false" bool 3217
+" " whitespace 3222
+"==" equals 3223
+" " whitespace 3225
+"a" identifier 3226
+" " whitespace 3227
+"=>" rocket 3228
+" " whitespace 3230
+"{" braceLeft 3231
+"!" not 3232
+"c" identifier 3233
+"[" bracketLeft 3234
+"]" bracketRight 3235
+"." dot 3236
+"b" identifier 3237
+" " whitespace 3238
+"=>" rocket 3239
+" " whitespace 3241
+"{" braceLeft 3242
+"a" identifier 3243
+"[" bracketLeft 3244
+"\"a\"" string 3245
+"]" bracketRight 3248
+" " whitespace 3249
+"<" lt 3250
+" " whitespace 3251
+"false" bool 3252
+" " whitespace 3257
+"=>" rocket 3258
+" " whitespace 3260
+"{" braceLeft 3261
+"b" identifier 3262
+"[" bracketLeft 3263
+"\"b\"" string 3264
+"]" bracketRight 3267
+" " whitespace 3268
+"=>" rocket 3269
+" " whitespace 3271
+"{" braceLeft 3272
+"\"b\"" string 3273
+":" colon 3276
+" " whitespace 3277
+"[" bracketLeft 3278
+"$myParam" identifier 3279
+" " whitespace 3287
+"|" pipe 3288
+" " whitespace 3289
+"order" identifier 3290
+"(" parenLeft 3295
+"c" identifier 3296
+")" parenRight 3297
+"," comma 3298
+" " whitespace 3299
+"(" parenLeft 3300
+"\"a\"" string 3301
+" " whitespace 3304
+"+" + 3305
+" " whitespace 3306
+"\"e\"" string 3307
+" " whitespace 3310
+"|" pipe 3311
+" " whitespace 3312
+"order" identifier 3313
+"(" parenLeft 3318
+"a" identifier 3319
+")" parenRight 3320
+")" parenRight 3321
+"]" bracketRight 3322
+"[" bracketLeft 3323
+"-" - 3324
+"100" integer 3325
+"..." dotDotDot 3328
+"1" integer 3331
+"]" bracketRight 3332
+"}" braceRight 3333
+"," comma 3334
+" " whitespace 3335
+"..." dotDotDot 3336
+"}" braceRight 3339
+"," comma 3340
+" " whitespace 3341
+"..." dotDotDot 3342
+"}" braceRight 3345
+"," comma 3346
+" " whitespace 3347
+"..." dotDotDot 3348
+"," comma 3351
+" " whitespace 3352
+"c" identifier 3353
+"[" bracketLeft 3354
+"]" bracketRight 3355
+"." dot 3356
+"b" identifier 3357
+" " whitespace 3358
+"=>" rocket 3359
+" " whitespace 3361
+"{" braceLeft 3362
+"\"f\"" string 3363
+":" colon 3366
+" " whitespace 3367
+"(" parenLeft 3368
+"*" * 3369
+"[" bracketLeft 3370
+"1000000000000000" integer 3371
+"]" bracketRight 3387
+")" parenRight 3388
+"," comma 3389
+" " whitespace 3390
+"..." dotDotDot 3391
+"," comma 3394
+" " whitespace 3395
+"\"b\"" string 3396
+":" colon 3399
+" " whitespace 3400
+"*" * 3401
+"}" braceRight 3402
+"}" braceRight 3403
+"}" braceRight 3404
+"}" braceRight 3405
+"," comma 3406
+" " whitespace 3407
+"..." dotDotDot 3408
+"}" braceRight 3411
+"}" braceRight 3412
+"}" braceRight 3413
+"}" braceRight 3414
+"}" braceRight 3415
+"}" braceRight 3416
+"}" braceRight 3417
+"}" braceRight 3418
+")" parenRight 3419
+" " whitespace 3420
+"!=" neq 3421
+" " whitespace 3423
+"true" bool 3424
+" " whitespace 3428
+"=>" rocket 3429
+" " whitespace 3431
+"{" braceLeft 3432
+"\"f\"" string 3433
+":" colon 3436
+" " whitespace 3437
+"select" identifier 3438
+"(" parenLeft 3444
+"*" * 3445
+"[" bracketLeft 3446
+"100" integer 3447
+"]" bracketRight 3450
+" " whitespace 3451
+"=>" rocket 3452
+" " whitespace 3454
+"c" identifier 3455
+" " whitespace 3456
+"|" pipe 3457
+" " whitespace 3458
+"order" identifier 3459
+"(" parenLeft 3464
+"b" identifier 3465
+")" parenRight 3466
+")" parenRight 3467
+"," comma 3468
+" " whitespace 3469
+"..." dotDotDot 3470
+"," comma 3473
+" " whitespace 3474
+"!" not 3475
+"c" identifier 3476
+"." dot 3477
+"a" identifier 3478
+" " whitespace 3479
+"=>" rocket 3480
+" " whitespace 3482
+"{" braceLeft 3483
+"null" null 3484
+" " whitespace 3488
+"=>" rocket 3489
+" " whitespace 3491
+"c" identifier 3492
+" " whitespace 3493
+"=>" rocket 3494
+" " whitespace 3496
+"{" braceLeft 3497
+"!" not 3498
+"b" identifier 3499
+"." dot 3500
+"b" identifier 3501
+" " whitespace 3502
+"=>" rocket 3503
+" " whitespace 3505
+"{" braceLeft 3506
+"\"e\"" string 3507
+":" colon 3510
+" " whitespace 3511
+"a" identifier 3512
+"," comma 3513
+" " whitespace 3514
+"\"d\"" string 3515
+":" colon 3518
+" " whitespace 3519
+"*" * 3520
+"[" bracketLeft 3521
+"(" parenLeft 3522
+"select" identifier 3523
+"(" parenLeft 3529
+"\"d\"" string 3530
+" " whitespace 3533
+"+" + 3534
+" " whitespace 3535
+"\"e\"" string 3536
+" " whitespace 3539
+"=>" rocket 3540
+" " whitespace 3542
+"(" parenLeft 3543
+"c" identifier 3544
+")" parenRight 3545
+")" parenRight 3546
+" " whitespace 3547
+"<=" lte 3548
+" " whitespace 3550
+"false" bool 3551
+" " whitespace 3556
+"||" or 3557
+" " whitespace 3559
+"coalesce" identifier 3560
+"(" parenLeft 3568
+"*" * 3569
+"[" bracketLeft 3570
+"(" parenLeft 3571
+"b" identifier 3572
+"->" arrow 3573
+"a" identifier 3575
+")" parenRight 3576
+"]" bracketRight 3577
+"," comma 3578
+" " whitespace 3579
+"*" * 3580
+")" parenRight 3581
+" " whitespace 3582
+"<" lt 3583
+" " whitespace 3584
+"false" bool 3585
+")" parenRight 3590
+"]" bracketRight 3591
+"[" bracketLeft 3592
+"(" parenLeft 3593
+"3.141592653589793" float 3594
+" " whitespace 3611
+"<" lt 3612
+" " whitespace 3613
+"c" identifier 3614
+")" parenRight 3615
+"]" bracketRight 3616
+"[" bracketLeft 3617
+"100" integer 3618
+"]" bracketRight 3621
+"}" braceRight 3622
+"}" braceRight 3623
+"," comma 3624
+" " whitespace 3625
+"b" identifier 3626
+"->" arrow 3627
+" " whitespace 3629
+"=>" rocket 3630
+" " whitespace 3632
+"{" braceLeft 3633
+"null" null 3634
+" " whitespace 3638
+">" gt 3639
+" " whitespace 3640
+"b" identifier 3641
+" " whitespace 3642
+"=>" rocket 3643
+" " whitespace 3645
+"{" braceLeft 3646
+"b" identifier 3647
+"." dot 3648
+"a" identifier 3649
+" " whitespace 3650
+"<" lt 3651
+" " whitespace 3652
+"100" integer 3653
+" " whitespace 3656
+"=>" rocket 3657
+" " whitespace 3659
+"{" braceLeft 3660
+"b" identifier 3661
+"." dot 3662
+"a" identifier 3663
+" " whitespace 3664
+"=>" rocket 3665
+" " whitespace 3667
+"{" braceLeft 3668
+"\"a\"" string 3669
+":" colon 3672
+" " whitespace 3673
+"^" hat 3674
+"." dot 3675
+"c" identifier 3676
+"," comma 3677
+" " whitespace 3678
+"!" not 3679
+"c" identifier 3680
+"->" arrow 3681
+"a" identifier 3683
+" " whitespace 3684
+"=>" rocket 3685
+" " whitespace 3687
+"{" braceLeft 3688
+"-" - 3689
+"1.1" float 3690
+" " whitespace 3693
+"!=" neq 3694
+" " whitespace 3696
+"b" identifier 3697
+" " whitespace 3698
+"=>" rocket 3699
+" " whitespace 3701
+"{" braceLeft 3702
+"..." dotDotDot 3703
+"," comma 3706
+" " whitespace 3707
+"a" identifier 3708
+"->" arrow 3709
+"b" identifier 3711
+" " whitespace 3712
+"=>" rocket 3713
+" " whitespace 3715
+"{" braceLeft 3716
+"1" integer 3717
+" " whitespace 3718
+"!=" neq 3719
+" " whitespace 3721
+"a" identifier 3722
+" " whitespace 3723
+"=>" rocket 3724
+" " whitespace 3726
+"{" braceLeft 3727
+"b" identifier 3728
+"[" bracketLeft 3729
+"\"e\"" string 3730
+"]" bracketRight 3733
+" " whitespace 3734
+"!=" neq 3735
+" " whitespace 3737
+"1.1" float 3738
+" " whitespace 3741
+"=>" rocket 3742
+" " whitespace 3744
+"{" braceLeft 3745
+"c" identifier 3746
+"[" bracketLeft 3747
+"]" bracketRight 3748
+"." dot 3749
+"b" identifier 3750
+" " whitespace 3751
+"<=" lte 3752
+" " whitespace 3754
+"3.141592653589793" float 3755
+" " whitespace 3772
+"=>" rocket 3773
+" " whitespace 3775
+"{" braceLeft 3776
+"..." dotDotDot 3777
+"," comma 3780
+" " whitespace 3781
+"pt" identifier 3782
+"::" doubleColon 3784
+"text" identifier 3786
+"(" parenLeft 3790
+"b" identifier 3791
+")" parenRight 3792
+" " whitespace 3793
+"<" lt 3794
+" " whitespace 3795
+"true" bool 3796
+" " whitespace 3800
+"=>" rocket 3801
+" " whitespace 3803
+"{" braceLeft 3804
+"\"a\"" string 3805
+":" colon 3808
+" " whitespace 3809
+"{" braceLeft 3810
+"c" identifier 3811
+"[" bracketLeft 3812
+"]" bracketRight 3813
+" " whitespace 3814
+"=>" rocket 3815
+" " whitespace 3817
+"{" braceLeft 3818
+"\"g\"" string 3819
+":" colon 3822
+" " whitespace 3823
+"*" * 3824
+"," comma 3825
+" " whitespace 3826
+"..." dotDotDot 3827
+"," comma 3830
+" " whitespace 3831
+"\"d\"" string 3832
+":" colon 3835
+" " whitespace 3836
+"[" bracketLeft 3837
+"count" identifier 3838
+"(" parenLeft 3843
+"b" identifier 3844
+"[" bracketLeft 3845
+"]" bracketRight 3846
+")" parenRight 3847
+"," comma 3848
+" " whitespace 3849
+"..." dotDotDot 3850
+"[" bracketLeft 3853
+"@" at 3854
+"," comma 3855
+" " whitespace 3856
+"-" - 3857
+"1.1" float 3858
+" " whitespace 3861
+"-" - 3862
+" " whitespace 3863
+"-" - 3864
+"1" integer 3865
+"," comma 3866
+" " whitespace 3867
+"pt" identifier 3868
+"::" doubleColon 3870
+"text" identifier 3872
+"(" parenLeft 3876
+"c" identifier 3877
+")" parenRight 3878
+"]" bracketRight 3879
+"]" bracketRight 3880
+"[" bracketLeft 3881
+"1" integer 3882
+"]" bracketRight 3883
+"}" braceRight 3884
+"}" braceRight 3885
+"," comma 3886
+" " whitespace 3887
+"count" identifier 3888
+"(" parenLeft 3893
+"@" at 3894
+")" parenRight 3895
+" " whitespace 3896
+">" gt 3897
+" " whitespace 3898
+"1000000000000000" integer 3899
+" " whitespace 3915
+"=>" rocket 3916
+" " whitespace 3918
+"{" braceLeft 3919
+"select" identifier 3920
+"(" parenLeft 3926
+"select" identifier 3927
+"(" parenLeft 3933
+"^" hat 3934
+"." dot 3935
+"c" identifier 3936
+"->" arrow 3937
+"b" identifier 3939
+" " whitespace 3940
+"=>" rocket 3941
+" " whitespace 3943
+"@" at 3944
+"." dot 3945
+"a" identifier 3946
+")" parenRight 3947
+" " whitespace 3948
+"=>" rocket 3949
+" " whitespace 3951
+"@" at 3952
+")" parenRight 3953
+" " whitespace 3954
+"<=" lte 3955
+" " whitespace 3957
+"null" null 3958
+" " whitespace 3962
+"=>" rocket 3963
+" " whitespace 3965
+"{" braceLeft 3966
+"..." dotDotDot 3967
+"," comma 3970
+" " whitespace 3971
+"\"d\"" string 3972
+":" colon 3975
+" " whitespace 3976
+"[" bracketLeft 3977
+"{" braceLeft 3978
+"!" not 3979
+"a" identifier 3980
+"->" arrow 3981
+"c" identifier 3983
+" " whitespace 3984
+"=>" rocket 3985
+" " whitespace 3987
+"{" braceLeft 3988
+"select" identifier 3989
+"(" parenLeft 3995
+"!" not 3996
+"(" parenLeft 3997
+"c" identifier 3998
+"[" bracketLeft 3999
+"]" bracketRight 4000
+")" parenRight 4001
+" " whitespace 4002
+"=>" rocket 4003
+" " whitespace 4005
+"^" hat 4006
+"." dot 4007
+"a" identifier 4008
+")" parenRight 4009
+" " whitespace 4010
+">" gt 4011
+" " whitespace 4012
+"1" integer 4013
+" " whitespace 4014
+"=>" rocket 4015
+" " whitespace 4017
+"{" braceLeft 4018
+"\"c\"" string 4019
+":" colon 4022
+" " whitespace 4023
+"*" * 4024
+"[" bracketLeft 4025
+"(" parenLeft 4026
+"count" identifier 4027
+"(" parenLeft 4032
+"*" * 4033
+"[" bracketLeft 4034
+"!" not 4035
+"c" identifier 4036
+"[" bracketLeft 4037
+"]" bracketRight 4038
+"]" bracketRight 4039
+"[" bracketLeft 4040
+"(" parenLeft 4041
+"!" not 4042
+"a" identifier 4043
+"[" bracketLeft 4044
+"]" bracketRight 4045
+" " whitespace 4046
+"||" or 4047
+" " whitespace 4049
+"!" not 4050
+"a" identifier 4051
+"." dot 4052
+"b" identifier 4053
+")" parenRight 4054
+"]" bracketRight 4055
+")" parenRight 4056
+" " whitespace 4057
+"==" equals 4058
+" " whitespace 4060
+"null" null 4061
+")" parenRight 4065
+"]" bracketRight 4066
+"{" braceLeft 4067
+"..." dotDotDot 4068
+"," comma 4071
+" " whitespace 4072
+"!" not 4073
+"c" identifier 4074
+"[" bracketLeft 4075
+"]" bracketRight 4076
+" " whitespace 4077
+"=>" rocket 4078
+" " whitespace 4080
+"{" braceLeft 4081
+"pt" identifier 4082
+"::" doubleColon 4084
+"text" identifier 4086
+"(" parenLeft 4090
+"c" identifier 4091
+")" parenRight 4092
+" " whitespace 4093
+"==" equals 4094
+" " whitespace 4096
+"null" null 4097
+" " whitespace 4101
+"=>" rocket 4102
+" " whitespace 4104
+"{" braceLeft 4105
+"..." dotDotDot 4106
+"," comma 4109
+" " whitespace 4110
+"\"e\"" string 4111
+":" colon 4114
+" " whitespace 4115
+"@" at 4116
+"." dot 4117
+"c" identifier 4118
+"}" braceRight 4119
+"," comma 4120
+" " whitespace 4121
+"..." dotDotDot 4122
+"}" braceRight 4125
+"}" braceRight 4126
+"}" braceRight 4127
+"," comma 4128
+" " whitespace 4129
+"..." dotDotDot 4130
+"}" braceRight 4133
+"}" braceRight 4134
+"," comma 4135
+" " whitespace 4136
+"..." dotDotDot 4137
+"[" bracketLeft 4140
+"*" * 4141
+"[" bracketLeft 4142
+"!" not 4143
+"(" parenLeft 4144
+"\"a\"" string 4145
+" " whitespace 4148
+"!=" neq 4149
+" " whitespace 4151
+"a" identifier 4152
+")" parenRight 4153
+"]" bracketRight 4154
+"[" bracketLeft 4155
+"(" parenLeft 4156
+"3.141592653589793" float 4157
+" " whitespace 4174
+"!=" neq 4175
+" " whitespace 4177
+"c" identifier 4178
+" " whitespace 4179
+"||" or 4180
+" " whitespace 4182
+"count" identifier 4183
+"(" parenLeft 4188
+"[" bracketLeft 4189
+"[" bracketLeft 4190
+"2" integer 4191
+" " whitespace 4192
+"+" + 4193
+" " whitespace 4194
+"3.141592653589793" float 4195
+"]" bracketRight 4212
+"," comma 4213
+" " whitespace 4214
+"(" parenLeft 4215
+"*" * 4216
+"[" bracketLeft 4217
+"(" parenLeft 4218
+"a" identifier 4219
+"->" arrow 4220
+"b" identifier 4222
+" " whitespace 4223
+"||" or 4224
+" " whitespace 4226
+"b" identifier 4227
+"[" bracketLeft 4228
+"\"b\"" string 4229
+"]" bracketRight 4232
+" " whitespace 4233
+"=>" rocket 4234
+" " whitespace 4236
+"\"b\"" string 4237
+")" parenRight 4240
+"]" bracketRight 4241
+"[" bracketLeft 4242
+"!" not 4243
+"(" parenLeft 4244
+"select" identifier 4245
+"(" parenLeft 4251
+"a" identifier 4252
+" " whitespace 4253
+"=>" rocket 4254
+" " whitespace 4256
+"(" parenLeft 4257
+"count" identifier 4258
+"(" parenLeft 4263
+"a" identifier 4264
+")" parenRight 4265
+" " whitespace 4266
+"=>" rocket 4267
+" " whitespace 4269
+"true" bool 4270
+" " whitespace 4274
+"&&" and 4275
+" " whitespace 4277
+"count" identifier 4278
+"(" parenLeft 4283
+"!" not 4284
+"(" parenLeft 4285
+"!" not 4286
+"b" identifier 4287
+"->" arrow 4288
+"a" identifier 4290
+")" parenRight 4291
+")" parenRight 4292
+" " whitespace 4293
+"!=" neq 4294
+" " whitespace 4296
+"null" null 4297
+")" parenRight 4301
+")" parenRight 4302
+" " whitespace 4303
+"<=" lte 4304
+" " whitespace 4306
+"false" bool 4307
+")" parenRight 4312
+"]" bracketRight 4313
+")" parenRight 4314
+" " whitespace 4315
+"|" pipe 4316
+" " whitespace 4317
+"order" identifier 4318
+"(" parenLeft 4323
+"b" identifier 4324
+")" parenRight 4325
+"," comma 4326
+" " whitespace 4327
+"\"f\"" string 4328
+" " whitespace 4331
+"+" + 4332
+" " whitespace 4333
+"\"e\"" string 4334
+"]" bracketRight 4337
+"{" braceLeft 4338
+"\"b\"" string 4339
+":" colon 4342
+" " whitespace 4343
+"$myParam" identifier 4344
+"," comma 4352
+" " whitespace 4353
+"..." dotDotDot 4354
+"," comma 4357
+" " whitespace 4358
+"\"e\"" string 4359
+":" colon 4362
+" " whitespace 4363
+"{" braceLeft 4364
+"..." dotDotDot 4365
+"," comma 4368
+" " whitespace 4369
+"\"d\"" string 4370
+":" colon 4373
+" " whitespace 4374
+"[" bracketLeft 4375
+"a" identifier 4376
+"," comma 4377
+" " whitespace 4378
+"..." dotDotDot 4379
+"[" bracketLeft 4382
+"$myParam" identifier 4383
+"]" bracketRight 4391
+"]" bracketRight 4392
+"[" bracketLeft 4393
+"-" - 4394
+"100" integer 4395
+"]" bracketRight 4398
+"}" braceRight 4399
+" " whitespace 4400
+"|" pipe 4401
+" " whitespace 4402
+"order" identifier 4403
+"(" parenLeft 4408
+"c" identifier 4409
+")" parenRight 4410
+"}" braceRight 4411
+")" parenRight 4412
+" " whitespace 4413
+"<=" lte 4414
+" " whitespace 4416
+"\"c\"" string 4417
+")" parenRight 4420
+"]" bracketRight 4421
+"," comma 4422
+" " whitespace 4423
+"..." dotDotDot 4424
+"[" bracketLeft 4427
+"(" parenLeft 4428
+"a" identifier 4429
+")" parenRight 4430
+"," comma 4431
+" " whitespace 4432
+"select" identifier 4433
+"(" parenLeft 4439
+"$myParam" identifier 4440
+" " whitespace 4448
+"=>" rocket 4449
+" " whitespace 4451
+"*" * 4452
+"{" braceLeft 4453
+"..." dotDotDot 4454
+"," comma 4457
+" " whitespace 4458
+"\"b\"" string 4459
+":" colon 4462
+" " whitespace 4463
+"[" bracketLeft 4464
+"]" bracketRight 4465
+"}" braceRight 4466
+")" parenRight 4467
+"," comma 4468
+" " whitespace 4469
+"(" parenLeft 4470
+"a" identifier 4471
+"->" arrow 4472
+" " whitespace 4474
+"==" equals 4475
+" " whitespace 4477
+"true" bool 4478
+" " whitespace 4482
+"&&" and 4483
+" " whitespace 4485
+"c" identifier 4486
+"[" bracketLeft 4487
+"]" bracketRight 4488
+"." dot 4489
+"c" identifier 4490
+")" parenRight 4491
+"]" bracketRight 4492
+"]" bracketRight 4493
+"]" bracketRight 4494
+"[" bracketLeft 4495
+"coalesce" identifier 4496
+"(" parenLeft 4504
+"$myParam" identifier 4505
+"," comma 4513
+" " whitespace 4514
+"1" integer 4515
+")" parenRight 4516
+" " whitespace 4517
+"!=" neq 4518
+" " whitespace 4520
+"\"c\"" string 4521
+"]" bracketRight 4524
+"}" braceRight 4525
+"}" braceRight 4526
+"}" braceRight 4527
+"}" braceRight 4528
+"," comma 4529
+" " whitespace 4530
+"\"g\"" string 4531
+":" colon 4534
+" " whitespace 4535
+"*" * 4536
+"[" bracketLeft 4537
+"1" integer 4538
+"..." dotDotDot 4539
+"-" - 4542
+"1" integer 4543
+"]" bracketRight 4544
+" " whitespace 4545
+"|" pipe 4546
+" " whitespace 4547
+"order" identifier 4548
+"(" parenLeft 4553
+"a" identifier 4554
+")" parenRight 4555
+"}" braceRight 4556
+"}" braceRight 4557
+"," comma 4558
+" " whitespace 4559
+"..." dotDotDot 4560
+"," comma 4563
+" " whitespace 4564
+"!" not 4565
+"c" identifier 4566
+"[" bracketLeft 4567
+"\"g\"" string 4568
+"]" bracketRight 4571
+" " whitespace 4572
+"=>" rocket 4573
+" " whitespace 4575
+"{" braceLeft 4576
+"!" not 4577
+"b" identifier 4578
+"->" arrow 4579
+" " whitespace 4581
+"=>" rocket 4582
+" " whitespace 4584
+"{" braceLeft 4585
+"..." dotDotDot 4586
+"," comma 4589
+" " whitespace 4590
+"\"g\"" string 4591
+":" colon 4594
+" " whitespace 4595
+"a" identifier 4596
+"}" braceRight 4597
+"," comma 4598
+" " whitespace 4599
+"..." dotDotDot 4600
+"," comma 4603
+" " whitespace 4604
+"\"g\"" string 4605
+":" colon 4608
+" " whitespace 4609
+"*" * 4610
+"[" bracketLeft 4611
+"-" - 4612
+"100" integer 4613
+"]" bracketRight 4616
+"}" braceRight 4617
+"}" braceRight 4618
+"}" braceRight 4619
+"}" braceRight 4620
+"}" braceRight 4621
+"," comma 4622
+" " whitespace 4623
+"..." dotDotDot 4624
+"}" braceRight 4627
+"," comma 4628
+" " whitespace 4629
+"..." dotDotDot 4630
+"}" braceRight 4633
+"}" braceRight 4634
+"}" braceRight 4635
+"}" braceRight 4636
+"}" braceRight 4637
+"}" braceRight 4638
+"," comma 4639
+" " whitespace 4640
+"..." dotDotDot 4641
+"}" braceRight 4644
+"}" braceRight 4645
+"," comma 4646
+" " whitespace 4647
+"\"a\"" string 4648
+":" colon 4651
+" " whitespace 4652
+"*" * 4653
+"[" bracketLeft 4654
+"2" integer 4655
+"]" bracketRight 4656
+"}" braceRight 4657
+"," comma 4658
+" " whitespace 4659
+"..." dotDotDot 4660
+"," comma 4663
+" " whitespace 4664
+"-" - 4665
+"3e12" float 4666
+" " whitespace 4670
+">" gt 4671
+" " whitespace 4672
+"a" identifier 4673
+" " whitespace 4674
+"=>" rocket 4675
+" " whitespace 4677
+"{" braceLeft 4678
+"\"f\"" string 4679
+":" colon 4682
+" " whitespace 4683
+"*" * 4684
+"[" bracketLeft 4685
+"(" parenLeft 4686
+"b" identifier 4687
+" " whitespace 4688
+"==" equals 4689
+" " whitespace 4691
+"true" bool 4692
+")" parenRight 4696
+"]" bracketRight 4697
+"[" bracketLeft 4698
+"1000000000000000" integer 4699
+"]" bracketRight 4715
+"," comma 4716
+" " whitespace 4717
+"..." dotDotDot 4718
+"}" braceRight 4721
+"}" braceRight 4722
+"}" braceRight 4723
+"}" braceRight 4724
+"}" braceRight 4725
+"," comma 4726
+" " whitespace 4727
+"\"a\"" string 4728
+":" colon 4731
+" " whitespace 4732
+"[" bracketLeft 4733
+"\"g\"" string 4734
+" " whitespace 4737
+"+" + 4738
+" " whitespace 4739
+"\"d\"" string 4740
+"]" bracketRight 4743
+"}" braceRight 4744
+"," comma 4745
+" " whitespace 4746
+"\"d\"" string 4747
+":" colon 4750
+" " whitespace 4751
+"(" parenLeft 4752
+"[" bracketLeft 4753
+"*" * 4754
+" " whitespace 4755
+"|" pipe 4756
+" " whitespace 4757
+"{" braceLeft 4758
+"c" identifier 4759
+"->" arrow 4760
+"." dot 4762
+"c" identifier 4763
+" " whitespace 4764
+"<" lt 4765
+" " whitespace 4766
+"false" bool 4767
+" " whitespace 4772
+"=>" rocket 4773
+" " whitespace 4775
+"{" braceLeft 4776
+"\"c\"" string 4777
+":" colon 4780
+" " whitespace 4781
+"@" at 4782
+"," comma 4783
+" " whitespace 4784
+"..." dotDotDot 4785
+"," comma 4788
+" " whitespace 4789
+"c" identifier 4790
+"[" bracketLeft 4791
+"\"f\"" string 4792
+"]" bracketRight 4795
+" " whitespace 4796
+"=>" rocket 4797
+" " whitespace 4799
+"{" braceLeft 4800
+"!" not 4801
+"c" identifier 4802
+" " whitespace 4803
+"=>" rocket 4804
+" " whitespace 4806
+"{" braceLeft 4807
+"\"c\"" string 4808
+":" colon 4811
+" " whitespace 4812
+"[" bracketLeft 4813
+"-" - 4814
+"100" integer 4815
+" " whitespace 4818
+"<=" lte 4819
+" " whitespace 4821
+"c" identifier 4822
+"]" bracketRight 4823
+"[" bracketLeft 4824
+"-" - 4825
+"100" integer 4826
+"..." dotDotDot 4829
+"1" integer 4832
+"]" bracketRight 4833
+"," comma 4834
+" " whitespace 4835
+"..." dotDotDot 4836
+"," comma 4839
+" " whitespace 4840
+"!" not 4841
+"c" identifier 4842
+"->" arrow 4843
+"a" identifier 4845
+" " whitespace 4846
+"=>" rocket 4847
+" " whitespace 4849
+"{" braceLeft 4850
+"\"d\"" string 4851
+":" colon 4854
+" " whitespace 4855
+"[" bracketLeft 4856
+"$myParam" identifier 4857
+"," comma 4865
+" " whitespace 4866
+"[" bracketLeft 4867
+"@" at 4868
+"." dot 4869
+"c" identifier 4870
+"," comma 4871
+" " whitespace 4872
+"[" bracketLeft 4873
+"-" - 4874
+"1" integer 4875
+" " whitespace 4876
+"%" % 4877
+" " whitespace 4878
+"1" integer 4879
+"]" bracketRight 4880
+"[" bracketLeft 4881
+"(" parenLeft 4882
+"b" identifier 4883
+"->" arrow 4884
+"a" identifier 4886
+" " whitespace 4887
+"||" or 4888
+" " whitespace 4890
+"true" bool 4891
+" " whitespace 4895
+"<" lt 4896
+" " whitespace 4897
+"c" identifier 4898
+")" parenRight 4899
+"]" bracketRight 4900
+" " whitespace 4901
+"|" pipe 4902
+" " whitespace 4903
+"order" identifier 4904
+"(" parenLeft 4909
+"c" identifier 4910
+")" parenRight 4911
+"," comma 4912
+" " whitespace 4913
+"c" identifier 4914
+"]" bracketRight 4915
+"[" bracketLeft 4916
+"null" null 4917
+" " whitespace 4921
+"==" equals 4922
+" " whitespace 4924
+"a" identifier 4925
+"]" bracketRight 4926
+" " whitespace 4927
+"|" pipe 4928
+" " whitespace 4929
+"{" braceLeft 4930
+"\"d\"" string 4931
+":" colon 4934
+" " whitespace 4935
+"[" bracketLeft 4936
+"]" bracketRight 4937
+"[" bracketLeft 4938
+"1" integer 4939
+"]" bracketRight 4940
+"}" braceRight 4941
+"]" bracketRight 4942
+"}" braceRight 4943
+"}" braceRight 4944
+"," comma 4945
+" " whitespace 4946
+"..." dotDotDot 4947
+"}" braceRight 4950
+"}" braceRight 4951
+"," comma 4952
+" " whitespace 4953
+"..." dotDotDot 4954
+"}" braceRight 4957
+"," comma 4958
+" " whitespace 4959
+"[" bracketLeft 4960
+"(" parenLeft 4961
+"[" bracketLeft 4962
+"a" identifier 4963
+"," comma 4964
+" " whitespace 4965
+"\"c\"" string 4966
+" " whitespace 4969
+"+" + 4970
+" " whitespace 4971
+"\"g\"" string 4972
+"]" bracketRight 4975
+"[" bracketLeft 4976
+"!" not 4977
+"(" parenLeft 4978
+"a" identifier 4979
+"[" bracketLeft 4980
+"]" bracketRight 4981
+")" parenRight 4982
+"]" bracketRight 4983
+"[" bracketLeft 4984
+"(" parenLeft 4985
+"c" identifier 4986
+"[" bracketLeft 4987
+"]" bracketRight 4988
+"." dot 4989
+"c" identifier 4990
+" " whitespace 4991
+"||" or 4992
+" " whitespace 4994
+"b" identifier 4995
+"[" bracketLeft 4996
+"]" bracketRight 4997
+" " whitespace 4998
+"<" lt 4999
+" " whitespace 5000
+"\"d\"" string 5001
+")" parenRight 5004
+"]" bracketRight 5005
+")" parenRight 5006
+"]" bracketRight 5007
+"[" bracketLeft 5008
+"(" parenLeft 5009
+"select" identifier 5010
+"(" parenLeft 5016
+"!" not 5017
+"(" parenLeft 5018
+"b" identifier 5019
+"->" arrow 5020
+"." dot 5022
+"b" identifier 5023
+" " whitespace 5024
+"==" equals 5025
+" " whitespace 5027
+"-" - 5028
+"100" integer 5029
+")" parenRight 5032
+" " whitespace 5033
+"=>" rocket 5034
+" " whitespace 5036
+"[" bracketLeft 5037
+"*" * 5038
+"[" bracketLeft 5039
+"-" - 5040
+"1" integer 5041
+"]" bracketRight 5042
+"," comma 5043
+" " whitespace 5044
+"..." dotDotDot 5045
+"[" bracketLeft 5048
+"]" bracketRight 5049
+"]" bracketRight 5050
+")" parenRight 5051
+" " whitespace 5052
+"=>" rocket 5053
+" " whitespace 5055
+"1" integer 5056
+" " whitespace 5057
+"&&" and 5058
+" " whitespace 5060
+"\"b\"" string 5061
+" " whitespace 5064
+"<" lt 5065
+" " whitespace 5066
+"c" identifier 5067
+")" parenRight 5068
+"]" bracketRight 5069
+"]" bracketRight 5070
+")" parenRight 5071
+"}" braceRight 5072
+"," comma 5073
+" " whitespace 5074
+"null" null 5075
+" " whitespace 5079
+"<=" lte 5080
+" " whitespace 5082
+"b" identifier 5083
+")" parenRight 5084
+"" eof 5085

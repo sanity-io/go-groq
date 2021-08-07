@@ -1,0 +1,1 @@
+This is the old parser for GROQ "v1", used with the legacy engine. Tests are in the shared "tests" package in the parent folder.
