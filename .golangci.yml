@@ -1,0 +1,41 @@
+run:
+  concurrency: 4
+  timeout: 10m
+  issues-exit-code: 1
+  tests: false
+
+issues:
+  exclude-rules:
+  # Complains about go-sumtype
+  - text: "commentFormatting:"
+    linters: [gocritic]
+    source: "^//go-sumtype:"
+
+linters:
+  disable-all: true
+  enable:
+  - bodyclose
+  - deadcode
+  - errcheck
+  - goconst
+  - gocritic
+  - goimports
+  - golint
+  - gosec
+  - gosimple
+  - govet
+  - ineffassign
+  - prealloc
+  - scopelint
+  - staticcheck
+  - typecheck
+  - unconvert
+  - unconvert
+  - unparam
+  - unused
+  - varcheck
+  fast: false
+
+linters-settings:
+  gofmt:
+    simplify: false
