@@ -10,17 +10,17 @@ func Transform(expr Expression, f TransformFunc) Expression {
 	return expr.Transform(f)
 }
 
-func (e *Everything) Transform(f TransformFunc) Expression     { return e }
-func (e *This) Transform(f TransformFunc) Expression           { return e }
-func (e *Ellipsis) Transform(f TransformFunc) Expression       { return e }
-func (e *Parent) Transform(f TransformFunc) Expression         { return e }
-func (e *StringLiteral) Transform(f TransformFunc) Expression  { return e }
-func (e *FloatLiteral) Transform(f TransformFunc) Expression   { return e }
-func (e *BooleanLiteral) Transform(f TransformFunc) Expression { return e }
-func (e *IntegerLiteral) Transform(f TransformFunc) Expression { return e }
-func (e *NullLiteral) Transform(f TransformFunc) Expression    { return e }
-func (e *Attribute) Transform(f TransformFunc) Expression      { return e }
-func (e *Param) Transform(f TransformFunc) Expression          { return e }
+func (e *Everything) Transform(f TransformFunc) Expression     { return f(e) }
+func (e *This) Transform(f TransformFunc) Expression           { return f(e) }
+func (e *Ellipsis) Transform(f TransformFunc) Expression       { return f(e) }
+func (e *Parent) Transform(f TransformFunc) Expression         { return f(e) }
+func (e *StringLiteral) Transform(f TransformFunc) Expression  { return f(e) }
+func (e *FloatLiteral) Transform(f TransformFunc) Expression   { return f(e) }
+func (e *BooleanLiteral) Transform(f TransformFunc) Expression { return f(e) }
+func (e *IntegerLiteral) Transform(f TransformFunc) Expression { return f(e) }
+func (e *NullLiteral) Transform(f TransformFunc) Expression    { return f(e) }
+func (e *Attribute) Transform(f TransformFunc) Expression      { return f(e) }
+func (e *Param) Transform(f TransformFunc) Expression          { return f(e) }
 
 func (e *ArrayTraversal) Transform(f TransformFunc) Expression {
 	out := *e
@@ -101,7 +101,7 @@ func (e *Object) Transform(f TransformFunc) Expression {
 	}
 	out := *e
 	out.Expressions = newExprs
-	return &out
+	return f(&out)
 }
 
 func (e *Array) Transform(f TransformFunc) Expression {
