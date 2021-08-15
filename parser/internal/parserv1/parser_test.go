@@ -1,6 +1,7 @@
-package parser_test
+package parserv1_test
 
 import (
+	"errors"
 	"path/filepath"
 	"testing"
 
@@ -10,28 +11,28 @@ import (
 
 	"github.com/sanity-io/go-groq"
 	"github.com/sanity-io/go-groq/ast"
-	"github.com/sanity-io/go-groq/groqtest"
+	"github.com/sanity-io/go-groq/internal/testhelpers"
 	"github.com/sanity-io/go-groq/parser"
-	"github.com/sanity-io/go-groq/testhelpers"
+	"github.com/sanity-io/go-groq/parser/internal/parserv1"
 )
 
 func TestParser(t *testing.T) {
-	testhelpers.WithEachTest(t, func(t *testing.T, test *groqtest.Test) {
+	testhelpers.WithEachTest(t, func(t *testing.T, test *testhelpers.Test) {
 		if includeTest(test) {
 			testhelpers.ASTTest(t, test, filepath.Join("snapshots", "nonstrict"),
 				func(query string, params groq.Params) (ast.Expression, error) {
-					return parser.Parse(query,
-						parser.WithParams(groq.Params{"identity": "someuser"}),
-						parser.WithParams(params),
+					return parserv1.Parse(query,
+						parserv1.WithParams(groq.Params{"identity": "someuser"}),
+						parserv1.WithParams(params),
 					)
 				})
 		}
 	})
 }
 
-func includeTest(test *groqtest.Test) bool {
+func includeTest(test *testhelpers.Test) bool {
 	// Old parser does not have some features
-	return (test.Version == nil || (*test.Version)(semver.MustParse("1.0.0"))) && len(test.Features) == 0
+	return (test.Version == nil || (*test.Version)(semver.MustParse("1.0.0")))
 }
 
 func TestErrors(t *testing.T) {
@@ -48,15 +49,14 @@ func TestErrors(t *testing.T) {
 	assertParseFailure(t, "1.", `unexpected token "1.", expected expression`, 0, 2)
 }
 
-func assertParseFailure(t *testing.T, src string, message string, start int, end int, opts ...parser.Option) {
+func assertParseFailure(t *testing.T, src string, message string, start int, end int, opts ...parserv1.Option) {
 	t.Helper()
 
-	_, err := parser.Parse(src, opts...)
+	_, err := parserv1.Parse(src, opts...)
 	require.Error(t, err)
-	require.IsType(t, &groq.ParseError{}, err)
-
-	parseErr := err.(*groq.ParseError)
-	require.Equal(t, message, parseErr.Message)
-	assert.Equal(t, start, parseErr.Pos.Start)
-	assert.Equal(t, end, parseErr.Pos.End)
+	var parseErr parser.ParseError
+	require.True(t, errors.As(err, &parseErr))
+	require.Equal(t, message, parseErr.Message())
+	assert.Equal(t, start, parseErr.Pos().Start)
+	assert.Equal(t, end, parseErr.Pos().End)
 }

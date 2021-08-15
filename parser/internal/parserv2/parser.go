@@ -9,6 +9,22 @@ import (
 	"github.com/sanity-io/go-groq/tokenizer"
 )
 
+// parseError represents an error during parsing
+type parseError struct {
+	msg string
+	pos ast.Position
+}
+
+func (e *parseError) Pos() ast.Position { return e.pos }
+func (e *parseError) Message() string   { return e.msg }
+
+func (e *parseError) Error() string {
+	if e.pos.Start == e.pos.End {
+		return fmt.Sprintf("parse error at position %d: %s", e.pos.End, e.msg)
+	}
+	return fmt.Sprintf("parse error at positions %d..%d: %s", e.pos.Start, e.pos.End, e.msg)
+}
+
 type Option func(*parser)
 
 func WithParams(p groq.Params) Option {
@@ -18,11 +34,6 @@ func WithParams(p groq.Params) Option {
 		}
 	}
 }
-
-const (
-	associatesLeft = iota
-	associatesRight
-)
 
 // parser represents a parser (!).
 type parser struct {
@@ -83,16 +94,16 @@ func (p *parser) unscan() { p.buf.n = 1 }
 func (p *parser) dereferenceParam(name string, pos int) (ast.Expression, error) {
 	value, exists := p.params[name]
 	if !exists {
-		return nil, &groq.ParseError{
-			Message: fmt.Sprintf("param $%s referenced, but not provided", name),
-			Pos:     p.makeTokenPos(pos, name),
+		return nil, &parseError{
+			msg: fmt.Sprintf("param $%s referenced, but not provided", name),
+			pos: p.makeTokenPos(pos, name),
 		}
 	}
 	expr, err := ast.LiteralFromInterface(value, p.makeTokenPos(pos, name))
 	if err != nil {
-		return nil, &groq.ParseError{
-			Message: fmt.Sprintf("error while accessing value of $%s: %s", name, err.Error()),
-			Pos:     p.makeTokenPos(pos, name),
+		return nil, &parseError{
+			msg: fmt.Sprintf("error while accessing value of $%s: %s", name, err.Error()),
+			pos: p.makeTokenPos(pos, name),
 		}
 	}
 	return expr, nil
@@ -195,9 +206,9 @@ func (p *parser) parseAtom(immediateLHS bool) (ast.Expression, error) {
 			if expr == nil {
 				// This is actually impossible to trigger barring an error in the parser itself.
 				// Turn into a panic?
-				return nil, &groq.ParseError{
-					Message: "expected constraint, subscript dereference or range",
-					Pos:     p.makeTokenPos(pos, lit),
+				return nil, &parseError{
+					msg: "expected constraint, subscript dereference or range",
+					pos: p.makeTokenPos(pos, lit),
 				}
 			}
 		} else {
@@ -209,9 +220,9 @@ func (p *parser) parseAtom(immediateLHS bool) (ast.Expression, error) {
 			if expr == nil {
 				// This is actually impossible to trigger barring an error in the parser itself.
 				// Turn into a panic?
-				return nil, &groq.ParseError{
-					Message: "expected array expression",
-					Pos:     p.makeTokenPos(pos, lit),
+				return nil, &parseError{
+					msg: "expected array expression",
+					pos: p.makeTokenPos(pos, lit),
 				}
 			}
 		}
@@ -225,9 +236,9 @@ func (p *parser) parseAtom(immediateLHS bool) (ast.Expression, error) {
 		if expr == nil {
 			// This is actually impossible to trigger barring an error in the parser itself.
 			// Turn into a panic?
-			return nil, &groq.ParseError{
-				Message: "expected object expression",
-				Pos:     p.makeTokenPos(pos, lit),
+			return nil, &parseError{
+				msg: "expected object expression",
+				pos: p.makeTokenPos(pos, lit),
 			}
 		}
 		return expr, nil
@@ -264,9 +275,9 @@ func (p *parser) parseParenthesisExpr(pos int, lit string) (ast.Expression, erro
 	}
 
 	if tok != ast.ParenRight {
-		return nil, &groq.ParseError{
-			Message: "expected ')' following parenthesized expression",
-			Pos:     p.makeRangePos(pos, tokPos),
+		return nil, &parseError{
+			msg: "expected ')' following parenthesized expression",
+			pos: p.makeRangePos(pos, tokPos),
 		}
 	}
 
@@ -290,10 +301,10 @@ func (p *parser) parseGeneralExpression(minPrecedence int, immediateLHS bool, ma
 	// Consider prefix operator
 	tok, lit, pos := p.scanIgnoreWhitespace()
 	if isPrefixOperator(tok) {
-		precedence, associativity := precedenceAndAssociativity(tok)
+		precedence, associativity := groq.PrecedenceAndAssociativity(tok)
 		var rhs ast.Expression
 		var err error
-		if associativity == associatesLeft {
+		if associativity == groq.AssociatesLeft {
 			rhs, err = p.parseGeneralExpression(precedence+1, false, true)
 		} else {
 			rhs, err = p.parseGeneralExpression(precedence, false, true)
@@ -339,9 +350,9 @@ func (p *parser) parseGeneralExpression(minPrecedence int, immediateLHS bool, ma
 			seen = fmt.Sprintf("token %q", aLit)
 		}
 
-		return nil, &groq.ParseError{
-			Message: fmt.Sprintf("unexpected %s, expected expression", seen),
-			Pos:     p.makeTokenPos(pos, aLit),
+		return nil, &parseError{
+			msg: fmt.Sprintf("unexpected %s, expected expression", seen),
+			pos: p.makeTokenPos(pos, aLit),
 		}
 	}
 
@@ -364,7 +375,7 @@ Loop:
 			if tok == ast.BraceLeft {
 				operator = ast.Pipe
 			} else if tok == ast.BracketLeft {
-				if highestPrecedence < minPrecedence {
+				if groq.HighestPrecedence < minPrecedence {
 					break Loop
 				}
 				// This is a square-bracketed thing with an immediate LHS, so is one of subscript
@@ -431,7 +442,7 @@ Loop:
 
 		// Uses precedence climbing to resolve precedence according to
 		// http://eli.thegreenplace.net/2012/08/02/parsing-expressions-by-precedence-climbing
-		precedence, associativity := precedenceAndAssociativity(operator)
+		precedence, associativity := groq.PrecedenceAndAssociativity(operator)
 		if precedence < minPrecedence {
 			p.unscan()
 			break
@@ -449,16 +460,16 @@ Loop:
 		// Infix operator
 		if !isInfixOperator(operator) {
 			// Impossible to trigger barring a bug in the parser. Turn into panic?
-			return nil, &groq.ParseError{
-				Message: fmt.Sprintf("expected infix operator, but saw %q", operator.Literal()),
-				Pos:     p.makeTokenPos(pos, lit),
+			return nil, &parseError{
+				msg: fmt.Sprintf("expected infix operator, but saw %q", operator.Literal()),
+				pos: p.makeTokenPos(pos, lit),
 			}
 		}
 
 		rhsHasImmediateLHS := operator == ast.Pipe || operator == ast.Dot
 
 		var rhs ast.Expression
-		if associativity == associatesLeft {
+		if associativity == groq.AssociatesLeft {
 			var err error
 			rhs, err = p.parseGeneralExpression(precedence+1, rhsHasImmediateLHS, false)
 			if err != nil {
@@ -472,9 +483,9 @@ Loop:
 			}
 		}
 		if rhs == nil {
-			return nil, &groq.ParseError{
-				Pos:     p.makeTokenPos(pos, lit),
-				Message: "expected expressions following operator",
+			return nil, &parseError{
+				pos: p.makeTokenPos(pos, lit),
+				msg: "expected expressions following operator",
 			}
 		}
 
@@ -484,16 +495,16 @@ Loop:
 			case *ast.Parent:
 				// attribute.^ is not allowed but ^.^, ^.^.^ etc. is allowed
 				if !isParentDereferencing(expr) {
-					return nil, &groq.ParseError{
-						Pos:     rhs.GetPos(),
-						Message: "^ is not allowed here",
+					return nil, &parseError{
+						pos: rhs.GetPos(),
+						msg: "^ is not allowed here",
 					}
 				}
 			case *ast.This:
 				// attribute.@ is not allowed
-				return nil, &groq.ParseError{
-					Pos:     rhs.GetPos(),
-					Message: "@ is not allowed here",
+				return nil, &parseError{
+					pos: rhs.GetPos(),
+					msg: "@ is not allowed here",
 				}
 			}
 			expr = &ast.DotOperator{
@@ -516,9 +527,9 @@ Loop:
 					Func: rhs,
 				}
 			default:
-				return nil, &groq.ParseError{
-					Pos:     rhs.GetPos(),
-					Message: "object or function expected",
+				return nil, &parseError{
+					pos: rhs.GetPos(),
+					msg: "object or function expected",
 				}
 			}
 		default:
@@ -555,9 +566,9 @@ func (p *parser) parseChainedBracketedExpression() (ast.Expression, error) {
 	rangeEnd := posEnd + len(litEnd)
 
 	if tok != ast.BracketRight {
-		return nil, &groq.ParseError{
-			Message: "expected ']' following expression",
-			Pos:     p.makeRangePos(posStart, rangeEnd),
+		return nil, &parseError{
+			msg: "expected ']' following expression",
+			pos: p.makeRangePos(posStart, rangeEnd),
 		}
 	}
 
@@ -576,9 +587,9 @@ func (p *parser) parseChainedBracketedExpression() (ast.Expression, error) {
 		}, nil
 	case *ast.Range:
 		if !ast.IsSubscriptExpression(t) {
-			return nil, &groq.ParseError{
-				Message: "subscript ranges must have integer endpoints",
-				Pos:     p.makeRangePos(posStart, rangeEnd),
+			return nil, &parseError{
+				msg: "subscript ranges must have integer endpoints",
+				pos: p.makeRangePos(posStart, rangeEnd),
 			}
 		}
 		return &ast.Subscript{
@@ -617,9 +628,9 @@ func (p *parser) parseArrayExpression() (ast.Expression, error) {
 	rangeEnd := posEnd + len(litEnd)
 
 	if tok != ast.BracketRight {
-		return nil, &groq.ParseError{
-			Message: "expected ']' following array body",
-			Pos:     p.makeRangePos(posStart, rangeEnd),
+		return nil, &parseError{
+			msg: "expected ']' following array body",
+			pos: p.makeRangePos(posStart, rangeEnd),
 		}
 	}
 	return &ast.Array{
@@ -642,9 +653,9 @@ func (p *parser) parseObjectExpression() (ast.Expression, error) {
 	rangeEnd := posEnd + len(litEnd)
 
 	if tok != ast.BraceRight {
-		return nil, &groq.ParseError{
-			Message: "expected '}' following object body",
-			Pos:     p.makeRangePos(posStart, rangeEnd),
+		return nil, &parseError{
+			msg: "expected '}' following object body",
+			pos: p.makeRangePos(posStart, rangeEnd),
 		}
 	}
 	return &ast.Object{
@@ -661,17 +672,17 @@ func (p *parser) parseFunctionExpression(nameToken ast.Token, name string, nameP
 	switch tok {
 	case ast.DoubleColon:
 		if nameToken != ast.Name {
-			return nil, &groq.ParseError{
-				Message: fmt.Sprintf("expected valid namespace identifier before '%s'", ast.DoubleColon.String()),
-				Pos:     p.makeTokenPos(pos, lit),
+			return nil, &parseError{
+				msg: fmt.Sprintf("expected valid namespace identifier before '%s'", ast.DoubleColon.String()),
+				pos: p.makeTokenPos(pos, lit),
 			}
 		}
 		// It should be a function call after a double colon (namespace).
 		fTok, fLit, fPos := p.scanIgnoreWhitespace()
 		if fTok != ast.Name {
-			return nil, &groq.ParseError{
-				Message: "expected a function following namespace expression",
-				Pos:     p.makeTokenPos(fPos, fLit),
+			return nil, &parseError{
+				msg: "expected a function following namespace expression",
+				pos: p.makeTokenPos(fPos, fLit),
 			}
 		}
 
@@ -680,9 +691,9 @@ func (p *parser) parseFunctionExpression(nameToken ast.Token, name string, nameP
 			return nil, err
 		}
 		if function == nil {
-			return nil, &groq.ParseError{
-				Message: "expected a function following namespace expression",
-				Pos:     p.makeTokenPos(fPos, fLit),
+			return nil, &parseError{
+				msg: "expected a function following namespace expression",
+				pos: p.makeTokenPos(fPos, fLit),
 			}
 		}
 		function.Namespace = name    // Assign namespace to function call.
@@ -716,9 +727,9 @@ func (p *parser) parseFunctionExpression(nameToken ast.Token, name string, nameP
 		tok, litEnd, posEnd := p.scanIgnoreWhitespace()
 		rangeEnd := posEnd + len(litEnd)
 		if tok != ast.ParenRight {
-			return nil, &groq.ParseError{
-				Message: "expected ')' following function arguments",
-				Pos:     p.makeRangePos(pos, rangeEnd),
+			return nil, &parseError{
+				msg: "expected ')' following function arguments",
+				pos: p.makeRangePos(pos, rangeEnd),
 			}
 		}
 	default:
@@ -769,9 +780,9 @@ func (p *parser) parseList() ([]ast.Expression, error) {
 func (p *parser) parse() (ast.Expression, error) {
 	token, _, _ := p.scanIgnoreWhitespace()
 	if token == ast.EOF {
-		return nil, &groq.ParseError{
-			Message: "no query",
-			Pos:     p.makeSpotPos(0),
+		return nil, &parseError{
+			msg: "no query",
+			pos: p.makeSpotPos(0),
 		}
 	}
 	p.unscan()
@@ -784,9 +795,9 @@ func (p *parser) parse() (ast.Expression, error) {
 
 	token, _, pos := p.scanIgnoreWhitespace()
 	if token != ast.EOF {
-		return nil, &groq.ParseError{
-			Message: "unable to parse entire expression",
-			Pos:     p.makeSpotPos(pos),
+		return nil, &parseError{
+			msg: "unable to parse entire expression",
+			pos: p.makeSpotPos(pos),
 		}
 	}
 	return result, nil

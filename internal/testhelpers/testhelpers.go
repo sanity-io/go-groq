@@ -21,15 +21,23 @@ import (
 
 	"github.com/sanity-io/go-groq"
 	"github.com/sanity-io/go-groq/ast"
-	"github.com/sanity-io/go-groq/groqtest"
 )
 
 var versionRegex = regexp.MustCompile(`//groq:version=(\S+)`)
 var paramRegex = regexp.MustCompile(`//groq:param:([^=]+)=([^\n]+)`)
 
+type Test struct {
+	Name     string
+	Query    string
+	Params   groq.Params
+	Valid    bool
+	Version  *semver.Range
+	FileName string
+}
+
 func ASTTest(
 	t *testing.T,
-	test *groqtest.Test,
+	test *Test,
 	outputDir string,
 	parser func(query string, params groq.Params) (ast.Expression, error),
 ) {
@@ -68,7 +76,7 @@ func ASTTest(
 	)
 }
 
-func WithEachTest(t *testing.T, f func(t *testing.T, test *groqtest.Test)) {
+func WithEachTest(t *testing.T, f func(t *testing.T, test *Test)) {
 	_, filename, _, _ := runtime.Caller(0)
 
 	pattern := filepath.Join(filepath.Dir(filename), "queries/*.groq")
@@ -81,7 +89,7 @@ func WithEachTest(t *testing.T, f func(t *testing.T, test *groqtest.Test)) {
 		require.NoError(t, err)
 		query := string(queryBytes)
 
-		test := groqtest.Test{
+		test := Test{
 			Name:     name,
 			Query:    query,
 			Params:   make(groq.Params),
@@ -108,7 +116,7 @@ func WithEachTest(t *testing.T, f func(t *testing.T, test *groqtest.Test)) {
 	}
 }
 
-func SnapshotFileName(test *groqtest.Test) string {
+func SnapshotFileName(test *Test) string {
 	// Hash by both name and query, since queries are not unique
 	s := sha256.New()
 	if _, err := s.Write([]byte(test.Name)); err != nil {

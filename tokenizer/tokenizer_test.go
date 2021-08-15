@@ -11,13 +11,12 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/sanity-io/go-groq/ast"
-	"github.com/sanity-io/go-groq/groqtest"
-	"github.com/sanity-io/go-groq/testhelpers"
+	"github.com/sanity-io/go-groq/internal/testhelpers"
 	"github.com/sanity-io/go-groq/tokenizer"
 )
 
 func TestTokenizer(t *testing.T) {
-	testhelpers.WithEachTest(t, func(t *testing.T, test *groqtest.Test) {
+	testhelpers.WithEachTest(t, func(t *testing.T, test *testhelpers.Test) {
 		fileName := filepath.Join("snapshots", testhelpers.SnapshotFileName(test))
 
 		require.NoError(t, os.MkdirAll(filepath.Dir(fileName), 0755))
