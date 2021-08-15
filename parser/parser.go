@@ -33,6 +33,12 @@ func WithParams(p groq.Params) Option {
 	}
 }
 
+func WithParamNodes() Option {
+	return func(opts *parserOpts) {
+		opts.createParamNodes = true
+	}
+}
+
 func WithVersion(v Version) Option {
 	return func(opts *parserOpts) {
 		opts.version = v
@@ -53,13 +59,15 @@ func Parse(query string, options ...Option) (ast.Expression, error) {
 			parserv1.WithParams(opts.params))
 	case Version2:
 		return parserv2.Parse(query,
-			parserv2.WithParams(opts.params))
+			parserv2.WithParams(opts.params),
+			parserv2.WithParamNodes(opts.createParamNodes))
 	default:
 		panic(fmt.Sprintf("invalid version %v", opts.version))
 	}
 }
 
 type parserOpts struct {
-	params  groq.Params
-	version Version
+	params           groq.Params
+	createParamNodes bool
+	version          Version
 }

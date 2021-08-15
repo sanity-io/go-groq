@@ -35,6 +35,12 @@ func WithParams(p groq.Params) Option {
 	}
 }
 
+func WithParamNodes(v bool) Option {
+	return func(parser *parser) {
+		parser.createParamNodes = v
+	}
+}
+
 // parser represents a parser (!).
 type parser struct {
 	tk     *tokenizer.Tokenizer
@@ -46,6 +52,7 @@ type parser struct {
 		pos int       // position of last token
 		n   int       // buffer size (max=1)
 	}
+	createParamNodes bool
 }
 
 // Parse parses a string of GROQ.
@@ -92,6 +99,13 @@ func (p *parser) scanIgnoreWhitespace() (tok ast.Token, lit string, pos int) {
 func (p *parser) unscan() { p.buf.n = 1 }
 
 func (p *parser) dereferenceParam(name string, pos int) (ast.Expression, error) {
+	if p.createParamNodes {
+		return &ast.Param{
+			Name: name,
+			Pos:  p.makeTokenPos(pos, name),
+		}, nil
+	}
+
 	value, exists := p.params[name]
 	if !exists {
 		return nil, &parseError{

@@ -20,6 +20,7 @@ func (e *BooleanLiteral) Transform(f TransformFunc) Expression { return e }
 func (e *IntegerLiteral) Transform(f TransformFunc) Expression { return e }
 func (e *NullLiteral) Transform(f TransformFunc) Expression    { return e }
 func (e *Attribute) Transform(f TransformFunc) Expression      { return e }
+func (e *Param) Transform(f TransformFunc) Expression          { return e }
 
 func (e *ArrayTraversal) Transform(f TransformFunc) Expression {
 	out := *e
