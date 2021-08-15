@@ -148,6 +148,12 @@ type Attribute struct {
 	Name string
 }
 
+// Param represents a placeholder parameter, e.g. $foo.
+type Param struct {
+	Pos  Position
+	Name string
+}
+
 // StringLiteral is literal strings
 type StringLiteral struct {
 	Pos   Position
@@ -271,6 +277,7 @@ func (*FunctionPipe) sealed()      {}
 func (*Filter) sealed()            {}
 func (*Element) sealed()           {}
 func (*Slice) sealed()             {}
+func (*Param) sealed()             {}
 
 func (e *Everything) GetPos() Position      { return e.Pos }
 func (e *This) GetPos() Position            { return e.Pos }
@@ -301,3 +308,4 @@ func (e *FunctionPipe) GetPos() Position    { return e.Pos }
 func (e *Filter) GetPos() Position          { return e.Pos }
 func (e *Element) GetPos() Position         { return e.Pos }
 func (e *Slice) GetPos() Position           { return e.Pos }
+func (e *Param) GetPos() Position           { return e.Pos }

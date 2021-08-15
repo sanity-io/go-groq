@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/sanity-io/go-groq/ast"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/sanity-io/go-groq/ast"
 )
 
 func TestToken_String(t *testing.T) {
