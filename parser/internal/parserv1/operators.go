@@ -1,4 +1,4 @@
-package parser
+package parserv1
 
 import (
 	"github.com/sanity-io/go-groq/ast"
@@ -67,78 +67,6 @@ func identToOperator(ident string) (ast.Token, bool) {
 // an implied pipe operator. as in `*[is "article"]` is parsed as `*|[is "article"]`
 func entailsImplicitPipeOperator(token ast.Token) bool {
 	return token == ast.BraceLeft || token == ast.BracketLeft
-}
-
-func precedenceAndAssociativity(token ast.Token) (precedence int, associativity int) {
-	switch token {
-	case ast.Dot:
-		return 12, associatesLeft
-	case ast.Pipe:
-		return 12, associatesLeft
-
-	case ast.Arrow:
-		return 11, associatesLeft
-	case ast.AscOperator:
-		return 11, associatesLeft
-	case ast.DescOperator:
-		return 11, associatesLeft
-
-	case ast.Exponentiation:
-		return 10, associatesRight
-
-	case ast.Asterisk:
-		return 9, associatesLeft
-	case ast.Slash:
-		return 9, associatesLeft
-	case ast.Percent:
-		return 9, associatesLeft
-
-	// Gap at 8 to accomodate some in-parser precedence for function calls
-
-	case ast.Not:
-		return 7, associatesRight
-	case ast.Plus:
-		return 7, associatesLeft
-	case ast.Minus:
-		return 7, associatesLeft
-
-	case ast.DotDot:
-		return 6, associatesLeft
-	case ast.DotDotDot:
-		return 6, associatesLeft
-
-	case ast.MatchOperator:
-		return 5, associatesLeft
-	case ast.Equals:
-		return 5, associatesLeft
-	case ast.GT:
-		return 5, associatesLeft
-	case ast.GTE:
-		return 5, associatesLeft
-	case ast.InOperator:
-		return 5, associatesLeft
-	case ast.LT:
-		return 5, associatesLeft
-	case ast.LTE:
-		return 5, associatesLeft
-	case ast.NEQ:
-		return 5, associatesLeft
-
-	case ast.And:
-		return 4, associatesLeft
-
-	case ast.Or:
-		return 3, associatesLeft
-
-	case ast.Rocket:
-		return 2, associatesLeft
-
-	case ast.Colon:
-		return 1, associatesLeft
-	case ast.Comma:
-		return 1, associatesLeft
-	}
-	return -1, -1
 }
 
 func interpretBinOpAsRange(binOp *ast.BinaryOperator) *ast.Range {

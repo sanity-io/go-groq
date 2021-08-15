@@ -1,6 +1,7 @@
 package parserv2_test
 
 import (
+	"errors"
 	"reflect"
 	"testing"
 
@@ -11,14 +12,13 @@ import (
 
 	"github.com/sanity-io/go-groq"
 	"github.com/sanity-io/go-groq/ast"
-	"github.com/sanity-io/go-groq/groqtest"
+	"github.com/sanity-io/go-groq/internal/testhelpers"
 	"github.com/sanity-io/go-groq/parser"
-	"github.com/sanity-io/go-groq/parserv2"
-	"github.com/sanity-io/go-groq/testhelpers"
+	"github.com/sanity-io/go-groq/parser/internal/parserv2"
 )
 
 func TestParser(t *testing.T) {
-	testhelpers.WithEachTest(t, func(t *testing.T, test *groqtest.Test) {
+	testhelpers.WithEachTest(t, func(t *testing.T, test *testhelpers.Test) {
 		if includeTest(test) {
 			testhelpers.ASTTest(t, test, "snapshots",
 				func(query string, params groq.Params) (ast.Expression, error) {
@@ -28,13 +28,13 @@ func TestParser(t *testing.T) {
 	})
 }
 
-func includeTest(test *groqtest.Test) bool {
+func includeTest(test *testhelpers.Test) bool {
 	// Old parser does not have some features
 	return test.Version == nil || (*test.Version)(semver.MustParse("2.0.0"))
 }
 
 func TestBackwardsCompatibility(t *testing.T) {
-	testhelpers.WithEachTest(t, func(t *testing.T, test *groqtest.Test) {
+	testhelpers.WithEachTest(t, func(t *testing.T, test *testhelpers.Test) {
 		if test.Version != nil && (*test.Version)(semver.MustParse("1.0.0")) {
 			return
 		}
@@ -124,9 +124,9 @@ func TestErrors(t *testing.T) {
 func assertParseFailure(t *testing.T, src string, message string, start int, end int) {
 	_, err := parserv2.Parse(src)
 	assert.Error(t, err)
-	require.IsType(t, &groq.ParseError{}, err)
-	parseErr := err.(*groq.ParseError)
-	require.Equal(t, message, parseErr.Message)
-	assert.Equal(t, start, parseErr.Pos.Start)
-	assert.Equal(t, end, parseErr.Pos.End)
+	var parseErr parser.ParseError
+	require.True(t, errors.As(err, &parseErr))
+	require.Equal(t, message, parseErr.Message())
+	assert.Equal(t, start, parseErr.Pos().Start)
+	assert.Equal(t, end, parseErr.Pos().End)
 }
