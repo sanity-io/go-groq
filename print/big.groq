@@ -1,0 +1,9819 @@
+*[!(_id in path("drafts.**")) &&
+publicationMeta.publication->slug.current == 'main' &&
+_type in ['landingPage', 'page'] &&
+slug.current == 'investor-relations' && !defined(parent)
+] | order(_updatedAt desc)[0] {
+_id,
+_type,
+title,
+"publishedDate": _createdAt,
+"updatedDate": _updatedAt,
+"path": select(
+	defined(parent->parent._ref) => '/' + parent->parent->slug.current + '/' + parent->slug.current + '/' + slug.current + '/',
+	defined(parent._ref) => '/' + parent->slug.current + '/' + slug.current + '/',
+	'/' + slug.current + '/'
+),
+header[0] {
+	_type,
+	_type == "imageStrip" =>
+{
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+	_type == "titleBanner" =>
+{
+title,
+subtitle,
+standfirst,
+intro,
+signpost[]
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+},
+"messageStrip": header[1]
+{
+	_type,
+	title,
+	content,
+	linkText,
+	link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+,
+hasReadTime,
+introduction[]
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+images {
+	main
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+	social
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+"theme": coalesce(taxonomies.theme->slug.current, parent->taxonomies.theme->slug.current),
+"sdgCategories": select(
+	_type == "landingPage" => *[_type == 'page' && parent._ref == ^._id && defined(taxonomies.sustainableDevelopmentGoals)].(taxonomies.sustainableDevelopmentGoals[]->
+{
+	_id,
+	priority,
+	"title": title.en_AU,
+	"description": description.en_AU,
+	icon
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+
+}
+),
+	_type == "page" => taxonomies.sustainableDevelopmentGoals[]->
+{
+	_id,
+	priority,
+	"title": title.en_AU,
+	"description": description.en_AU,
+	icon
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+
+}
+,
+),
+"siblingsFromQuery": *[!(_id in path("drafts.**")) && parent._ref == ^.parent._ref] | order(title asc) {
+	_id,
+	title,
+	"path": select(
+	defined(parent->parent._ref) => '/' + parent->parent->slug.current + '/' + parent->slug.current + '/' + slug.current + '/',
+	defined(parent._ref) => '/' + parent->slug.current + '/' + slug.current + '/',
+	'/' + slug.current + '/'
+)
+},
+body[]{
+	...,
+	_type == "bodyBlock" =>
+{
+body[]{
+	...,
+
+_type == "accordion" =>
+{
+	_key,
+	_type,
+	items[]
+{
+	_key,
+	title,
+	content[] {
+		...,
+		markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+	},
+}
+
+}
+,
+_type == "block" =>
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+_type == "brandGoal" =>
+{
+	title,
+	description,
+	image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+}
+,
+_type == "caseStudy" =>
+{
+	title,
+	description,
+	content[] {
+		_type,
+		_type == "imageEmbed" =>
+{
+_type,
+caption,
+displayOption,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+		_type == "linkList" =>
+{
+	_type,
+	title,
+	linkListItems[]
+{
+	_key,
+	_type,
+	text,
+	link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+
+}
+,
+		_type == "pullQuote" =>
+{
+_type,
+quote,
+cite,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+displayOption
+},
+		_type == "stat" =>
+{
+	_type,
+	image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+	value,
+	description,
+	variant,
+	displayOption,
+}
+,
+		_type == "textBlock" =>
+{
+...,
+blocks[]
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+},
+		_type == "videoEmbed" =>
+{
+_type,
+title,
+code,
+displayOption,
+},
+		markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+,
+	},
+}
+,
+_type == "contactForm" =>
+{
+	_key,
+	_type,
+	successLink
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+,
+_type == "descriptionList" =>
+{
+	_type,
+	title,
+	descriptionListItems[]
+{
+	_key,
+	_type,
+	title,
+	text
+}
+
+}
+,
+_type == "goal" =>
+{
+	_type,
+	title,
+	target[]
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+	performance,
+	narrative[]
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+}
+,
+_type == "goalSummary" =>
+{
+	title,
+	target[]
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+	displayOption,
+}
+,
+_type == "imageEmbed" =>
+{
+_type,
+caption,
+displayOption,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+_type == "imageStrip" =>
+{
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+_type == "infoBox" =>
+{
+	title,
+	description[]
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+}
+,
+_type == "keyPoint" =>
+{
+	panels[]
+{
+	_key,
+	title,
+	description[]
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+	image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+}
+,
+	displayOption,
+}
+,
+_type == "linkList" =>
+{
+	_type,
+	title,
+	linkListItems[]
+{
+	_key,
+	_type,
+	text,
+	link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+
+}
+,
+_type == "listing" =>
+{
+title,
+intro,
+documentType,
+"documents":
+	select(
+		documentType == 'profile' =>
+			*[!(_id in path("drafts.**")) &&  _type == 'profile']
+{
+_id,
+_type,
+"slug": slug.current,
+"title": title.en_AU,
+firstName,
+middleName,
+lastName,
+order,
+"intro": intro.en_AU,
+"image": images.profilePicture
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+"role": roles[0].title.en_AU,
+"roleAbbr": roles[0].titleAbbr,
+"bio": bio.en_AU,
+socialAccounts[]
+{
+	service,
+	url,
+}
+,
+history[]
+{
+	yearStart,
+	yearEnd,
+	"description": description.en_AU,
+}
+,
+"quote": quote.en_AU,
+"link": {
+	"path": slug.current + '/'
+},
+tags[]->
+{
+	_id,
+	"title": title.en_AU,
+}
+,
+}
+	),
+tags[]->
+{
+	_id,
+	"title": title.en_AU,
+}
+
+},
+_type == "newsFeed" =>
+{
+	_key,
+	_type,
+	title,
+	documentNumber,
+	documentType,
+	cta
+{
+	_type,
+	text,
+	link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+,
+	!defined(documentType) || documentType == 'default' => {
+			"items": *[
+			!(_id in path("drafts.**")) &&
+			publicationMeta.publication->slug.current == 'main' &&
+			_type in ['newsArticle', 'pressRelease']
+		] | order(publishedDate desc)[0..9] {
+_id,
+_type,
+title,
+"slug": slug.current,
+"author": author[]-> {
+_id,
+_type,
+firstName,
+middleName,
+lastName,
+"intro": intro.en_AU,
+"image": images.profilePicture
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+"role": roles[0].title.en_AU,
+socialAccounts[]
+{
+	service,
+	url,
+}
+,
+},
+publishedDate,
+intro,
+"image": images.main
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+}
+	},
+	documentType == 'press-releases' => {
+			"items": *[
+			!(_id in path("drafts.**")) &&
+			publicationMeta.publication->slug.current == 'main' &&
+			_type == 'pressRelease'
+		] | order(publishedDate desc)[0..9] {
+_id,
+_type,
+title,
+"slug": slug.current,
+"author": author[]-> {
+_id,
+_type,
+firstName,
+middleName,
+lastName,
+"intro": intro.en_AU,
+"image": images.profilePicture
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+"role": roles[0].title.en_AU,
+socialAccounts[]
+{
+	service,
+	url,
+}
+,
+},
+publishedDate,
+intro,
+"image": images.main
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+}
+	}
+}
+,
+_type == "onwardJourneys" =>
+{
+_key,
+items[]
+{
+_key,
+title,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+linkText,
+link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+"theme": theme->slug.current,
+},
+},
+_type == "promo" =>
+{
+_key,
+title,
+intro,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+date,
+link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+variant,
+displayOption,
+},
+_type == "promoList" => {
+title,
+intro,
+promoListItems[]
+{
+_key,
+title,
+intro,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+date,
+link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+variant,
+displayOption,
+},
+cta
+{
+	_type,
+	text,
+	link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+,
+variant,
+sectionSettings {
+	theme,
+	variant,
+	size,
+}
+},
+_type == "pullQuote" =>
+{
+_type,
+quote,
+cite,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+displayOption
+},
+_type == "quickLinksList" =>
+{
+_key,
+items[] {
+	...,
+	_type == "linkList" =>
+{
+	_type,
+	title,
+	linkListItems[]
+{
+	_key,
+	_type,
+	text,
+	link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+
+}
+,
+	_type == "promo" =>
+{
+_key,
+title,
+intro,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+date,
+link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+variant,
+displayOption,
+},
+},
+},
+_type == "rowBlock" =>
+{
+...,
+cell1[] {
+	...,
+	_type == "imageEmbed" =>
+{
+_type,
+caption,
+displayOption,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+,
+},
+cell2[] {
+	...,
+	_type == "imageEmbed" =>
+{
+_type,
+caption,
+displayOption,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+,
+},
+cell3[] {
+	...,
+	_type == "imageEmbed" =>
+{
+_type,
+caption,
+displayOption,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+,
+},
+cell4[] {
+	...,
+	_type == "imageEmbed" =>
+{
+_type,
+caption,
+displayOption,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+,
+},
+},
+_type == "stat" =>
+{
+	_type,
+	image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+	value,
+	description,
+	variant,
+	displayOption,
+}
+,
+_type == "statGrid" =>
+{
+	_key,
+	_type,
+	link[0]
+{
+	_key,
+	_type,
+	text,
+	link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+
+}
+,
+_type == "table" =>
+{
+title,
+rows[]
+{
+_key,
+title,
+cells[]
+{
+_key,
+content[] {
+	...,
+	_type == "imageEmbed" =>
+{
+_type,
+caption,
+displayOption,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+	_type == "linkList" =>
+{
+	_type,
+	title,
+	linkListItems[]
+{
+	_key,
+	_type,
+	text,
+	link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+
+}
+,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+,
+},
+empty,
+colspan,
+scope,
+},
+},
+displayOption,
+},
+_type == "textBlock" =>
+{
+...,
+blocks[]
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+}
+
+},
+},
+
+_type == "accordion" =>
+{
+	_key,
+	_type,
+	items[]
+{
+	_key,
+	title,
+	content[] {
+		...,
+		markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+	},
+}
+
+}
+,
+_type == "block" =>
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+_type == "brandGoal" =>
+{
+	title,
+	description,
+	image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+}
+,
+_type == "caseStudy" =>
+{
+	title,
+	description,
+	content[] {
+		_type,
+		_type == "imageEmbed" =>
+{
+_type,
+caption,
+displayOption,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+		_type == "linkList" =>
+{
+	_type,
+	title,
+	linkListItems[]
+{
+	_key,
+	_type,
+	text,
+	link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+
+}
+,
+		_type == "pullQuote" =>
+{
+_type,
+quote,
+cite,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+displayOption
+},
+		_type == "stat" =>
+{
+	_type,
+	image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+	value,
+	description,
+	variant,
+	displayOption,
+}
+,
+		_type == "textBlock" =>
+{
+...,
+blocks[]
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+},
+		_type == "videoEmbed" =>
+{
+_type,
+title,
+code,
+displayOption,
+},
+		markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+,
+	},
+}
+,
+_type == "contactForm" =>
+{
+	_key,
+	_type,
+	successLink
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+,
+_type == "descriptionList" =>
+{
+	_type,
+	title,
+	descriptionListItems[]
+{
+	_key,
+	_type,
+	title,
+	text
+}
+
+}
+,
+_type == "goal" =>
+{
+	_type,
+	title,
+	target[]
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+	performance,
+	narrative[]
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+}
+,
+_type == "goalSummary" =>
+{
+	title,
+	target[]
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+	displayOption,
+}
+,
+_type == "imageEmbed" =>
+{
+_type,
+caption,
+displayOption,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+_type == "imageStrip" =>
+{
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+_type == "infoBox" =>
+{
+	title,
+	description[]
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+}
+,
+_type == "keyPoint" =>
+{
+	panels[]
+{
+	_key,
+	title,
+	description[]
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+	image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+}
+,
+	displayOption,
+}
+,
+_type == "linkList" =>
+{
+	_type,
+	title,
+	linkListItems[]
+{
+	_key,
+	_type,
+	text,
+	link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+
+}
+,
+_type == "listing" =>
+{
+title,
+intro,
+documentType,
+"documents":
+	select(
+		documentType == 'profile' =>
+			*[!(_id in path("drafts.**")) &&  _type == 'profile']
+{
+_id,
+_type,
+"slug": slug.current,
+"title": title.en_AU,
+firstName,
+middleName,
+lastName,
+order,
+"intro": intro.en_AU,
+"image": images.profilePicture
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+"role": roles[0].title.en_AU,
+"roleAbbr": roles[0].titleAbbr,
+"bio": bio.en_AU,
+socialAccounts[]
+{
+	service,
+	url,
+}
+,
+history[]
+{
+	yearStart,
+	yearEnd,
+	"description": description.en_AU,
+}
+,
+"quote": quote.en_AU,
+"link": {
+	"path": slug.current + '/'
+},
+tags[]->
+{
+	_id,
+	"title": title.en_AU,
+}
+,
+}
+	),
+tags[]->
+{
+	_id,
+	"title": title.en_AU,
+}
+
+},
+_type == "newsFeed" =>
+{
+	_key,
+	_type,
+	title,
+	documentNumber,
+	documentType,
+	cta
+{
+	_type,
+	text,
+	link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+,
+	!defined(documentType) || documentType == 'default' => {
+			"items": *[
+			!(_id in path("drafts.**")) &&
+			publicationMeta.publication->slug.current == 'main' &&
+			_type in ['newsArticle', 'pressRelease']
+		] | order(publishedDate desc)[0..9] {
+_id,
+_type,
+title,
+"slug": slug.current,
+"author": author[]-> {
+_id,
+_type,
+firstName,
+middleName,
+lastName,
+"intro": intro.en_AU,
+"image": images.profilePicture
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+"role": roles[0].title.en_AU,
+socialAccounts[]
+{
+	service,
+	url,
+}
+,
+},
+publishedDate,
+intro,
+"image": images.main
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+}
+	},
+	documentType == 'press-releases' => {
+			"items": *[
+			!(_id in path("drafts.**")) &&
+			publicationMeta.publication->slug.current == 'main' &&
+			_type == 'pressRelease'
+		] | order(publishedDate desc)[0..9] {
+_id,
+_type,
+title,
+"slug": slug.current,
+"author": author[]-> {
+_id,
+_type,
+firstName,
+middleName,
+lastName,
+"intro": intro.en_AU,
+"image": images.profilePicture
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+"role": roles[0].title.en_AU,
+socialAccounts[]
+{
+	service,
+	url,
+}
+,
+},
+publishedDate,
+intro,
+"image": images.main
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+}
+	}
+}
+,
+_type == "onwardJourneys" =>
+{
+_key,
+items[]
+{
+_key,
+title,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+linkText,
+link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+"theme": theme->slug.current,
+},
+},
+_type == "promo" =>
+{
+_key,
+title,
+intro,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+date,
+link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+variant,
+displayOption,
+},
+_type == "promoList" => {
+title,
+intro,
+promoListItems[]
+{
+_key,
+title,
+intro,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+date,
+link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+variant,
+displayOption,
+},
+cta
+{
+	_type,
+	text,
+	link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+,
+variant,
+sectionSettings {
+	theme,
+	variant,
+	size,
+}
+},
+_type == "pullQuote" =>
+{
+_type,
+quote,
+cite,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+displayOption
+},
+_type == "quickLinksList" =>
+{
+_key,
+items[] {
+	...,
+	_type == "linkList" =>
+{
+	_type,
+	title,
+	linkListItems[]
+{
+	_key,
+	_type,
+	text,
+	link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+
+}
+,
+	_type == "promo" =>
+{
+_key,
+title,
+intro,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+date,
+link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+variant,
+displayOption,
+},
+},
+},
+_type == "rowBlock" =>
+{
+...,
+cell1[] {
+	...,
+	_type == "imageEmbed" =>
+{
+_type,
+caption,
+displayOption,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+,
+},
+cell2[] {
+	...,
+	_type == "imageEmbed" =>
+{
+_type,
+caption,
+displayOption,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+,
+},
+cell3[] {
+	...,
+	_type == "imageEmbed" =>
+{
+_type,
+caption,
+displayOption,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+,
+},
+cell4[] {
+	...,
+	_type == "imageEmbed" =>
+{
+_type,
+caption,
+displayOption,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+,
+},
+},
+_type == "stat" =>
+{
+	_type,
+	image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+	value,
+	description,
+	variant,
+	displayOption,
+}
+,
+_type == "statGrid" =>
+{
+	_key,
+	_type,
+	link[0]
+{
+	_key,
+	_type,
+	text,
+	link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+
+}
+,
+_type == "table" =>
+{
+title,
+rows[]
+{
+_key,
+title,
+cells[]
+{
+_key,
+content[] {
+	...,
+	_type == "imageEmbed" =>
+{
+_type,
+caption,
+displayOption,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+	_type == "linkList" =>
+{
+	_type,
+	title,
+	linkListItems[]
+{
+	_key,
+	_type,
+	text,
+	link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+
+}
+,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+,
+},
+empty,
+colspan,
+scope,
+},
+},
+displayOption,
+},
+_type == "textBlock" =>
+{
+...,
+blocks[]
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+}
+,
+	_type == "section" => {
+_type,
+title,
+theme,
+variant,
+body[]{
+	...,
+
+_type == "accordion" =>
+{
+	_key,
+	_type,
+	items[]
+{
+	_key,
+	title,
+	content[] {
+		...,
+		markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+	},
+}
+
+}
+,
+_type == "block" =>
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+_type == "brandGoal" =>
+{
+	title,
+	description,
+	image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+}
+,
+_type == "caseStudy" =>
+{
+	title,
+	description,
+	content[] {
+		_type,
+		_type == "imageEmbed" =>
+{
+_type,
+caption,
+displayOption,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+		_type == "linkList" =>
+{
+	_type,
+	title,
+	linkListItems[]
+{
+	_key,
+	_type,
+	text,
+	link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+
+}
+,
+		_type == "pullQuote" =>
+{
+_type,
+quote,
+cite,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+displayOption
+},
+		_type == "stat" =>
+{
+	_type,
+	image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+	value,
+	description,
+	variant,
+	displayOption,
+}
+,
+		_type == "textBlock" =>
+{
+...,
+blocks[]
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+},
+		_type == "videoEmbed" =>
+{
+_type,
+title,
+code,
+displayOption,
+},
+		markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+,
+	},
+}
+,
+_type == "contactForm" =>
+{
+	_key,
+	_type,
+	successLink
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+,
+_type == "descriptionList" =>
+{
+	_type,
+	title,
+	descriptionListItems[]
+{
+	_key,
+	_type,
+	title,
+	text
+}
+
+}
+,
+_type == "goal" =>
+{
+	_type,
+	title,
+	target[]
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+	performance,
+	narrative[]
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+}
+,
+_type == "goalSummary" =>
+{
+	title,
+	target[]
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+	displayOption,
+}
+,
+_type == "imageEmbed" =>
+{
+_type,
+caption,
+displayOption,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+_type == "imageStrip" =>
+{
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+_type == "infoBox" =>
+{
+	title,
+	description[]
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+}
+,
+_type == "keyPoint" =>
+{
+	panels[]
+{
+	_key,
+	title,
+	description[]
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+	image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+}
+,
+	displayOption,
+}
+,
+_type == "linkList" =>
+{
+	_type,
+	title,
+	linkListItems[]
+{
+	_key,
+	_type,
+	text,
+	link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+
+}
+,
+_type == "listing" =>
+{
+title,
+intro,
+documentType,
+"documents":
+	select(
+		documentType == 'profile' =>
+			*[!(_id in path("drafts.**")) &&  _type == 'profile']
+{
+_id,
+_type,
+"slug": slug.current,
+"title": title.en_AU,
+firstName,
+middleName,
+lastName,
+order,
+"intro": intro.en_AU,
+"image": images.profilePicture
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+"role": roles[0].title.en_AU,
+"roleAbbr": roles[0].titleAbbr,
+"bio": bio.en_AU,
+socialAccounts[]
+{
+	service,
+	url,
+}
+,
+history[]
+{
+	yearStart,
+	yearEnd,
+	"description": description.en_AU,
+}
+,
+"quote": quote.en_AU,
+"link": {
+	"path": slug.current + '/'
+},
+tags[]->
+{
+	_id,
+	"title": title.en_AU,
+}
+,
+}
+	),
+tags[]->
+{
+	_id,
+	"title": title.en_AU,
+}
+
+},
+_type == "newsFeed" =>
+{
+	_key,
+	_type,
+	title,
+	documentNumber,
+	documentType,
+	cta
+{
+	_type,
+	text,
+	link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+,
+	!defined(documentType) || documentType == 'default' => {
+			"items": *[
+			!(_id in path("drafts.**")) &&
+			publicationMeta.publication->slug.current == 'main' &&
+			_type in ['newsArticle', 'pressRelease']
+		] | order(publishedDate desc)[0..9] {
+_id,
+_type,
+title,
+"slug": slug.current,
+"author": author[]-> {
+_id,
+_type,
+firstName,
+middleName,
+lastName,
+"intro": intro.en_AU,
+"image": images.profilePicture
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+"role": roles[0].title.en_AU,
+socialAccounts[]
+{
+	service,
+	url,
+}
+,
+},
+publishedDate,
+intro,
+"image": images.main
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+}
+	},
+	documentType == 'press-releases' => {
+			"items": *[
+			!(_id in path("drafts.**")) &&
+			publicationMeta.publication->slug.current == 'main' &&
+			_type == 'pressRelease'
+		] | order(publishedDate desc)[0..9] {
+_id,
+_type,
+title,
+"slug": slug.current,
+"author": author[]-> {
+_id,
+_type,
+firstName,
+middleName,
+lastName,
+"intro": intro.en_AU,
+"image": images.profilePicture
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+"role": roles[0].title.en_AU,
+socialAccounts[]
+{
+	service,
+	url,
+}
+,
+},
+publishedDate,
+intro,
+"image": images.main
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+}
+	}
+}
+,
+_type == "onwardJourneys" =>
+{
+_key,
+items[]
+{
+_key,
+title,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+linkText,
+link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+"theme": theme->slug.current,
+},
+},
+_type == "promo" =>
+{
+_key,
+title,
+intro,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+date,
+link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+variant,
+displayOption,
+},
+_type == "promoList" => {
+title,
+intro,
+promoListItems[]
+{
+_key,
+title,
+intro,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+date,
+link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+variant,
+displayOption,
+},
+cta
+{
+	_type,
+	text,
+	link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+,
+variant,
+sectionSettings {
+	theme,
+	variant,
+	size,
+}
+},
+_type == "pullQuote" =>
+{
+_type,
+quote,
+cite,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+displayOption
+},
+_type == "quickLinksList" =>
+{
+_key,
+items[] {
+	...,
+	_type == "linkList" =>
+{
+	_type,
+	title,
+	linkListItems[]
+{
+	_key,
+	_type,
+	text,
+	link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+
+}
+,
+	_type == "promo" =>
+{
+_key,
+title,
+intro,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+date,
+link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+variant,
+displayOption,
+},
+},
+},
+_type == "rowBlock" =>
+{
+...,
+cell1[] {
+	...,
+	_type == "imageEmbed" =>
+{
+_type,
+caption,
+displayOption,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+,
+},
+cell2[] {
+	...,
+	_type == "imageEmbed" =>
+{
+_type,
+caption,
+displayOption,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+,
+},
+cell3[] {
+	...,
+	_type == "imageEmbed" =>
+{
+_type,
+caption,
+displayOption,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+,
+},
+cell4[] {
+	...,
+	_type == "imageEmbed" =>
+{
+_type,
+caption,
+displayOption,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+,
+},
+},
+_type == "stat" =>
+{
+	_type,
+	image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+	value,
+	description,
+	variant,
+	displayOption,
+}
+,
+_type == "statGrid" =>
+{
+	_key,
+	_type,
+	link[0]
+{
+	_key,
+	_type,
+	text,
+	link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+
+}
+,
+_type == "table" =>
+{
+title,
+rows[]
+{
+_key,
+title,
+cells[]
+{
+_key,
+content[] {
+	...,
+	_type == "imageEmbed" =>
+{
+_type,
+caption,
+displayOption,
+image
+{
+alt,
+"asset": asset->{
+	_id,
+	metadata {
+		lqip,
+		"background": palette.lightMuted.background,
+		dimensions {
+			width,
+			height,
+			aspectRatio,
+		}
+	}
+},
+hotspot {
+	x,
+	y,
+	height,
+	width
+},
+crop {
+	top,
+	left,
+	right,
+	bottom
+}
+}
+,
+},
+	_type == "linkList" =>
+{
+	_type,
+	title,
+	linkListItems[]
+{
+	_key,
+	_type,
+	text,
+	link
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+}
+
+}
+,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+,
+},
+empty,
+colspan,
+scope,
+},
+},
+displayOption,
+},
+_type == "textBlock" =>
+{
+...,
+blocks[]
+{
+	...,
+	markDefs[]
+{
+	...,
+	_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+,
+	_type == "ctaLink" =>
+{
+	_key,
+	_type,
+	"publication": @.path->publicationMeta.publication->slug.current,
+	"path": @.path->path,
+	url,
+}
+,
+	_type == "footnote" =>
+{
+	...,
+	text[] {
+		...,
+		markDefs[] {
+			...,
+			_type == "link" =>
+{
+	_key,
+	_type,
+	'documentType': @.path->_type,
+	'publication': @.path->publicationMeta.publication->slug.current,
+	'slug': @.path->slug.current,
+	"path": select(
+	defined(@.path->parent->parent._ref) => '/' + @.path->parent->parent->slug.current + '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	defined(@.path->parent._ref) => '/' + @.path->parent->slug.current + '/' + @.path->slug.current + '/',
+	'/' + @.path->slug.current + '/'
+),
+	'publishedDate': @.path->publishedDate,
+	"file": @.file.asset->
+{
+	url,
+	extension,
+	size,
+	originalFilename
+}
+,
+	'assetFile': assetFile->
+{
+	title,
+	_type,
+	...file.asset->{
+		url,
+		extension,
+		size,
+		originalFilename
+	}
+}
+,
+	url,
+	isNewWindow
+}
+
+		},
+	}
+}
+
+}
+
+}
+,
+}
+
+},
+}
+},
+meta {
+	metaDescription,
+	isNotIndexed,
+},
+"ancestors": [
+	select(defined(parent->parent._ref) => {
+		"text": parent->parent->title,
+		"path": "/" + parent->parent->slug.current + "/",
+	}),
+	select(defined(parent._ref) => {
+		"text": parent->title,
+		"path": select(
+			defined(parent->parent._ref) => "/" + parent->parent->slug.current + "/" + parent->slug.current + "/",
+			"/" + parent->slug.current + "/",
+		)
+	}),
+],
+legacy {
+	isIllustrated,
+},
+}
