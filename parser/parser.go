@@ -19,7 +19,18 @@ type ParseError interface {
 type Version int
 
 var (
+	// VersionGROQ1 targets GROQ-1: https://sanity-io.github.io/GROQ/.
+	VersionGROQ1 Version = 2
+
+	// VersionLegacyGROQ targets the legacy version of GROQ implemented by Sanity.io.
+	VersionLegacyGROQ Version = 1
+
+	// Version1 is an alias for VersionLegacyGROQ.
+	// Deprecated: Use VersionLegacyGROQ.
 	Version1 Version = 1
+
+	// Version2 is an alias for VersionGROQ1.
+	// Deprecated: Use VersionGROQ1.
 	Version2 Version = 2
 )
 
@@ -47,17 +58,17 @@ func WithVersion(v Version) Option {
 
 func Parse(query string, options ...Option) (ast.Expression, error) {
 	opts := parserOpts{
-		version: Version2,
+		version: VersionGROQ1,
 		params:  groq.Params{},
 	}
 	for _, o := range options {
 		o(&opts)
 	}
 	switch opts.version {
-	case Version1:
+	case VersionLegacyGROQ:
 		return parserv1.Parse(query,
 			parserv1.WithParams(opts.params))
-	case Version2:
+	case VersionGROQ1:
 		return parserv2.Parse(query,
 			parserv2.WithParams(opts.params),
 			parserv2.WithParamNodes(opts.createParamNodes))
