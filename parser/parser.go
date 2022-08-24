@@ -5,8 +5,8 @@ import (
 
 	"github.com/sanity-io/go-groq"
 	"github.com/sanity-io/go-groq/ast"
-	"github.com/sanity-io/go-groq/parser/internal/parserv1"
-	"github.com/sanity-io/go-groq/parser/internal/parserv2"
+	"github.com/sanity-io/go-groq/parser/internal/parserlegacy"
+	"github.com/sanity-io/go-groq/parser/internal/parsergroq1"
 )
 
 // ParseError represents an error during parsing.
@@ -66,12 +66,12 @@ func Parse(query string, options ...Option) (ast.Expression, error) {
 	}
 	switch opts.version {
 	case VersionLegacyGROQ:
-		return parserv1.Parse(query,
-			parserv1.WithParams(opts.params))
+		return parserlegacy.Parse(query,
+			parserlegacy.WithParams(opts.params))
 	case VersionGROQ1:
-		return parserv2.Parse(query,
-			parserv2.WithParams(opts.params),
-			parserv2.WithParamNodes(opts.createParamNodes))
+		return parsergroq1.Parse(query,
+			parsergroq1.WithParams(opts.params),
+			parsergroq1.WithParamNodes(opts.createParamNodes))
 	default:
 		panic(fmt.Sprintf("invalid version %v", opts.version))
 	}

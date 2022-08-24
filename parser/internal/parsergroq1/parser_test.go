@@ -1,4 +1,4 @@
-package parserv2_test
+package parsergroq1_test
 
 import (
 	"errors"
@@ -14,7 +14,7 @@ import (
 	"github.com/sanity-io/go-groq/ast"
 	"github.com/sanity-io/go-groq/internal/testhelpers"
 	"github.com/sanity-io/go-groq/parser"
-	"github.com/sanity-io/go-groq/parser/internal/parserv2"
+	"github.com/sanity-io/go-groq/parser/internal/parsergroq1"
 )
 
 func TestParser(t *testing.T) {
@@ -22,7 +22,7 @@ func TestParser(t *testing.T) {
 		if includeTest(test) {
 			testhelpers.ASTTest(t, test, "snapshots",
 				func(query string, params groq.Params) (ast.Expression, error) {
-					return parserv2.Parse(query, parserv2.WithParams(params))
+					return parsergroq1.Parse(query, parsergroq1.WithParams(params))
 				})
 		}
 	})
@@ -44,7 +44,7 @@ func TestBackwardsCompatibility(t *testing.T) {
 			t.Skipf("Skipping query [%s] since it's not valid in old parser: %s", test.Query, err)
 		}
 
-		actual, err := parserv2.Parse(test.Query)
+		actual, err := parsergroq1.Parse(test.Query)
 		require.NoError(t, err)
 
 		actual = actual.Transform(transformToLegacyAST)
@@ -122,7 +122,7 @@ func TestErrors(t *testing.T) {
 }
 
 func assertParseFailure(t *testing.T, src string, message string, start int, end int) {
-	_, err := parserv2.Parse(src)
+	_, err := parsergroq1.Parse(src)
 	assert.Error(t, err)
 	var parseErr parser.ParseError
 	require.True(t, errors.As(err, &parseErr))

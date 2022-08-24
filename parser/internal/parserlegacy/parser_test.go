@@ -1,4 +1,4 @@
-package parserv1_test
+package parserlegacy_test
 
 import (
 	"errors"
@@ -13,7 +13,7 @@ import (
 	"github.com/sanity-io/go-groq/ast"
 	"github.com/sanity-io/go-groq/internal/testhelpers"
 	"github.com/sanity-io/go-groq/parser"
-	"github.com/sanity-io/go-groq/parser/internal/parserv1"
+	"github.com/sanity-io/go-groq/parser/internal/parserlegacy"
 )
 
 func TestParser(t *testing.T) {
@@ -21,9 +21,9 @@ func TestParser(t *testing.T) {
 		if includeTest(test) {
 			testhelpers.ASTTest(t, test, filepath.Join("snapshots", "nonstrict"),
 				func(query string, params groq.Params) (ast.Expression, error) {
-					return parserv1.Parse(query,
-						parserv1.WithParams(groq.Params{"identity": "someuser"}),
-						parserv1.WithParams(params),
+					return parserlegacy.Parse(query,
+						parserlegacy.WithParams(groq.Params{"identity": "someuser"}),
+						parserlegacy.WithParams(params),
 					)
 				})
 		}
@@ -49,10 +49,10 @@ func TestErrors(t *testing.T) {
 	assertParseFailure(t, "1.", `unexpected token "1.", expected expression`, 0, 2)
 }
 
-func assertParseFailure(t *testing.T, src string, message string, start int, end int, opts ...parserv1.Option) {
+func assertParseFailure(t *testing.T, src string, message string, start int, end int, opts ...parserlegacy.Option) {
 	t.Helper()
 
-	_, err := parserv1.Parse(src, opts...)
+	_, err := parserlegacy.Parse(src, opts...)
 	require.Error(t, err)
 	var parseErr parser.ParseError
 	require.True(t, errors.As(err, &parseErr))

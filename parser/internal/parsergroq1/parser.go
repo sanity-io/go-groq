@@ -1,4 +1,4 @@
-package parserv1
+package parsergroq1
 
 import (
 	"fmt"
@@ -43,16 +43,16 @@ func WithParamNodes(v bool) Option {
 
 // parser represents a parser (!).
 type parser struct {
-	tk     *tokenizer.Tokenizer
-	src    string
-	params groq.Params
-	buf    struct {
+	tk               *tokenizer.Tokenizer
+	src              string
+	params           groq.Params
+	createParamNodes bool
+	buf              struct {
 		tok ast.Token // last read token
 		lit string    // last read literal
 		pos int       // position of last token
 		n   int       // buffer size (max=1)
 	}
-	createParamNodes bool
 }
 
 // Parse parses a string of GROQ.
@@ -127,7 +127,7 @@ func (p *parser) dereferenceParam(name string, pos int) (ast.Expression, error) 
 // It is one of:
 // * attribute name
 // * param
-// * a function call
+// * a function call, with or without a namespace
 // * an '*' or '^'
 // * a literal integer, float, string or boolean value
 // * a general expression or tuple enclosed in ()
@@ -147,7 +147,7 @@ func (p *parser) parseAtom(immediateLHS bool) (ast.Expression, error) {
 			return expr, nil
 		}
 		// Check if it's a function call
-		function, err := p.parseFunctionExpression(lit, pos)
+		function, err := p.parseFunctionExpression(ast.Name, lit, pos)
 		if err != nil {
 			return nil, err
 		}
@@ -205,24 +205,7 @@ func (p *parser) parseAtom(immediateLHS bool) (ast.Expression, error) {
 		}, nil
 	case ast.ParenLeft:
 		// Normal paren, just parse the insides
-		expr, err := p.parseGeneralExpression(1, false, false)
-		if err != nil {
-			return nil, err
-		}
-		if tok, _, tokPos := p.scanIgnoreWhitespace(); tok != ast.ParenRight {
-			return nil, &parseError{
-				msg: "expected ')' following parenthesized expression",
-				pos: p.makeRangePos(pos, tokPos),
-			}
-		}
-		if ast.HasArrayTraversal(expr) {
-			return &ast.Group{
-				Expression: expr,
-				Pos:        p.makeTokenPos(pos, lit),
-			}, nil
-		}
-		return expr, nil
-
+		return p.parseParenthesisExpr(pos, lit)
 	case ast.BracketLeft:
 		p.unscan()
 		var expr ast.Expression
@@ -277,6 +260,52 @@ func (p *parser) parseAtom(immediateLHS bool) (ast.Expression, error) {
 	// There was no atom here. Unscan and die
 	p.unscan()
 	return nil, nil
+}
+
+func (p *parser) parseParenthesisExpr(pos int, lit string) (ast.Expression, error) {
+	expr, err := p.parseGeneralExpression(1, false, false)
+	if err != nil {
+		return nil, err
+	}
+
+	tok, _, tokPos := p.scanIgnoreWhitespace()
+
+	var tupleMembers []ast.Expression
+
+	if tok == ast.Comma {
+		// Parse as tuple
+		tupleMembers = make([]ast.Expression, 0, 2)
+		tupleMembers = append(tupleMembers, expr)
+
+		for tok == ast.Comma {
+			expr, err = p.parseGeneralExpression(1, false, false)
+			if err != nil {
+				return nil, err
+			}
+			tupleMembers = append(tupleMembers, expr)
+
+			tok, _, tokPos = p.scanIgnoreWhitespace()
+		}
+	}
+
+	if tok != ast.ParenRight {
+		return nil, &parseError{
+			msg: "expected ')' following parenthesized expression",
+			pos: p.makeRangePos(pos, tokPos),
+		}
+	}
+
+	if len(tupleMembers) > 0 {
+		return &ast.Tuple{
+			Members: tupleMembers,
+			Pos:     p.makeTokenPos(pos, lit),
+		}, nil
+	}
+
+	return &ast.Group{
+		Expression: expr,
+		Pos:        p.makeTokenPos(pos, lit),
+	}, nil
 }
 
 // A generarExpression is a set of expressions optionally composed and augmented with operators
@@ -340,9 +369,11 @@ func (p *parser) parseGeneralExpression(minPrecedence int, immediateLHS bool, ma
 			pos: p.makeTokenPos(pos, aLit),
 		}
 	}
+
 	// At this point, expr is the first value in a potential chain of values stringed together with
 	// explicit or implicit operators, so now we'll look for these explicit or implicit operators:
 	// Keep parsing until our minPrecedence limit is broken, or expression is complete
+Loop:
 	for {
 		tok, ident, pos := p.scanIgnoreWhitespace()
 
@@ -353,19 +384,69 @@ func (p *parser) parseGeneralExpression(minPrecedence int, immediateLHS bool, ma
 		}
 
 		var operator ast.Token
-		operatorImplicit := false
-
 		if !isOperator(tok) {
 			p.unscan()
-			if entailsImplicitPipeOperator(tok) {
+			if tok == ast.BraceLeft {
 				operator = ast.Pipe
-				operatorImplicit = true
+			} else if tok == ast.BracketLeft {
+				if groq.HighestPrecedence < minPrecedence {
+					break Loop
+				}
+				// This is a square-bracketed thing with an immediate LHS, so is one of subscript
+				// dereference, range spec or constraint
+				rhs, err := p.parseChainedBracketedExpression()
+				if err != nil {
+					return nil, err
+				}
+				switch rhs := rhs.(type) {
+				case *ast.Attribute:
+					// expr["foo"] is same as expr.foo
+					expr = &ast.DotOperator{
+						Pos: p.makeTokenPos(pos, lit),
+						LHS: expr,
+						RHS: rhs,
+					}
+					continue Loop
+				case *ast.Subscript:
+					// expr[0] or expr[0..1]
+					if isRange(rhs.Value) {
+						expr = &ast.Slice{
+							Pos:   p.makeTokenPos(p.buf.pos, p.buf.lit),
+							LHS:   expr,
+							Range: rhs,
+						}
+					} else {
+						expr = &ast.Element{
+							Pos: p.makeTokenPos(p.buf.pos, p.buf.lit),
+							LHS: expr,
+							Idx: rhs,
+						}
+					}
+					continue Loop
+				case *ast.Constraint:
+					// expr[filter]
+					expr = &ast.Filter{
+						Pos:        p.makeTokenPos(p.buf.pos, p.buf.lit),
+						LHS:        expr,
+						Constraint: rhs,
+					}
+					continue Loop
+				case *ast.ArrayTraversal:
+					// expr[]
+					expr = &ast.ArrayTraversal{
+						Pos:  p.makeTokenPos(p.buf.pos, p.buf.lit),
+						Expr: expr,
+					}
+					continue Loop
+				default:
+					p.unscan()
+					break Loop
+				}
 			} else if postfixOperator, ok := expr.(*ast.PostfixOperator); ok &&
 				postfixOperator.Operator == ast.Arrow &&
 				tok == ast.Name {
 				// Add implicit Dot to convert a->b to a->.b when the current
 				operator = ast.Dot
-				operatorImplicit = true
 			} else {
 				break
 			}
@@ -398,17 +479,19 @@ func (p *parser) parseGeneralExpression(minPrecedence int, immediateLHS bool, ma
 				pos: p.makeTokenPos(pos, lit),
 			}
 		}
+
+		rhsHasImmediateLHS := operator == ast.Pipe || operator == ast.Dot
+
 		var rhs ast.Expression
-		RHSHasImmediateLHS := operator == ast.Pipe || operator == ast.Dot
 		if associativity == groq.AssociatesLeft {
 			var err error
-			rhs, err = p.parseGeneralExpression(precedence+1, RHSHasImmediateLHS, false)
+			rhs, err = p.parseGeneralExpression(precedence+1, rhsHasImmediateLHS, false)
 			if err != nil {
 				return nil, err
 			}
 		} else {
 			var err error
-			rhs, err = p.parseGeneralExpression(precedence, RHSHasImmediateLHS, false)
+			rhs, err = p.parseGeneralExpression(precedence, rhsHasImmediateLHS, false)
 			if err != nil {
 				return nil, err
 			}
@@ -420,26 +503,19 @@ func (p *parser) parseGeneralExpression(minPrecedence int, immediateLHS bool, ma
 			}
 		}
 
-		// Quietly translate pipes to dots if rhs is attribute and the pipe is implicit. This handles the case
-		// where string-literal-attributes is used, as in `a["title"]` which should become `a.title`, not `a|title`.
-		if _, ok := rhs.(*ast.Attribute); ok && operator == ast.Pipe && operatorImplicit {
-			operator = ast.Dot
-		}
-
 		switch operator {
 		case ast.Dot:
-			// attribute.^ is not allowed
-			if _, rhsIsParent := rhs.(*ast.Parent); rhsIsParent {
-				// but ^.^, ^.^.^ etc. is allowed
+			switch rhs := rhs.(type) {
+			case *ast.Parent:
+				// attribute.^ is not allowed but ^.^, ^.^.^ etc. is allowed
 				if !isParentDereferencing(expr) {
 					return nil, &parseError{
 						pos: rhs.GetPos(),
 						msg: "^ is not allowed here",
 					}
 				}
-			}
-			// attribute.@ is not allowed
-			if _, rhsIsThis := rhs.(*ast.This); rhsIsThis {
+			case *ast.This:
+				// attribute.@ is not allowed
 				return nil, &parseError{
 					pos: rhs.GetPos(),
 					msg: "@ is not allowed here",
@@ -451,10 +527,24 @@ func (p *parser) parseGeneralExpression(minPrecedence int, immediateLHS bool, ma
 				RHS: rhs,
 			}
 		case ast.Pipe:
-			expr = &ast.PipeOperator{
-				Pos: p.makeTokenPos(pos, lit),
-				LHS: expr,
-				RHS: rhs,
+			switch rhs := rhs.(type) {
+			case *ast.Object:
+				expr = &ast.Projection{
+					Pos:    p.makeTokenPos(pos, lit),
+					LHS:    expr,
+					Object: rhs,
+				}
+			case *ast.FunctionCall:
+				expr = &ast.FunctionPipe{
+					Pos:  p.makeTokenPos(pos, lit),
+					LHS:  expr,
+					Func: rhs,
+				}
+			default:
+				return nil, &parseError{
+					pos: rhs.GetPos(),
+					msg: "object or function expected",
+				}
 			}
 		default:
 			binOp := &ast.BinaryOperator{
@@ -464,7 +554,7 @@ func (p *parser) parseGeneralExpression(minPrecedence int, immediateLHS bool, ma
 				RHS:      rhs,
 			}
 			// Might be a range expression?
-			if rangeExpression := interpretBinOpAsRange(binOp); rangeExpression != nil {
+			if rangeExpression := asRange(binOp); rangeExpression != nil {
 				expr = rangeExpression
 			} else {
 				expr = binOp
@@ -588,12 +678,41 @@ func (p *parser) parseObjectExpression() (ast.Expression, error) {
 	}, nil
 }
 
-func (p *parser) parseFunctionExpression(name string, pos int) (ast.Expression, error) {
+func (p *parser) parseFunctionExpression(nameToken ast.Token, name string, namePos int) (*ast.FunctionCall, error) {
 	// We already have the function name, so we're expecting either a parenthesized
 	// or bare argument list.
-	tok, _, posStart := p.scan()
+	tok, lit, pos := p.scan()
 	hasParens := false
 	switch tok {
+	case ast.DoubleColon:
+		if nameToken != ast.Name {
+			return nil, &parseError{
+				msg: fmt.Sprintf("expected valid namespace identifier before '%s'", ast.DoubleColon.String()),
+				pos: p.makeTokenPos(pos, lit),
+			}
+		}
+		// It should be a function call after a double colon (namespace).
+		fTok, fLit, fPos := p.scanIgnoreWhitespace()
+		if fTok != ast.Name {
+			return nil, &parseError{
+				msg: "expected a function following namespace expression",
+				pos: p.makeTokenPos(fPos, fLit),
+			}
+		}
+
+		function, err := p.parseFunctionExpression(ast.DoubleColon, fLit, fPos)
+		if err != nil {
+			return nil, err
+		}
+		if function == nil {
+			return nil, &parseError{
+				msg: "expected a function following namespace expression",
+				pos: p.makeTokenPos(fPos, fLit),
+			}
+		}
+		function.Namespace = name    // Assign namespace to function call.
+		function.Pos.Start = namePos // Reset position to start of namespace.
+		return function, nil
 	case ast.ParenLeft:
 		hasParens = true
 	case ast.Whitespace:
@@ -604,8 +723,6 @@ func (p *parser) parseFunctionExpression(name string, pos int) (ast.Expression, 
 			(tok == ast.Name && identIsOperator(ident)):
 			p.unscan()
 			return nil, nil
-		case tok == ast.ParenLeft:
-			hasParens = true
 		default:
 			p.unscan()
 		}
@@ -626,25 +743,16 @@ func (p *parser) parseFunctionExpression(name string, pos int) (ast.Expression, 
 		if tok != ast.ParenRight {
 			return nil, &parseError{
 				msg: "expected ')' following function arguments",
-				pos: p.makeRangePos(posStart, rangeEnd),
+				pos: p.makeRangePos(pos, rangeEnd),
 			}
 		}
 	default:
-		// We allow 'funcName arg' for backwards compatibility
-		expr, err := p.parseGeneralExpression(7, false, true)
-		if err != nil {
-			return nil, err
-		}
-		// Not a function call if no arguments following it
-		if expr == nil {
-			p.unscan()
-			return nil, nil
-		}
-		exprs = []ast.Expression{expr}
+		p.unscan()
+		return nil, nil
 	}
 	return &ast.FunctionCall{
 		Name:      name,
-		Pos:       p.makeTokenPos(pos, name),
+		Pos:       p.makeTokenPos(namePos, name),
 		Arguments: exprs,
 	}, nil
 }
