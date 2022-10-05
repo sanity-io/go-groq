@@ -13,6 +13,7 @@ type Position struct {
 type Expression interface {
 	GetPos() Position
 	Transform(TransformFunc) Expression
+	Equal(Expression) bool
 	sealed()
 }
 
@@ -128,7 +129,7 @@ type PipeOperator struct {
 	RHS Expression
 }
 
-// PrefixOperator represents a prefix operator `!completed``
+// PrefixOperator represents a prefix operator `!completed`
 type PrefixOperator struct {
 	Pos      Position
 	RHS      Expression
@@ -309,3 +310,216 @@ func (e *Filter) GetPos() Position          { return e.Pos }
 func (e *Element) GetPos() Position         { return e.Pos }
 func (e *Slice) GetPos() Position           { return e.Pos }
 func (e *Param) GetPos() Position           { return e.Pos }
+
+func (*Ellipsis) Equal(b Expression) bool   { _, ok := b.(*Ellipsis); return ok }
+func (*This) Equal(b Expression) bool       { _, ok := b.(*This); return ok }
+func (*Parent) Equal(b Expression) bool     { _, ok := b.(*Parent); return ok }
+func (*Everything) Equal(b Expression) bool { _, ok := b.(*Everything); return ok }
+
+func (e *Attribute) Equal(b Expression) bool {
+	if b, ok := b.(*Attribute); ok {
+		return ok && e.Name == b.Name
+	}
+	return false
+}
+
+func (e *ArrayTraversal) Equal(b Expression) bool {
+	if b, ok := b.(*ArrayTraversal); ok {
+		return ok && e.Expr.Equal(b.Expr)
+	}
+	return false
+}
+
+func (e *PrefixOperator) Equal(b Expression) bool {
+	if b, ok := b.(*PrefixOperator); ok {
+		return ok && e.Operator == b.Operator && e.RHS.Equal(b.RHS)
+	}
+	return false
+}
+
+func (e *PostfixOperator) Equal(b Expression) bool {
+	if b, ok := b.(*PostfixOperator); ok {
+		return ok && e.Operator == b.Operator && e.LHS.Equal(b.LHS)
+	}
+	return false
+}
+
+func (e *Projection) Equal(b Expression) bool {
+	if b, ok := b.(*Projection); ok {
+		return ok && e.LHS.Equal(b.LHS) && e.Object.Equal(b.Object)
+	}
+	return false
+}
+
+func (e *Object) Equal(b Expression) bool {
+	if b, ok := b.(*Object); ok && len(e.Expressions) == len(b.Expressions) {
+		for _, ae := range e.Expressions {
+			for _, be := range b.Expressions {
+				if !ae.Equal(be) {
+					return false
+				}
+			}
+		}
+		return true
+	}
+	return false
+}
+
+func (e *Array) Equal(b Expression) bool {
+	if b, ok := b.(*Array); ok && len(e.Expressions) == len(b.Expressions) {
+		for _, ae := range e.Expressions {
+			for _, be := range b.Expressions {
+				if !ae.Equal(be) {
+					return false
+				}
+			}
+		}
+		return true
+	}
+	return false
+}
+
+func (e *FunctionCall) Equal(b Expression) bool {
+	if b, ok := b.(*FunctionCall); ok && e.Namespace == b.Namespace && e.Name == b.Name && len(e.Arguments) == len(b.Arguments) {
+		for _, ae := range e.Arguments {
+			for _, be := range b.Arguments {
+				if !ae.Equal(be) {
+					return false
+				}
+			}
+		}
+		return true
+	}
+	return false
+}
+
+func (e *BinaryOperator) Equal(b Expression) bool {
+	if b, ok := b.(*BinaryOperator); ok {
+		return e.LHS.Equal(b.LHS) && e.RHS.Equal(b.RHS)
+	}
+	return false
+}
+
+func (e *Group) Equal(b Expression) bool {
+	if b, ok := b.(*Group); ok {
+		return e.Expression.Equal(b.Expression)
+	}
+	return false
+}
+
+func (e *StringLiteral) Equal(b Expression) bool {
+	if b, ok := b.(*StringLiteral); ok {
+		return e.Value == b.Value
+	}
+	return false
+}
+
+func (e *NullLiteral) Equal(b Expression) bool {
+	_, ok := b.(*NullLiteral)
+	return ok
+}
+
+func (e *BooleanLiteral) Equal(b Expression) bool {
+	if b, ok := b.(*BooleanLiteral); ok {
+		return e.Value == b.Value
+	}
+	return false
+}
+
+func (e *FloatLiteral) Equal(b Expression) bool {
+	if b, ok := b.(*FloatLiteral); ok {
+		return e.Value == b.Value
+	}
+	return false
+}
+
+func (e *IntegerLiteral) Equal(b Expression) bool {
+	if b, ok := b.(*IntegerLiteral); ok {
+		return e.Value == b.Value
+	}
+	return false
+}
+
+func (e *Range) Equal(b Expression) bool {
+	if b, ok := b.(*Range); ok {
+		return e.Inclusive == b.Inclusive && e.Start.Equal(b.Start) && e.End.Equal(b.End)
+	}
+	return false
+}
+
+func (e *Slice) Equal(b Expression) bool {
+	if b, ok := b.(*Slice); ok {
+		return e.LHS.Equal(b.LHS) && e.Range.Equal(b.Range)
+	}
+	return false
+}
+
+func (e *Subscript) Equal(b Expression) bool {
+	if b, ok := b.(*Subscript); ok {
+		return e.Value.Equal(b.Value)
+	}
+	return false
+}
+
+func (e *Tuple) Equal(b Expression) bool {
+	if b, ok := b.(*Tuple); ok && len(e.Members) == len(b.Members) {
+		for _, ae := range e.Members {
+			for _, be := range b.Members {
+				if !ae.Equal(be) {
+					return false
+				}
+			}
+		}
+		return true
+	}
+	return false
+}
+
+func (e *PipeOperator) Equal(b Expression) bool {
+	if b, ok := b.(*PipeOperator); ok {
+		return e.LHS.Equal(b.LHS) && e.RHS.Equal(b.RHS)
+	}
+	return false
+}
+
+func (e *DotOperator) Equal(b Expression) bool {
+	if b, ok := b.(*DotOperator); ok {
+		return e.LHS.Equal(b.LHS) && e.RHS.Equal(b.RHS)
+	}
+	return false
+}
+
+func (e *Constraint) Equal(b Expression) bool {
+	if b, ok := b.(*Constraint); ok {
+		return e.Expression.Equal(b.Expression)
+	}
+	return false
+}
+
+func (e *Element) Equal(b Expression) bool {
+	if b, ok := b.(*Element); ok {
+		return e.LHS.Equal(b.LHS) && e.Idx.Equal(b.Idx)
+	}
+	return false
+}
+
+func (e *Filter) Equal(b Expression) bool {
+	if b, ok := b.(*Filter); ok {
+		return e.LHS.Equal(b.LHS) && e.Constraint.Equal(b.Constraint)
+	}
+	return false
+}
+
+func (e *FunctionPipe) Equal(b Expression) bool {
+	if b, ok := b.(*FunctionPipe); ok {
+		return e.LHS.Equal(b.LHS) && e.Func.Equal(b.Func)
+	}
+	return false
+}
+
+func (e *Param) Equal(b Expression) bool {
+	if b, ok := b.(*Param); ok {
+		return e.Name == b.Name
+	}
+	return false
+}
