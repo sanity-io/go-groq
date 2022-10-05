@@ -21,15 +21,15 @@ func (*Parent) MarshalJSON() ([]byte, error) {
 }
 
 // MarshalJSON marshals an AST node to JSON.
-func (expr *Constraint) MarshalJSON() ([]byte, error) {
+func (e *Constraint) MarshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
 		Node       string     `json:"node,omitempty"`
 		Pos        int        `json:"pos"`
 		Expression Expression `json:"expression,omitempty"`
 	}{
 		"constraint",
-		expr.Pos.Start,
-		expr.Expression,
+		e.Pos.Start,
+		e.Expression,
 	})
 }
 
@@ -150,7 +150,7 @@ func (expr *PipeOperator) MarshalJSON() ([]byte, error) {
 }
 
 // MarshalJSON marshals an AST node to JSON.
-func (expr *DotOperator) MarshalJSON() ([]byte, error) {
+func (e *DotOperator) MarshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
 		Node string     `json:"node,omitempty"`
 		Pos  int        `json:"pos"`
@@ -158,9 +158,9 @@ func (expr *DotOperator) MarshalJSON() ([]byte, error) {
 		RHS  Expression `json:"rhs"`
 	}{
 		"dotOperator",
-		expr.Pos.Start,
-		expr.LHS,
-		expr.RHS,
+		e.Pos.Start,
+		e.LHS,
+		e.RHS,
 	})
 }
 
@@ -208,28 +208,28 @@ func (expr *PostfixOperator) MarshalJSON() ([]byte, error) {
 }
 
 // MarshalJSON marshals an AST node to JSON.
-func (expr *Attribute) MarshalJSON() ([]byte, error) {
+func (e *Attribute) MarshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
 		Node string `json:"node,omitempty"`
 		Pos  int    `json:"pos"`
 		Name string `json:"path,omitempty"`
 	}{
 		"attribute",
-		expr.Pos.Start,
-		expr.Name,
+		e.Pos.Start,
+		e.Name,
 	})
 }
 
 // MarshalJSON marshals an AST node to JSON.
-func (expr *StringLiteral) MarshalJSON() ([]byte, error) {
+func (e *StringLiteral) MarshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
 		Node  string `json:"node,omitempty"`
 		Pos   int    `json:"pos"`
 		Value string `json:"value"`
 	}{
 		"string",
-		expr.Pos.Start,
-		expr.Value,
+		e.Pos.Start,
+		e.Value,
 	})
 }
 
