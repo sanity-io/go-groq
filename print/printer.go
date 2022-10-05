@@ -155,9 +155,17 @@ func (p *Printer) print(expr ast.Expression) {
 		stream.append(" ")
 		p.print(e.RHS)
 	case *ast.DotOperator:
-		p.print(e.LHS)
-		stream.append(".")
-		p.print(e.RHS)
+		// Special case for reserved words
+		if s, ok := isReservedWordAttribute(e.RHS); ok {
+			p.print(e.LHS)
+			stream.append(`[`)
+			p.print(&ast.StringLiteral{Value: s})
+			stream.append(`]`)
+		} else {
+			p.print(e.LHS)
+			stream.append(".")
+			p.print(e.RHS)
+		}
 	case *ast.ArrayTraversal:
 		if e.Expr != nil {
 			p.print(e.Expr)
@@ -352,6 +360,19 @@ func (p *Printer) print(expr ast.Expression) {
 	case nil:
 	default:
 		p.unhandled(expr)
+	}
+}
+
+func isReservedWordAttribute(expr ast.Expression) (string, bool) {
+	attr, ok := expr.(*ast.Attribute)
+	if !ok {
+		return "", false
+	}
+	switch attr.Name {
+	case "true", "false", "null":
+		return attr.Name, true
+	default:
+		return "", false
 	}
 }
 
