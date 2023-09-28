@@ -127,6 +127,8 @@ func IsSubscriptExpression(e Expression) bool {
 			default:
 				return false
 			}
+		case *Param:
+			return true
 		default:
 			return false
 		}
