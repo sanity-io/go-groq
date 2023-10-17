@@ -34,13 +34,13 @@ func (e *Constraint) MarshalJSON() ([]byte, error) {
 }
 
 // MarshalJSON marshals an AST node to JSON.
-func (expr *ArrayTraversal) MarshalJSON() ([]byte, error) {
+func (e *ArrayTraversal) MarshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
 		Node string `json:"node,omitempty"`
 		Pos  int    `json:"pos"`
 	}{
 		"arrayTraversal",
-		expr.Pos.Start,
+		e.Pos.Start,
 	})
 }
 
