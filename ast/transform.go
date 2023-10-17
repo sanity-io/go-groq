@@ -93,32 +93,20 @@ func (e *PostfixOperator) Transform(f TransformFunc) Expression {
 }
 
 func (e *Object) Transform(f TransformFunc) Expression {
-	newExprs := make([]Expression, len(e.Expressions))
-	for i, x := range e.Expressions {
-		newExprs[i] = Transform(x, f)
-	}
 	out := *e
-	out.Expressions = newExprs
+	out.Expressions = transformExprs(e.Expressions, f)
 	return f(&out)
 }
 
 func (e *Array) Transform(f TransformFunc) Expression {
-	newExprs := make([]Expression, len(e.Expressions))
-	for i, x := range e.Expressions {
-		newExprs[i] = Transform(x, f)
-	}
 	out := *e
-	out.Expressions = newExprs
+	out.Expressions = transformExprs(e.Expressions, f)
 	return f(&out)
 }
 
 func (e *FunctionCall) Transform(f TransformFunc) Expression {
-	newArgs := make([]Expression, len(e.Arguments))
-	for i, x := range e.Arguments {
-		newArgs[i] = Transform(x, f)
-	}
 	out := *e
-	out.Arguments = newArgs
+	out.Arguments = transformExprs(e.Arguments, f)
 	return f(&out)
 }
 
