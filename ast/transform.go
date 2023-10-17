@@ -69,9 +69,7 @@ func (e *Group) Transform(f TransformFunc) Expression {
 
 func (e *Tuple) Transform(f TransformFunc) Expression {
 	out := *e
-	for idx, expr := range e.Members {
-		e.Members[idx] = Transform(expr, f)
-	}
+	out.Members = transformExprs(e.Members, f)
 	return f(&out)
 }
 
@@ -157,4 +155,15 @@ func (e *FunctionPipe) Transform(f TransformFunc) Expression {
 	out.LHS = Transform(e.LHS, f)
 	out.Func = Transform(e.Func, f).(*FunctionCall)
 	return f(&out)
+}
+
+func transformExprs(in []Expression, f TransformFunc) []Expression {
+	if len(in) == 0 {
+		return nil
+	}
+	result := make([]Expression, len(in))
+	for i, e := range in {
+		result[i] = Transform(e, f)
+	}
+	return result
 }
