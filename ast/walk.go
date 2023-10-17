@@ -65,6 +65,8 @@ func Walk(expr Expression, visitor func(Expression) bool) bool {
 		return walkExprs(visitor, e.LHS, e.Idx)
 	case *Projection:
 		return walkExprs(visitor, e.LHS, e.Object)
+	case *Tuple:
+		return walkExprs(visitor, e.Members...)
 	}
 
 	panic(fmt.Sprintf("Unexpected AST expression of type %T: %[1]v", expr))
