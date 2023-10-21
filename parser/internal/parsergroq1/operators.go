@@ -1,4 +1,4 @@
-package parserv2
+package parsergroq1
 
 import (
 	"github.com/sanity-io/go-groq/ast"
