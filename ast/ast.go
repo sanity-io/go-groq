@@ -161,6 +161,12 @@ type StringLiteral struct {
 	Value string
 }
 
+type Fragment struct {
+	Pos         Position
+	Name        string
+	Expressions []Expression
+}
+
 // LiteralValue implements Literal.
 func (e *StringLiteral) LiteralValue() interface{} {
 	return e.Value
