@@ -108,6 +108,7 @@ func (p *parser) dereferenceParam(name string, pos int) (ast.Expression, error) 
 	}
 
 	value, exists := p.params[name]
+
 	if !exists {
 		return nil, &parseError{
 			msg: fmt.Sprintf("param $%s referenced, but not provided", name),
@@ -139,9 +140,18 @@ func (p *parser) parseAtom(immediateLHS bool) (ast.Expression, error) {
 	tok, lit, pos := p.scanIgnoreWhitespace()
 	switch tok {
 	case ast.Name:
-		// It is an identifier, if it starts with a '$' it's a param
+		// It is an identifier, if it starts with a '$' it's a param or a fragment
 		if lit[0] == groq.ParamPrefixCharacter {
-			expr, err := p.dereferenceParam(lit[1:], pos)
+			name := lit[1:] // Strip the '$'
+			// Check if it's a fragment
+			if p.fragments[name] != nil {
+				return &ast.Object{
+					Pos:         p.makeTokenPos(pos, lit),
+					Expressions: p.fragments[name].Expressions,
+				}, nil
+			}
+
+			expr, err := p.dereferenceParam(name, pos)
 			if err != nil {
 				return nil, err
 			}
