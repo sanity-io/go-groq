@@ -802,23 +802,25 @@ func (p *parser) parseList() ([]ast.Expression, error) {
 	return result, nil
 }
 
-func (p *parser) parseFragments() ([]*ast.Fragment, error) {
-	var fragments []*ast.Fragment
+func (p *parser) parseFragments() error {
+	// Keep all fragments as a map in the parser to be referenced later when parsing the main query
+	p.fragments = make(map[string]*ast.Fragment)
+
 	for {
 		token, lit, _ := p.scanIgnoreWhitespace()
 		if token == ast.Name && lit == "fragment" {
 			fragment, err := p.parseFragment()
 			if err != nil {
-				return nil, err
+				return err
 			}
-			fragments = append(fragments, fragment)
+			p.fragments[fragment.Name] = fragment
 		} else {
 			p.unscan()
 			break
 		}
 
 	}
-	return fragments, nil
+	return nil
 }
 
 // parseFragment parses a fragment which looks like `fragment Alphabet { a, b, c }`
@@ -890,17 +892,9 @@ func (p *parser) parse() (ast.Expression, error) {
 	p.unscan()
 
 	// Parse top level fragments
-	fragments, err := p.parseFragments()
+	err := p.parseFragments()
 	if err != nil {
 		return nil, err
-	}
-
-	// Keep all fragments as a map in the parser to be referenced later when parsing the main query
-	p.fragments = make(map[string]*ast.Fragment)
-	for _, fragment := range fragments {
-		if fragment != nil && fragment.Name != "" {
-			p.fragments[fragment.Name] = fragment
-		}
 	}
 
 	result, err := p.parseGeneralExpression(1, false, false)
