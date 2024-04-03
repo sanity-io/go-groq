@@ -163,6 +163,19 @@ func (p *parser) parseAtom(immediateLHS bool) (ast.Expression, error) {
 			return nil, err
 		}
 		if function != nil {
+			// PoC: Special case for fragments represented as functions
+			if function.Namespace == "fragment" {
+				if p.fragments[function.Name] == nil {
+					return nil, &parseError{
+						msg: fmt.Sprintf("fragment %q not found", function.Name),
+						pos: function.Pos,
+					}
+				}
+				return &ast.Object{
+					Pos:         function.Pos,
+					Expressions: p.fragments[function.Name].Expressions,
+				}, nil
+			}
 			return function, nil
 		}
 
@@ -702,6 +715,7 @@ func (p *parser) parseFunctionExpression(nameToken ast.Token, name string, nameP
 				pos: p.makeTokenPos(pos, lit),
 			}
 		}
+
 		// It should be a function call after a double colon (namespace).
 		fTok, fLit, fPos := p.scanIgnoreWhitespace()
 		if fTok != ast.Name {
