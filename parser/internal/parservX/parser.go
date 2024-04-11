@@ -43,12 +43,13 @@ func WithParamNodes(v bool) Option {
 
 // parser represents a parser (!).
 type parser struct {
-	tk               *tokenizer.Tokenizer
-	src              string
-	params           groq.Params
-	fragments        map[string]*ast.Fragment
-	createParamNodes bool
-	buf              struct {
+	tk                   *tokenizer.Tokenizer
+	src                  string
+	params               groq.Params
+	fragments            map[string]*ast.Fragment
+	fragmentDependencies map[string][]string
+	createParamNodes     bool
+	buf                  struct {
 		tok ast.Token // last read token
 		lit string    // last read literal
 		pos int       // position of last token
@@ -149,6 +150,8 @@ func (p *parser) parseAtom(immediateLHS bool) (ast.Expression, error) {
 					Pos:         p.makeTokenPos(pos, lit),
 					Expressions: p.fragments[name].Expressions,
 				}, nil
+			}
+			if p.fragments[name] != nil {
 			}
 
 			expr, err := p.dereferenceParam(name, pos)
@@ -869,12 +872,32 @@ func (p *parser) parseFragmentName() (string, error) {
 	return lit, nil
 }
 
-func (p *parser) parseFragmentBody() ([]ast.Expression, error) {
+func (p *parser) parseFragmentBody(fragmentName string) ([]ast.Expression, error) {
 	tok, lit, pos := p.scanIgnoreWhitespace()
 	if tok != ast.BraceLeft {
 		return nil, &parseError{
 			msg: "expected '{'",
 			pos: p.makeTokenPos(pos, lit),
+		}
+	}
+	// Check if the fragment references other fragments and record them
+	// That would look like ...$FragmentName, ...$AnotherFragmentName
+	for {
+		token, _, _ := p.scanIgnoreWhitespace()
+		if token == ast.Comma {
+			continue
+		}
+		if token == ast.DotDotDot {
+			tk, lit, _ := p.scanIgnoreWhitespace()
+			if tk == ast.Name && lit[0] == groq.ParamPrefixCharacter {
+				name := lit[1:] // Strip the '$'
+				if p.fragments[name] != nil {
+					p.fragmentDependencies[fragmentName] = append(p.fragmentDependencies[fragmentName], name)
+				}
+			}
+		} else {
+			p.unscan()
+			break
 		}
 	}
 
@@ -959,4 +982,48 @@ func isParentDereferencing(expr ast.Expression) bool {
 	default:
 		return false
 	}
+}
+
+func (p *parser) IsRecursive(fragment ast.Fragment, seen map[string]ast.Fragment) error {
+	uses, err := p.FindUsedFragments(fragment.Name)
+	if err != nil {
+		return err
+	}
+	for _, use := range uses {
+		if _, ok := seen[use.Name]; ok {
+			return fmt.Errorf("cycle detected")
+		}
+		seen[use.Name] = fragment // mark that it's currently invoked by us
+		if err := p.IsRecursive(seen[use.Name], seen); err != nil {
+			return err
+		}
+		delete(seen, use.Name)
+	}
+	return nil
+}
+
+func (p *parser) FindUsedFragments(fragmentName string) ([]*ast.Fragment, error) {
+	dependencies, exists := p.fragmentDependencies[fragmentName]
+	if !exists {
+		return nil, fmt.Errorf("fragment %s does not exist", fragmentName)
+	}
+
+	var result []*ast.Fragment
+	for _, depName := range dependencies {
+		fragment, ok := p.fragments[depName]
+		if !ok {
+			return nil, fmt.Errorf("referenced fragment %s not found", depName)
+		}
+		result = append(result, fragment)
+	}
+
+	return result, nil
+}
+
+func (p *parser) addFragmentDependency(fragmentName string, dependencyName string) {
+	if p.fragmentDependencies == nil {
+		p.fragmentDependencies = make(map[string][]string)
+	}
+	// Add the dependencyName to the list of dependencies for fragmentName.
+	p.fragmentDependencies[fragmentName] = append(p.fragmentDependencies[fragmentName], dependencyName)
 }
