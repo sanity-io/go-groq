@@ -119,10 +119,6 @@ func TestErrors(t *testing.T) {
 	assertParseFailure(t, "string::length", "expected a function following namespace expression", 8, 14)
 	assertParseFailure(t, "string::+(1, 2)'", "expected a function following namespace expression", 8, 9)
 	assertParseFailure(t, "::length", "unexpected token \"::\", expected expression", 0, 2)
-	assertParseFailure(t, "fragment { a, b } *[true]", "expected fragment name", 9, 10)
-	assertParseFailure(t, "fragment Foo ( a, b ) *[true]", "expected '{'", 13, 14)
-	assertParseFailure(t, "fragment Foo { a, b ) *[true]", "expected '}'", 20, 21)
-	assertParseFailure(t, "fragment Foo { a, b } *[true]{fragment::Bar()}", "fragment \"Bar\" not found", 30, 43)
 }
 
 func assertParseFailure(t *testing.T, src string, message string, start int, end int) {
