@@ -46,7 +46,6 @@ type parser struct {
 	tk               *tokenizer.Tokenizer
 	src              string
 	params           groq.Params
-	fragments        map[string]*ast.Fragment
 	createParamNodes bool
 	buf              struct {
 		tok ast.Token // last read token
@@ -140,18 +139,9 @@ func (p *parser) parseAtom(immediateLHS bool) (ast.Expression, error) {
 	tok, lit, pos := p.scanIgnoreWhitespace()
 	switch tok {
 	case ast.Name:
-		// It is an identifier, if it starts with a '$' it's a param or a fragment
+		// It is an identifier, if it starts with a '$' it's a param
 		if lit[0] == groq.ParamPrefixCharacter {
-			name := lit[1:] // Strip the '$'
-			// Check if it's a fragment
-			if p.fragments[name] != nil {
-				return &ast.Object{
-					Pos:         p.makeTokenPos(pos, lit),
-					Expressions: p.fragments[name].Expressions,
-				}, nil
-			}
-
-			expr, err := p.dereferenceParam(name, pos)
+			expr, err := p.dereferenceParam(lit[1:], pos)
 			if err != nil {
 				return nil, err
 			}
@@ -163,19 +153,6 @@ func (p *parser) parseAtom(immediateLHS bool) (ast.Expression, error) {
 			return nil, err
 		}
 		if function != nil {
-			// PoC: Special case for fragments represented as functions
-			if function.Namespace == "fragment" {
-				if p.fragments[function.Name] == nil {
-					return nil, &parseError{
-						msg: fmt.Sprintf("fragment %q not found", function.Name),
-						pos: function.Pos,
-					}
-				}
-				return &ast.Object{
-					Pos:         function.Pos,
-					Expressions: p.fragments[function.Name].Expressions,
-				}, nil
-			}
 			return function, nil
 		}
 
@@ -816,85 +793,6 @@ func (p *parser) parseList() ([]ast.Expression, error) {
 	return result, nil
 }
 
-func (p *parser) parseFragments() error {
-	// Keep all fragments as a map in the parser to be referenced later when parsing the main query
-	p.fragments = make(map[string]*ast.Fragment)
-
-	for {
-		token, lit, _ := p.scanIgnoreWhitespace()
-		if token == ast.Name && lit == "fragment" {
-			fragment, err := p.parseFragment()
-			if err != nil {
-				return err
-			}
-			p.fragments[fragment.Name] = fragment
-		} else {
-			p.unscan()
-			break
-		}
-
-	}
-	return nil
-}
-
-// parseFragment parses a fragment which looks like `fragment Alphabet { a, b, c }`
-func (p *parser) parseFragment() (*ast.Fragment, error) {
-	var position = p.makeTokenPos(p.buf.pos, p.buf.lit)
-
-	name, err := p.parseFragmentName()
-	if err != nil {
-		return nil, err
-	}
-
-	exprs, err := p.parseFragmentBody()
-	if err != nil {
-		return nil, err
-	}
-
-	return &ast.Fragment{
-		Pos:         position,
-		Name:        name,
-		Expressions: exprs,
-	}, nil
-}
-
-func (p *parser) parseFragmentName() (string, error) {
-	tok, lit, pos := p.scanIgnoreWhitespace()
-	if tok != ast.Name {
-		return "", &parseError{
-			msg: "expected fragment name",
-			pos: p.makeTokenPos(pos, lit),
-		}
-	}
-	return lit, nil
-}
-
-func (p *parser) parseFragmentBody() ([]ast.Expression, error) {
-	tok, lit, pos := p.scanIgnoreWhitespace()
-	if tok != ast.BraceLeft {
-		return nil, &parseError{
-			msg: "expected '{'",
-			pos: p.makeTokenPos(pos, lit),
-		}
-	}
-
-	// We assume fragments are just a list of BasicExpressions (as in whatever you can put in projections)
-	expressions, err := p.parseList()
-	if err != nil {
-		return nil, err
-	}
-
-	tok, lit, pos = p.scanIgnoreWhitespace()
-	if tok != ast.BraceRight {
-		return nil, &parseError{
-			msg: "expected '}'",
-			pos: p.makeTokenPos(pos, lit),
-		}
-	}
-
-	return expressions, nil
-}
-
 func (p *parser) parse() (ast.Expression, error) {
 	token, _, _ := p.scanIgnoreWhitespace()
 	if token == ast.EOF {
@@ -904,12 +802,6 @@ func (p *parser) parse() (ast.Expression, error) {
 		}
 	}
 	p.unscan()
-
-	// Parse top level fragments
-	err := p.parseFragments()
-	if err != nil {
-		return nil, err
-	}
 
 	result, err := p.parseGeneralExpression(1, false, false)
 	if err != nil {
