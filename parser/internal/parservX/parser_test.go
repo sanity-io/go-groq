@@ -119,6 +119,14 @@ func TestErrors(t *testing.T) {
 	assertParseFailure(t, "string::length", "expected a function following namespace expression", 8, 14)
 	assertParseFailure(t, "string::+(1, 2)'", "expected a function following namespace expression", 8, 9)
 	assertParseFailure(t, "::length", "unexpected token \"::\", expected expression", 0, 2)
+	assertParseFailure(t, "def ($bar)", "expected function namespace", 4, 4)
+	assertParseFailure(t, "def foo($bar)", "expected '::' followed by a function name", 7, 7)
+	assertParseFailure(t, "def ::foo($bar)", "expected function namespace", 4, 4)
+	assertParseFailure(t, "def foo::($bar)", "expected a function name", 9, 9)
+	assertParseFailure(t, "def foo::bar $baz", "expected '(' following function name", 13, 13)
+	assertParseFailure(t, "def foo::bar($baz", "expected ')' following function arguments", 18, 18)
+	assertParseFailure(t, "def foo::bar($baz) { a, b }", "expected '=' following ()", 19, 19)
+	assertParseFailure(t, "def foo::bar(baz) = { a, b }", "expected parameter name", 13, 13)
 }
 
 func assertParseFailure(t *testing.T, src string, message string, start int, end int) {

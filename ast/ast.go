@@ -161,10 +161,20 @@ type StringLiteral struct {
 	Value string
 }
 
-type Fragment struct {
-	Pos         Position
-	Name        string
-	Expressions []Expression
+type FunctionID struct {
+	Namespace string
+	Name      string
+}
+
+type FunctionDefinition struct {
+	Pos        Position
+	ID         FunctionID
+	Body       Expression
+	Parameters []Param
+}
+
+func (fd *FunctionDefinition) GetID() FunctionID {
+	return fd.ID
 }
 
 // LiteralValue implements Literal.

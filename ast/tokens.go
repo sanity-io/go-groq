@@ -51,6 +51,7 @@ const (
 	Rocket               // =>
 	DoubleColon          // ::
 	TokenMax             // Always last
+	EqualSign            // =
 )
 
 func (token Token) String() string {
@@ -81,6 +82,8 @@ func (token Token) String() string {
 		return "dot"
 	case Equals:
 		return "equals"
+	case EqualSign:
+		return "equalSign"
 	case Or:
 		return "or"
 	case And:
@@ -174,6 +177,8 @@ func (token Token) Literal() string {
 		return "."
 	case Equals:
 		return "=="
+	case EqualSign:
+		return "="
 	case Arrow:
 		return "->"
 	case At:
