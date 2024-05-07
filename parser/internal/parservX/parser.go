@@ -41,6 +41,12 @@ func WithParamNodes(v bool) Option {
 	}
 }
 
+func WithFunctions(fns map[ast.FunctionID]*ast.FunctionDefinition) Option {
+	return func(parser *parser) {
+		parser.functions = fns
+	}
+}
+
 // parser represents a parser (!).
 type parser struct {
 	tk               *tokenizer.Tokenizer
@@ -62,7 +68,7 @@ func Parse(src string, opts ...Option) (ast.Expression, error) {
 }
 
 func newParser(src string, opts ...Option) *parser {
-	p := &parser{tk: tokenizer.New(src), src: src, params: groq.Params{}}
+	p := &parser{tk: tokenizer.New(src), src: src, params: groq.Params{}, functions: make(map[ast.FunctionID]*ast.FunctionDefinition)}
 	for _, o := range opts {
 		o(p)
 	}
@@ -826,7 +832,13 @@ func (p *parser) parse() (ast.Expression, error) {
 }
 
 func (p *parser) parseFunctionDefinitions() error {
-	functions := make(map[ast.FunctionID]*ast.FunctionDefinition)
+
+	if p.functions == nil {
+		return &parseError{
+			msg: "functions are not supported",
+			pos: p.makeSpotPos(0),
+		}
+	}
 
 	for {
 		tok, lit, _ := p.scanIgnoreWhitespace()
@@ -835,15 +847,12 @@ func (p *parser) parseFunctionDefinitions() error {
 			if err != nil {
 				return err
 			}
-			functions[function.GetID()] = function
-
+			p.functions[function.GetID()] = function
 		} else {
 			p.unscan()
 			break
 		}
 	}
-
-	p.functions = functions
 	return nil
 }
 

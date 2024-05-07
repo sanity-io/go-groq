@@ -60,6 +60,12 @@ func WithVersion(v Version) Option {
 	}
 }
 
+func WithFunctions(fns map[ast.FunctionID]*ast.FunctionDefinition) Option {
+	return func(opts *parserOpts) {
+		opts.functions = fns
+	}
+}
+
 func Parse(query string, options ...Option) (ast.Expression, error) {
 	opts := parserOpts{
 		version: VersionGROQ1,
@@ -79,7 +85,8 @@ func Parse(query string, options ...Option) (ast.Expression, error) {
 	case VersionX:
 		return parservX.Parse(query,
 			parservX.WithParams(opts.params),
-			parservX.WithParamNodes(opts.createParamNodes))
+			parservX.WithParamNodes(opts.createParamNodes),
+			parservX.WithFunctions(opts.functions))
 	default:
 		panic(fmt.Sprintf("invalid version %v", opts.version))
 	}
@@ -87,6 +94,7 @@ func Parse(query string, options ...Option) (ast.Expression, error) {
 
 type parserOpts struct {
 	params           groq.Params
+	functions        map[ast.FunctionID]*ast.FunctionDefinition
 	createParamNodes bool
 	version          Version
 }
