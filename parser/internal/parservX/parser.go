@@ -842,7 +842,7 @@ func (p *parser) parseFunctionDefinitions() error {
 
 	for {
 		tok, lit, _ := p.scanIgnoreWhitespace()
-		if tok == ast.Name && lit == "def" {
+		if tok == ast.Name && p.isFunctionDefinitionKeyword(lit) {
 			function, err := p.parseFunctionDefinition()
 			if err != nil {
 				return err
@@ -854,6 +854,15 @@ func (p *parser) parseFunctionDefinitions() error {
 		}
 	}
 	return nil
+}
+
+func (p *parser) isFunctionDefinitionKeyword(s string) bool {
+	switch s {
+	case "def", "fn", "func", "function", "let", "const":
+		return true
+	default:
+		return false
+	}
 }
 
 /*
