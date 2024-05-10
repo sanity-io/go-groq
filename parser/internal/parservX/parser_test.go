@@ -113,7 +113,7 @@ func transformToLegacyAST(expr ast.Expression) ast.Expression {
 
 func TestErrors(t *testing.T) {
 	assertParseFailure(t, "(person", "expected ')' following parenthesized expression", 0, 8)
-	assertParseFailure(t, "fn(person", "expected ')' following function arguments", 2, 10)
+	assertParseFailure(t, "count(person", "expected ')' following function arguments", 5, 13)
 	assertParseFailure(t, "[1,2", "expected ']' following array body", 0, 5)
 	assertParseFailure(t, "{a", "expected '}' following object body", 0, 3)
 	assertParseFailure(t, "[1,2,3]....", "unable to parse entire expression", 7, 7)
