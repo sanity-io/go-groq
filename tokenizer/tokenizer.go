@@ -262,6 +262,8 @@ func (t *Tokenizer) scanOperator() (ast.Token, string, int) {
 		return ast.Percent, string(ch1), pos
 	case '|':
 		return ast.Pipe, string(ch1), pos
+	case '=':
+		return ast.EqualSign, string(ch1), pos
 	}
 
 	return ast.Illegal, string(ch1), pos

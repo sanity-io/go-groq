@@ -1,34 +1,43 @@
 package parservX_test
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
+	"encoding/json"
 	"errors"
+	"io/ioutil"
+	"os"
+	"path/filepath"
 	"reflect"
+	"regexp"
+	"runtime"
+	"strings"
 	"testing"
 
 	"github.com/blang/semver"
-	"github.com/sanity-io/litter"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 
 	"github.com/sanity-io/go-groq"
 	"github.com/sanity-io/go-groq/ast"
 	"github.com/sanity-io/go-groq/internal/testhelpers"
 	"github.com/sanity-io/go-groq/parser"
 	"github.com/sanity-io/go-groq/parser/internal/parservX"
+	"github.com/sanity-io/litter"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestParser(t *testing.T) {
-	testhelpers.WithEachTest(t, func(t *testing.T, test *testhelpers.Test) {
+	WithEachTest(t, func(t *testing.T, test *Test) {
 		if includeTest(test) {
-			testhelpers.ASTTest(t, test, "snapshots",
-				func(query string, params groq.Params) (ast.Expression, error) {
-					return parservX.Parse(query, parservX.WithParams(params))
+			ASTTest(t, test, "snapshots",
+				func(query string, params groq.Params, functions map[ast.FunctionID]*ast.FunctionDefinition) (ast.Expression, error) {
+					return parservX.Parse(query, parservX.WithParams(params), parservX.WithFunctions(make(map[ast.FunctionID]*ast.FunctionDefinition)))
 				})
 		}
 	})
 }
 
-func includeTest(test *testhelpers.Test) bool {
+func includeTest(test *Test) bool {
 	// Old parser does not have some features
 	return test.Version == nil || (*test.Version)(semver.MustParse("0.0.0"))
 }
@@ -119,6 +128,14 @@ func TestErrors(t *testing.T) {
 	assertParseFailure(t, "string::length", "expected a function following namespace expression", 8, 14)
 	assertParseFailure(t, "string::+(1, 2)'", "expected a function following namespace expression", 8, 9)
 	assertParseFailure(t, "::length", "unexpected token \"::\", expected expression", 0, 2)
+	assertParseFailure(t, "def ($bar)", "expected function namespace", 4, 4)
+	assertParseFailure(t, "def foo($bar)", "expected '::' followed by a function name", 7, 7)
+	assertParseFailure(t, "def ::foo($bar)", "expected function namespace", 4, 4)
+	assertParseFailure(t, "def foo::($bar)", "expected a function name", 9, 9)
+	assertParseFailure(t, "def foo::bar $baz", "expected '(' following function name", 13, 13)
+	assertParseFailure(t, "def foo::bar($baz", "expected ')' following function arguments", 18, 18)
+	assertParseFailure(t, "def foo::bar($baz) { a, b }", "expected '=' following ()", 19, 19)
+	assertParseFailure(t, "def foo::bar(baz) = { a, b }", "expected parameter name", 13, 13)
 }
 
 func assertParseFailure(t *testing.T, src string, message string, start int, end int) {
@@ -129,4 +146,113 @@ func assertParseFailure(t *testing.T, src string, message string, start int, end
 	require.Equal(t, message, parseErr.Message())
 	assert.Equal(t, start, parseErr.Pos().Start)
 	assert.Equal(t, end, parseErr.Pos().End)
+}
+
+// Copy of testhelpers which allows functions to be passed to the parser
+var versionRegex = regexp.MustCompile(`//groq:version=(\S+)`)
+var paramRegex = regexp.MustCompile(`//groq:param:([^=]+)=([^\n]+)`)
+
+type Test struct {
+	Name      string
+	Query     string
+	Params    groq.Params
+	Functions map[ast.FunctionID]*ast.FunctionDefinition
+	Valid     bool
+	Version   *semver.Range
+	FileName  string
+}
+
+func ASTTest(
+	t *testing.T,
+	test *Test,
+	outputDir string,
+	parser func(query string, params groq.Params, functions map[ast.FunctionID]*ast.FunctionDefinition) (ast.Expression, error),
+) {
+	fileName := filepath.Join(outputDir, SnapshotFileName(test))
+
+	require.NoError(t, os.MkdirAll(filepath.Dir(fileName), 0755))
+
+	t.Logf("File: %s", fileName)
+
+	parsed, err := parser(test.Query, test.Params, test.Functions)
+	require.NoError(t, err)
+
+	type Result struct {
+		Query     string
+		AST       ast.Expression
+		Functions map[ast.FunctionID]*ast.FunctionDefinition
+	}
+
+	result := Result{
+		Query:     test.Query,
+		AST:       parsed,
+		Functions: test.Functions,
+	}
+
+	actual := []byte(litter.Options{
+		FieldFilter: func(f reflect.StructField, _ reflect.Value) bool {
+			return f.Name != "Source" // Skip the unnecessary source fields
+		},
+		HomePackage: "ast",
+		Compact:     true, // Save space
+	}.Sdump(result))
+
+	expected := testhelpers.ReadSnapshot(t, fileName, actual)
+
+	assert.Equal(t,
+		strings.TrimSpace(string(expected)),
+		strings.TrimSpace(string(actual)),
+	)
+}
+
+func WithEachTest(t *testing.T, f func(t *testing.T, test *Test)) {
+	_, filename, _, _ := runtime.Caller(0)
+
+	pattern := filepath.Join(filepath.Dir(filename), "*.groq")
+	files, err := filepath.Glob(pattern)
+	require.NoError(t, err)
+
+	for _, file := range files {
+		name := filepath.Base(file)
+		queryBytes, err := ioutil.ReadFile(file)
+		require.NoError(t, err)
+		query := string(queryBytes)
+
+		test := Test{
+			Name:     name,
+			Query:    query,
+			Params:   make(groq.Params),
+			Valid:    true,
+			FileName: file,
+		}
+
+		for _, param := range paramRegex.FindAllStringSubmatch(query, -1) {
+			var paramValue interface{}
+			err := json.Unmarshal([]byte(param[2]), &paramValue)
+			require.NoError(t, err)
+			test.Params[param[1]] = paramValue
+		}
+
+		versionMatch := versionRegex.FindStringSubmatch(query)
+		if versionMatch != nil {
+			rng := semver.MustParseRange(versionMatch[1])
+			test.Version = &rng
+		}
+
+		t.Run(name, func(t *testing.T) {
+			f(t, &test)
+		})
+	}
+}
+
+func SnapshotFileName(test *Test) string {
+	// Hash by both name and query, since queries are not unique
+	s := sha256.New()
+	if _, err := s.Write([]byte(test.Name)); err != nil {
+		panic(err)
+	}
+	if _, err := s.Write([]byte(test.Query)); err != nil {
+		panic(err)
+	}
+	return hex.EncodeToString(s.Sum(nil)) + ".txt"
 }

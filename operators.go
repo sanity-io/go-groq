@@ -53,6 +53,8 @@ func PrecedenceAndAssociativity(token ast.Token) (precedence int, associativity 
 		return 5, AssociatesLeft
 	case ast.Equals:
 		return 5, AssociatesLeft
+	case ast.EqualSign:
+		return 5, AssociatesLeft
 	case ast.GT:
 		return 5, AssociatesLeft
 	case ast.GTE:

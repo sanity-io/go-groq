@@ -41,6 +41,12 @@ func WithParamNodes(v bool) Option {
 	}
 }
 
+func WithFunctions(fns map[ast.FunctionID]*ast.FunctionDefinition) Option {
+	return func(parser *parser) {
+		parser.functions = fns
+	}
+}
+
 // parser represents a parser (!).
 type parser struct {
 	tk               *tokenizer.Tokenizer
@@ -53,6 +59,7 @@ type parser struct {
 		pos int       // position of last token
 		n   int       // buffer size (max=1)
 	}
+	functions map[ast.FunctionID]*ast.FunctionDefinition
 }
 
 // Parse parses a string of GROQ.
@@ -61,7 +68,7 @@ func Parse(src string, opts ...Option) (ast.Expression, error) {
 }
 
 func newParser(src string, opts ...Option) *parser {
-	p := &parser{tk: tokenizer.New(src), src: src, params: groq.Params{}}
+	p := &parser{tk: tokenizer.New(src), src: src, params: groq.Params{}, functions: make(map[ast.FunctionID]*ast.FunctionDefinition)}
 	for _, o := range opts {
 		o(p)
 	}
@@ -803,6 +810,12 @@ func (p *parser) parse() (ast.Expression, error) {
 	}
 	p.unscan()
 
+	// Parse top level function definitions
+	err := p.parseFunctionDefinitions()
+	if err != nil {
+		return nil, err
+	}
+
 	result, err := p.parseGeneralExpression(1, false, false)
 	if err != nil {
 		return nil, err
@@ -816,6 +829,149 @@ func (p *parser) parse() (ast.Expression, error) {
 		}
 	}
 	return result, nil
+}
+
+func (p *parser) parseFunctionDefinitions() error {
+
+	if p.functions == nil {
+		return &parseError{
+			msg: "functions are not supported",
+			pos: p.makeSpotPos(0),
+		}
+	}
+
+	for {
+		tok, lit, _ := p.scanIgnoreWhitespace()
+		if tok == ast.Name && lit == "def" {
+			function, err := p.parseFunctionDefinition()
+			if err != nil {
+				return err
+			}
+			p.functions[function.GetID()] = function
+		} else {
+			p.unscan()
+			break
+		}
+	}
+	return nil
+}
+
+/*
+parseFunctionDefinition parses a function definition of the form:
+def foo::imageAsset($asset) = $asset->{url, foo, bar}
+*/
+func (p *parser) parseFunctionDefinition() (*ast.FunctionDefinition, error) {
+	namespace, name, err := p.parseFunctionName()
+	if err != nil {
+		return nil, err
+	}
+
+	tok, lit, pos := p.scanIgnoreWhitespace()
+	if tok != ast.ParenLeft {
+		return nil, &parseError{
+			msg: "expected '(' following function name",
+			pos: p.makeSpotPos(pos),
+		}
+	}
+
+	args, err := p.parseFunctionArguments()
+	if err != nil {
+		return nil, err
+	}
+
+	tok, _, pos = p.scanIgnoreWhitespace()
+	if tok != ast.ParenRight {
+		return nil, &parseError{
+			msg: "expected ')' following function arguments",
+			pos: p.makeSpotPos(pos),
+		}
+	}
+
+	tok, lit, pos = p.scanIgnoreWhitespace()
+	if tok != ast.EqualSign {
+		return nil, &parseError{
+			msg: "expected '=' following ()",
+			pos: p.makeSpotPos(pos),
+		}
+	}
+
+	body, err := p.parseFunctionBody()
+	if err != nil {
+		return nil, err
+	}
+
+	return &ast.FunctionDefinition{
+		ID:         ast.FunctionID{Namespace: namespace, Name: name},
+		Body:       body,
+		Pos:        p.makeTokenPos(pos, lit),
+		Parameters: args,
+	}, nil
+
+}
+
+func (p *parser) parseFunctionName() (string, string, error) {
+	tok, lit, pos := p.scanIgnoreWhitespace()
+	if tok != ast.Name {
+		return "", "", &parseError{
+			msg: "expected function namespace",
+			pos: p.makeSpotPos(pos),
+		}
+	}
+	functionNamespace := lit
+
+	tok, lit, pos = p.scanIgnoreWhitespace()
+	if tok != ast.DoubleColon {
+		return "", "", &parseError{
+			msg: "expected '::' followed by a function name",
+			pos: p.makeSpotPos(pos),
+		}
+	}
+
+	tok, lit, pos = p.scanIgnoreWhitespace()
+	if tok != ast.Name {
+		return "", "", &parseError{
+			msg: "expected a function name",
+			pos: p.makeSpotPos(pos),
+		}
+	}
+	functionName := lit
+
+	return functionNamespace, functionName, nil
+}
+
+func (p *parser) parseFunctionArguments() ([]ast.Param, error) {
+	var args []ast.Param
+
+	// We only allow 1 argument at the moment
+	tok, lit, pos := p.scanIgnoreWhitespace()
+	if tok != ast.Name || lit[0] != '$' {
+		return nil, &parseError{
+			msg: "expected parameter name",
+			pos: p.makeSpotPos(pos),
+		}
+	}
+	param := ast.Param{
+		Name: lit,
+		Pos:  p.makeTokenPos(pos, lit),
+	}
+	args = append(args, param)
+
+	return args, nil
+}
+
+/*
+The function body is one of the forms:
+  - $param{…}
+  - $param->{…}
+  - $param[]{…}
+  - $param[]->{…}
+*/
+func (p *parser) parseFunctionBody() (ast.Expression, error) {
+	body, err := p.parseGeneralExpression(1, false, false)
+	if err != nil {
+		return nil, err
+	}
+	return body, nil
 }
 
 func (p *parser) makeTokenPos(start int, literal string) ast.Position {
