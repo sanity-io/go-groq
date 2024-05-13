@@ -155,6 +155,12 @@ type Param struct {
 	Name string
 }
 
+// FunctionParam represents a parameter passed to a custom function.
+type FunctionParam struct {
+	Pos  Position
+	Name string
+}
+
 // StringLiteral is literal strings
 type StringLiteral struct {
 	Pos   Position
@@ -170,7 +176,7 @@ type FunctionDefinition struct {
 	Pos        Position
 	ID         FunctionID
 	Body       Expression
-	Parameters []Param
+	Parameters []FunctionParam
 }
 
 func (fd *FunctionDefinition) GetID() FunctionID {

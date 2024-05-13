@@ -948,8 +948,8 @@ func (p *parser) parseFunctionName() (string, string, error) {
 	return functionNamespace, functionName, nil
 }
 
-func (p *parser) parseFunctionArguments() ([]ast.Param, error) {
-	var args []ast.Param
+func (p *parser) parseFunctionArguments() ([]ast.FunctionParam, error) {
+	var args []ast.FunctionParam
 
 	// We only allow 1 argument at the moment
 	tok, lit, pos := p.scanIgnoreWhitespace()
@@ -959,7 +959,7 @@ func (p *parser) parseFunctionArguments() ([]ast.Param, error) {
 			pos: p.makeSpotPos(pos),
 		}
 	}
-	param := ast.Param{
+	param := ast.FunctionParam{
 		Name: lit,
 		Pos:  p.makeTokenPos(pos, lit),
 	}
@@ -976,6 +976,22 @@ The function body is one of the forms:
   - $param[]->{…}
 */
 func (p *parser) parseFunctionBody() (ast.Expression, error) {
+	// Skip parsing $param as we already parsed it in the function arguments
+	tok, lit, pos := p.scanIgnoreWhitespace()
+	if tok != ast.Name || lit[0] != '$' {
+		return nil, &parseError{
+			msg: "expected parameter name",
+			pos: p.makeSpotPos(pos),
+		}
+	}
+
+	tok, lit, pos = p.scanIgnoreWhitespace()
+	if tok != ast.BraceLeft && tok != ast.BracketLeft && tok != ast.Arrow {
+		return nil, &parseError{
+			msg: "expected '{', '[' or '->' following parameter name",
+			pos: p.makeSpotPos(pos),
+		}
+	}
 	body, err := p.parseGeneralExpression(1, false, false)
 	if err != nil {
 		return nil, err
