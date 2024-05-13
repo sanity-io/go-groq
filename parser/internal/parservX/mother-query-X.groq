@@ -1,6 +1,5 @@
 //groq:version=0.x.x
 //groq:param:myParam="abc"
-//groq:param:baz="music"
 
 // The following query exercises all parser-related features for GROQ 2 plus experimental features.
 

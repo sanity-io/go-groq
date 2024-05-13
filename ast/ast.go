@@ -170,7 +170,12 @@ type FunctionDefinition struct {
 	Pos        Position
 	ID         FunctionID
 	Body       Expression
-	Parameters []Param
+	Parameters []*FunctionParameter
+}
+
+type FunctionParameter struct {
+	Index int
+	Name  string
 }
 
 func (fd *FunctionDefinition) GetID() FunctionID {
