@@ -137,6 +137,8 @@ func (t *Tokenizer) Scan() (ast.Token, string, int) {
 		return ast.At, "@", pos
 	case '|':
 		return ast.Pipe, "|", pos
+	case ';':
+		return ast.Semicolon, ";", pos
 	}
 
 	return ast.Illegal, string(ch), pos
