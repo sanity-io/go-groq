@@ -925,6 +925,13 @@ func (p *parser) parseFunctionDefinition() (*ast.FunctionDefinition, error) {
 		return nil, err
 	}
 
+	tok, _, pos = p.scanIgnoreWhitespace()
+	if tok != ast.Semicolon {
+		return nil, &parseError{
+			msg: "expected ';' at the end of function definition",
+			pos: p.makeSpotPos(pos),
+		}
+	}
 	p.functionParameters = nil
 
 	return &ast.FunctionDefinition{

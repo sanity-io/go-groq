@@ -136,7 +136,7 @@ func TestErrors(t *testing.T) {
 	assertParseFailure(t, "def foo::bar($baz", "expected ')' following function arguments", 18, 18)
 	assertParseFailure(t, "def foo::bar($baz) { a, b }", "expected '=' following ()", 19, 19)
 	assertParseFailure(t, "def foo::bar(baz) = { a, b }", "expected parameter name", 13, 13)
-	assertParseFailure(t, "def foo::moo($woo) = $woo{ a, b } def foo::bar($baz) = $woo{ a, b }", "param $woo referenced, but not provided", 55, 58)
+	assertParseFailure(t, "def foo::moo($woo) = $woo{ a, b }; def foo::bar($baz) = $woo{ a, b }", "param $woo referenced, but not provided", 56, 59)
 }
 
 func assertParseFailure(t *testing.T, src string, message string, start int, end int) {
