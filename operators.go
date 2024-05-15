@@ -83,6 +83,8 @@ func PrecedenceAndAssociativity(token ast.Token) (precedence int, associativity 
 		return 1, AssociatesLeft
 	case ast.DoubleColon:
 		return 1, AssociatesLeft
+	case ast.Semicolon:
+		return 1, AssociatesLeft
 	}
 	return -1, -1
 }

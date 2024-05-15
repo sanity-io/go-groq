@@ -52,6 +52,7 @@ const (
 	DoubleColon          // ::
 	TokenMax             // Always last
 	EqualSign            // =
+	Semicolon            // ;
 )
 
 func (token Token) String() string {
@@ -148,6 +149,8 @@ func (token Token) String() string {
 		return "pipe"
 	case Rocket:
 		return "rocket"
+	case Semicolon:
+		return "semicolon"
 	}
 	return "UNKNOWN TOKEN"
 }
@@ -247,6 +250,8 @@ func (token Token) Literal() string {
 		return "|"
 	case Rocket:
 		return "=>"
+	case Semicolon:
+		return ";"
 	}
 	return "<unknown token>"
 }
