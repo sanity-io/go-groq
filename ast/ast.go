@@ -166,6 +166,13 @@ type FunctionID struct {
 	Name      string
 }
 
+func (id FunctionID) String() string {
+	if id.Namespace == "" {
+		return id.Name
+	}
+	return id.Namespace + "::" + id.Name
+}
+
 type FunctionDefinition struct {
 	Pos        Position
 	ID         FunctionID
