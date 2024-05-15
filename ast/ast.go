@@ -170,10 +170,10 @@ type FunctionDefinition struct {
 	Pos        Position
 	ID         FunctionID
 	Body       Expression
-	Parameters []*FunctionParameter
+	Parameters []*FunctionParamDefinition
 }
 
-type FunctionParameter struct {
+type FunctionParamDefinition struct {
 	Index int
 	Name  string
 }
@@ -181,6 +181,28 @@ type FunctionParameter struct {
 func (fd *FunctionDefinition) GetID() FunctionID {
 	return fd.ID
 }
+
+type FunctionParam struct {
+	Definition *FunctionParamDefinition
+	Pos        Position
+}
+
+func (fp FunctionParam) GetPos() Position {
+	return fp.Pos
+}
+
+func (fp FunctionParam) Transform(f TransformFunc) Expression {
+	return f(fp)
+}
+
+func (fp FunctionParam) Equal(e Expression) bool {
+	if e, ok := e.(*FunctionParam); ok {
+		return fp.Definition.Name == e.Definition.Name
+	}
+	return false
+}
+
+func (fp FunctionParam) sealed() {}
 
 // LiteralValue implements Literal.
 func (e *StringLiteral) LiteralValue() interface{} {

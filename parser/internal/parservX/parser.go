@@ -60,7 +60,7 @@ type parser struct {
 		n   int       // buffer size (max=1)
 	}
 	functions          map[ast.FunctionID]*ast.FunctionDefinition
-	functionParameters []*ast.FunctionParameter
+	functionParameters []*ast.FunctionParamDefinition
 }
 
 // Parse parses a string of GROQ.
@@ -115,11 +115,11 @@ func (p *parser) dereferenceParam(name string, pos int) (ast.Expression, error) 
 	}
 
 	// Check if it exists in function parameters
-	for _, param := range p.functionParameters {
-		if param.Name == name {
-			return &ast.Param{
-				Name: name,
-				Pos:  p.makeTokenPos(pos, name),
+	for _, def := range p.functionParameters {
+		if def.Name == name {
+			return &ast.FunctionParam{
+				Definition: def,
+				Pos:        p.makeTokenPos(pos, name),
 			}, nil
 		}
 	}
@@ -882,7 +882,7 @@ parseFunctionDefinition parses a function definition of the form:
 def foo::imageAsset($asset) = $asset->{url, foo, bar}
 */
 func (p *parser) parseFunctionDefinition() (*ast.FunctionDefinition, error) {
-	p.functionParameters = []*ast.FunctionParameter{}
+	p.functionParameters = []*ast.FunctionParamDefinition{}
 
 	namespace, name, err := p.parseFunctionName()
 	if err != nil {
@@ -966,8 +966,8 @@ func (p *parser) parseFunctionName() (string, string, error) {
 	return functionNamespace, functionName, nil
 }
 
-func (p *parser) parseFunctionParameters() ([]*ast.FunctionParameter, error) {
-	var params []*ast.FunctionParameter
+func (p *parser) parseFunctionParameters() ([]*ast.FunctionParamDefinition, error) {
+	var params []*ast.FunctionParamDefinition
 
 	// We only allow 1 argument at the moment
 	tok, lit, pos := p.scanIgnoreWhitespace()
@@ -977,7 +977,7 @@ func (p *parser) parseFunctionParameters() ([]*ast.FunctionParameter, error) {
 			pos: p.makeSpotPos(pos),
 		}
 	}
-	param := &ast.FunctionParameter{
+	param := &ast.FunctionParamDefinition{
 		// Since we only allow 1 parameter per function at the moment, Index is always 0.
 		// This will change in the future, so Index will be needed.
 		Index: 0,
