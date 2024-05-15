@@ -59,7 +59,8 @@ type parser struct {
 		pos int       // position of last token
 		n   int       // buffer size (max=1)
 	}
-	functions map[ast.FunctionID]*ast.FunctionDefinition
+	functions          map[ast.FunctionID]*ast.FunctionDefinition
+	functionParameters []*ast.FunctionParamDefinition
 }
 
 // Parse parses a string of GROQ.
@@ -111,6 +112,16 @@ func (p *parser) dereferenceParam(name string, pos int) (ast.Expression, error) 
 			Name: name,
 			Pos:  p.makeTokenPos(pos, name),
 		}, nil
+	}
+
+	// Check if it exists in function parameters
+	for _, def := range p.functionParameters {
+		if def.Name == name {
+			return &ast.FunctionParam{
+				Definition: def,
+				Pos:        p.makeTokenPos(pos, name),
+			}, nil
+		}
 	}
 
 	value, exists := p.params[name]
@@ -848,6 +859,7 @@ func (p *parser) parseFunctionDefinitions() error {
 				return err
 			}
 			p.functions[function.GetID()] = function
+
 		} else {
 			p.unscan()
 			break
@@ -870,6 +882,8 @@ parseFunctionDefinition parses a function definition of the form:
 def foo::imageAsset($asset) = $asset->{url, foo, bar}
 */
 func (p *parser) parseFunctionDefinition() (*ast.FunctionDefinition, error) {
+	p.functionParameters = []*ast.FunctionParamDefinition{}
+
 	namespace, name, err := p.parseFunctionName()
 	if err != nil {
 		return nil, err
@@ -883,10 +897,12 @@ func (p *parser) parseFunctionDefinition() (*ast.FunctionDefinition, error) {
 		}
 	}
 
-	args, err := p.parseFunctionArguments()
+	params, err := p.parseFunctionParameters()
 	if err != nil {
 		return nil, err
 	}
+
+	p.functionParameters = params
 
 	tok, _, pos = p.scanIgnoreWhitespace()
 	if tok != ast.ParenRight {
@@ -909,11 +925,13 @@ func (p *parser) parseFunctionDefinition() (*ast.FunctionDefinition, error) {
 		return nil, err
 	}
 
+	p.functionParameters = nil
+
 	return &ast.FunctionDefinition{
 		ID:         ast.FunctionID{Namespace: namespace, Name: name},
 		Body:       body,
 		Pos:        p.makeTokenPos(pos, lit),
-		Parameters: args,
+		Parameters: params,
 	}, nil
 
 }
@@ -948,8 +966,8 @@ func (p *parser) parseFunctionName() (string, string, error) {
 	return functionNamespace, functionName, nil
 }
 
-func (p *parser) parseFunctionArguments() ([]ast.Param, error) {
-	var args []ast.Param
+func (p *parser) parseFunctionParameters() ([]*ast.FunctionParamDefinition, error) {
+	var params []*ast.FunctionParamDefinition
 
 	// We only allow 1 argument at the moment
 	tok, lit, pos := p.scanIgnoreWhitespace()
@@ -959,13 +977,17 @@ func (p *parser) parseFunctionArguments() ([]ast.Param, error) {
 			pos: p.makeSpotPos(pos),
 		}
 	}
-	param := ast.Param{
-		Name: lit,
-		Pos:  p.makeTokenPos(pos, lit),
+	param := &ast.FunctionParamDefinition{
+		// Since we only allow 1 parameter per function at the moment, Index is always 0.
+		// This will change in the future, so Index will be needed.
+		Index: 0,
+		// Record the function parameter's name without the $ sign,
+		// because the logic to dereference a param does not use $ sign.
+		Name: lit[1:],
 	}
-	args = append(args, param)
+	params = append(params, param)
 
-	return args, nil
+	return params, nil
 }
 
 /*
