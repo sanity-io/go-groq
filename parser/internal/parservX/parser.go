@@ -897,12 +897,12 @@ func (p *parser) parseFunctionDefinition() (*ast.FunctionDefinition, error) {
 		}
 	}
 
-	args, err := p.parseFunctionArguments()
+	params, err := p.parseFunctionParameters()
 	if err != nil {
 		return nil, err
 	}
 
-	p.functionParameters = args
+	p.functionParameters = params
 
 	tok, _, pos = p.scanIgnoreWhitespace()
 	if tok != ast.ParenRight {
@@ -931,7 +931,7 @@ func (p *parser) parseFunctionDefinition() (*ast.FunctionDefinition, error) {
 		ID:         ast.FunctionID{Namespace: namespace, Name: name},
 		Body:       body,
 		Pos:        p.makeTokenPos(pos, lit),
-		Parameters: args,
+		Parameters: params,
 	}, nil
 
 }
@@ -966,8 +966,8 @@ func (p *parser) parseFunctionName() (string, string, error) {
 	return functionNamespace, functionName, nil
 }
 
-func (p *parser) parseFunctionArguments() ([]*ast.FunctionParameter, error) {
-	var args []*ast.FunctionParameter
+func (p *parser) parseFunctionParameters() ([]*ast.FunctionParameter, error) {
+	var params []*ast.FunctionParameter
 
 	// We only allow 1 argument at the moment
 	tok, lit, pos := p.scanIgnoreWhitespace()
@@ -978,16 +978,16 @@ func (p *parser) parseFunctionArguments() ([]*ast.FunctionParameter, error) {
 		}
 	}
 	param := &ast.FunctionParameter{
-		// Since we only allow 1 argument per function at the moment, Index is always 0.
+		// Since we only allow 1 parameter per function at the moment, Index is always 0.
 		// This will change in the future, so Index will be needed.
 		Index: 0,
 		// Record the function parameter's name without the $ sign,
 		// because the logic to dereference a param does not use $ sign.
 		Name: lit[1:],
 	}
-	args = append(args, param)
+	params = append(params, param)
 
-	return args, nil
+	return params, nil
 }
 
 /*
