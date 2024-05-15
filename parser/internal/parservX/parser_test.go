@@ -11,19 +11,21 @@ import (
 	"reflect"
 	"regexp"
 	"runtime"
+	"sort"
 	"strings"
 	"testing"
 
 	"github.com/blang/semver"
+
+	"github.com/sanity-io/litter"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
 	"github.com/sanity-io/go-groq"
 	"github.com/sanity-io/go-groq/ast"
 	"github.com/sanity-io/go-groq/internal/testhelpers"
 	"github.com/sanity-io/go-groq/parser"
 	"github.com/sanity-io/go-groq/parser/internal/parservX"
-	"github.com/sanity-io/litter"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 )
 
 func TestParser(t *testing.T) {
@@ -31,7 +33,7 @@ func TestParser(t *testing.T) {
 		if includeTest(test) {
 			ASTTest(t, test, "snapshots",
 				func(query string, params groq.Params, functions map[ast.FunctionID]*ast.FunctionDefinition) (ast.Expression, error) {
-					return parservX.Parse(query, parservX.WithParams(params), parservX.WithFunctions(make(map[ast.FunctionID]*ast.FunctionDefinition)))
+					return parservX.Parse(query, parservX.WithParams(params), parservX.WithFunctions(functions))
 				})
 		}
 	})
@@ -180,17 +182,30 @@ func ASTTest(
 	parsed, err := parser(test.Query, test.Params, test.Functions)
 	require.NoError(t, err)
 
+	// Make sure we can walk the AST
+	assert.True(t, ast.Walk(parsed, func(expr ast.Expression) bool { return true }))
+
 	type Result struct {
 		Query     string
 		AST       ast.Expression
-		Functions map[ast.FunctionID]*ast.FunctionDefinition
+		Functions []*ast.FunctionDefinition
 	}
 
 	result := Result{
-		Query:     test.Query,
-		AST:       parsed,
-		Functions: test.Functions,
+		Query: test.Query,
+		AST:   parsed,
 	}
+
+	// append to a slice and sort since maps are not ordered
+	for _, fn := range test.Functions {
+		// Make sure we can walk the function body
+		assert.True(t, ast.Walk(fn.Body, func(expr ast.Expression) bool { return true }))
+
+		result.Functions = append(result.Functions, fn)
+	}
+	sort.Slice(result.Functions, func(i, j int) bool {
+		return result.Functions[i].ID.String() < result.Functions[j].ID.String()
+	})
 
 	actual := []byte(litter.Options{
 		FieldFilter: func(f reflect.StructField, _ reflect.Value) bool {
@@ -222,11 +237,12 @@ func WithEachTest(t *testing.T, f func(t *testing.T, test *Test)) {
 		query := string(queryBytes)
 
 		test := Test{
-			Name:     name,
-			Query:    query,
-			Params:   make(groq.Params),
-			Valid:    true,
-			FileName: file,
+			Name:      name,
+			Query:     query,
+			Params:    make(groq.Params),
+			Functions: make(map[ast.FunctionID]*ast.FunctionDefinition),
+			Valid:     true,
+			FileName:  file,
 		}
 
 		for _, param := range paramRegex.FindAllStringSubmatch(query, -1) {
