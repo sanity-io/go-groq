@@ -369,11 +369,9 @@ func (e *Projection) Equal(b Expression) bool {
 
 func (e *Object) Equal(b Expression) bool {
 	if b, ok := b.(*Object); ok && len(e.Expressions) == len(b.Expressions) {
-		for _, ae := range e.Expressions {
-			for _, be := range b.Expressions {
-				if !ae.Equal(be) {
-					return false
-				}
+		for idx, ae := range e.Expressions {
+			if !ae.Equal(b.Expressions[idx]) {
+				return false
 			}
 		}
 		return true
@@ -383,11 +381,9 @@ func (e *Object) Equal(b Expression) bool {
 
 func (e *Array) Equal(b Expression) bool {
 	if b, ok := b.(*Array); ok && len(e.Expressions) == len(b.Expressions) {
-		for _, ae := range e.Expressions {
-			for _, be := range b.Expressions {
-				if !ae.Equal(be) {
-					return false
-				}
+		for idx, ae := range e.Expressions {
+			if !ae.Equal(b.Expressions[idx]) {
+				return false
 			}
 		}
 		return true
@@ -397,11 +393,9 @@ func (e *Array) Equal(b Expression) bool {
 
 func (e *FunctionCall) Equal(b Expression) bool {
 	if b, ok := b.(*FunctionCall); ok && e.Namespace == b.Namespace && e.Name == b.Name && len(e.Arguments) == len(b.Arguments) {
-		for _, ae := range e.Arguments {
-			for _, be := range b.Arguments {
-				if !ae.Equal(be) {
-					return false
-				}
+		for idx, ae := range e.Arguments {
+			if !ae.Equal(b.Arguments[idx]) {
+				return false
 			}
 		}
 		return true
@@ -479,11 +473,9 @@ func (e *Subscript) Equal(b Expression) bool {
 
 func (e *Tuple) Equal(b Expression) bool {
 	if b, ok := b.(*Tuple); ok && len(e.Members) == len(b.Members) {
-		for _, ae := range e.Members {
-			for _, be := range b.Members {
-				if !ae.Equal(be) {
-					return false
-				}
+		for idx, ae := range e.Members {
+			if !ae.Equal(b.Members[idx]) {
+				return false
 			}
 		}
 		return true
