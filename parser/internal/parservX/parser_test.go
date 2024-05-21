@@ -71,6 +71,26 @@ func TestBackwardsCompatibility(t *testing.T) {
 	})
 }
 
+func TestParseWithoutFunctions(t *testing.T) {
+	query := "def foo::bar($baz) = $baz{a, b}; *[]"
+
+	// should parse function definitions without functions: "noop"
+	{
+		_, err := parservX.Parse(query, parservX.WithFunctions(nil))
+		require.NoError(t, err)
+	}
+
+	// should parse function definitions with functions defined.
+	{
+		functions := make(map[ast.FunctionID]*ast.FunctionDefinition)
+		_, err := parservX.Parse(query, parservX.WithFunctions(functions))
+		require.NoError(t, err)
+		require.Len(t, functions, 1)
+		function := functions[ast.FunctionID{"foo", "bar"}]
+		require.NotNil(t, function)
+	}
+}
+
 func transformToLegacyAST(expr ast.Expression) ast.Expression {
 	switch expr := expr.(type) {
 	case *ast.FunctionPipe:
