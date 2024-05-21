@@ -843,14 +843,6 @@ func (p *parser) parse() (ast.Expression, error) {
 }
 
 func (p *parser) parseFunctionDefinitions() error {
-
-	if p.functions == nil {
-		return &parseError{
-			msg: "functions are not supported",
-			pos: p.makeSpotPos(0),
-		}
-	}
-
 	for {
 		tok, lit, _ := p.scanIgnoreWhitespace()
 		if tok == ast.Name && p.isFunctionDefinitionKeyword(lit) {
@@ -858,7 +850,9 @@ func (p *parser) parseFunctionDefinitions() error {
 			if err != nil {
 				return err
 			}
-			p.functions[function.GetID()] = function
+			if p.functions != nil {
+				p.functions[function.GetID()] = function
+			}
 
 		} else {
 			p.unscan()
