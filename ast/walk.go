@@ -87,7 +87,7 @@ func walkAndFindParentUsageInvalid(count int, expr Expression) (int, error) {
 	switch e := expr.(type) {
 	case *Parent:
 		if count <= 0 {
-			return count, fmt.Errorf("parent usage is invalid")
+			return count, NewParseError("parent usage is invalid", e.Pos)
 		}
 		return count - 1, nil
 	case *Everything, *This, *Ellipsis, *StringLiteral,
