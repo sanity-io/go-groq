@@ -219,7 +219,7 @@ func ASTTest(
 	// append to a slice and sort since maps are not ordered
 	for _, fn := range test.Functions {
 		// Make sure we can walk the function body
-		_, err = ast.WalkAndFindParentUsageInvalid(0, fn.Body)
+		err = ast.ValidateParentAccess(fn.Body)
 		require.NoError(t, err)
 
 		result.Functions = append(result.Functions, fn)
