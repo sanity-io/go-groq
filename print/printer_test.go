@@ -35,6 +35,22 @@ func TestPrettyPrint(t *testing.T) {
 	assert.EqualValues(t, litter.Sdump(origAST), litter.Sdump(newAST))
 }
 
+func TestParseSpecialAttrs(t *testing.T) {
+	groqPretty := `*[_type == "foo"] {
+  "out1": @["true"],
+  "out2": @["01g"],
+  "out3": @["Hello World"]
+}`
+
+	parsed, err := parse(groqPretty)
+	require.NoError(t, err)
+
+	parsedStr, err := print.Stringify(parsed, true, false)
+	require.NoError(t, err)
+
+	assert.EqualValues(t, groqPretty, parsedStr)
+}
+
 func removePositions(expr ast.Expression) ast.Expression {
 	return ast.Transform(expr, func(e ast.Expression) ast.Expression {
 		v := reflect.ValueOf(e).Elem()
