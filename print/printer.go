@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
+	"github.com/sanity-io/go-groq/tokenizer"
 	"io"
 	"strconv"
 	"strings"
@@ -155,8 +156,8 @@ func (p *Printer) print(expr ast.Expression) {
 		stream.append(" ")
 		p.print(e.RHS)
 	case *ast.DotOperator:
-		// Special case for reserved words
-		if s, ok := isReservedWordAttribute(e.RHS); ok {
+		// Special case for non-identifier attributes
+		if s, ok := isNonIdentifierAttribute(e.RHS); ok {
 			p.print(e.LHS)
 			stream.append(`[`)
 			p.print(&ast.StringLiteral{Value: s})
@@ -363,10 +364,16 @@ func (p *Printer) print(expr ast.Expression) {
 	}
 }
 
-func isReservedWordAttribute(expr ast.Expression) (string, bool) {
+func isNonIdentifierAttribute(expr ast.Expression) (string, bool) {
 	attr, ok := expr.(*ast.Attribute)
 	if !ok {
 		return "", false
+	}
+	if strings.Contains(attr.Name, " ") {
+		return attr.Name, true
+	}
+	if len(attr.Name) > 0 && !tokenizer.IsLeadingIdentifierCharacter(rune(attr.Name[0])) {
+		return attr.Name, true
 	}
 	switch attr.Name {
 	case "true", "false", "null":

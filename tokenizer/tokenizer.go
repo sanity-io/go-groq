@@ -92,7 +92,7 @@ func (t *Tokenizer) Scan() (ast.Token, string, int) {
 			t.unread(ch)
 			return t.scanOperator()
 		}
-	case isLeadingIdentifierCharacter(ch):
+	case IsLeadingIdentifierCharacter(ch):
 		t.unread(ch)
 		return t.scanIdent()
 	case isOperatorCharacter(ch):

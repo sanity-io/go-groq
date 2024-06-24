@@ -28,7 +28,7 @@ func isIdentifierCharacter(ch rune) bool {
 	return isLetter(ch) || isDigit(ch) || (ch == '_')
 }
 
-func isLeadingIdentifierCharacter(ch rune) bool {
+func IsLeadingIdentifierCharacter(ch rune) bool {
 	return isLetter(ch) || (ch == '_') || (ch == '$')
 }
 
