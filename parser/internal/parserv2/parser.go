@@ -846,7 +846,7 @@ func (p *parser) parseFunctionDefinitions() error {
 
 func (p *parser) isFunctionDefinitionKeyword(s string) bool {
 	switch s {
-	case "def", "fn", "func", "function", "let", "const":
+	case "fn":
 		return true
 	default:
 		return false

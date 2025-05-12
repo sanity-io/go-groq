@@ -72,7 +72,7 @@ func TestBackwardsCompatibility(t *testing.T) {
 }
 
 func TestParseWithoutFunctions(t *testing.T) {
-	query := "def foo::bar($baz) = $baz{a, b}; *[]"
+	query := "fn foo::bar($baz) = $baz{a, b}; *[]"
 
 	// should parse function definitions without functions: "noop"
 	{
@@ -150,16 +150,16 @@ func TestErrors(t *testing.T) {
 	assertParseFailure(t, "string::length", "expected a function following namespace expression", 8, 14)
 	assertParseFailure(t, "string::+(1, 2)'", "expected a function following namespace expression", 8, 9)
 	assertParseFailure(t, "::length", "unexpected token \"::\", expected expression", 0, 2)
-	assertParseFailure(t, "def ($bar)", "expected function namespace", 4, 4)
-	assertParseFailure(t, "def foo($bar)", "expected '::' followed by a function name", 7, 7)
-	assertParseFailure(t, "def ::foo($bar)", "expected function namespace", 4, 4)
-	assertParseFailure(t, "def foo::($bar)", "expected a function name", 9, 9)
-	assertParseFailure(t, "def foo::bar $baz", "expected '(' following function name", 13, 13)
-	assertParseFailure(t, "def foo::bar($baz", "expected ')' following function arguments", 18, 18)
-	assertParseFailure(t, "def foo::bar($baz) { a, b }", "expected '=' following ()", 19, 19)
-	assertParseFailure(t, "def foo::bar(baz) = { a, b }", "expected parameter name", 13, 13)
-	assertParseFailure(t, "def foo::moo($woo) = $woo{ a, b }; def foo::bar($baz) = $woo{ a, b }", "param $woo referenced, but not provided", 56, 59)
-	assertParseFailure(t, "def foo::bar($baz) = $baz{ a, b } def", "expected ';' at the end of function definition", 34, 34)
+	assertParseFailure(t, "fn ($bar)", "expected function namespace", 3, 3)
+	assertParseFailure(t, "fn foo($bar)", "expected '::' followed by a function name", 6, 6)
+	assertParseFailure(t, "fn ::foo($bar)", "expected function namespace", 3, 3)
+	assertParseFailure(t, "fn foo::($bar)", "expected a function name", 8, 8)
+	assertParseFailure(t, "fn foo::bar $baz", "expected '(' following function name", 12, 12)
+	assertParseFailure(t, "fn foo::bar($baz", "expected ')' following function arguments", 17, 17)
+	assertParseFailure(t, "fn foo::bar($baz) { a, b }", "expected '=' following ()", 18, 18)
+	assertParseFailure(t, "fn foo::bar(baz) = { a, b }", "expected parameter name", 12, 12)
+	assertParseFailure(t, "fn foo::moo($woo) = $woo{ a, b }; fn foo::bar($baz) = $woo{ a, b }", "param $woo referenced, but not provided", 54, 57)
+	assertParseFailure(t, "fn foo::bar($baz) = $baz{ a, b } fn", "expected ';' at the end of function definition", 33, 33)
 
 }
 
