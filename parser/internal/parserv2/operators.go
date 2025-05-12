@@ -13,6 +13,7 @@ func isPrefixOperator(token ast.Token) bool {
 
 func isInfixOperator(token ast.Token) bool {
 	return token == ast.Equals ||
+		token == ast.EqualSign ||
 		token == ast.Or ||
 		token == ast.And ||
 		token == ast.GT ||

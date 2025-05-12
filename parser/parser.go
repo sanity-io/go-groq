@@ -35,6 +35,7 @@ var (
 	Version2 Version = 2
 
 	// VersionX is an experimental version of the GROQ parser. There's no guarantees that it will be stable and might change at any time.
+	// TODO: remove this version when we stop using it in Gradient.
 	VersionX Version = 0
 )
 
@@ -81,7 +82,8 @@ func Parse(query string, options ...Option) (ast.Expression, error) {
 	case VersionGROQ1:
 		return parserv2.Parse(query,
 			parserv2.WithParams(opts.params),
-			parserv2.WithParamNodes(opts.createParamNodes))
+			parserv2.WithParamNodes(opts.createParamNodes),
+			parserv2.WithFunctions(opts.functions))
 	case VersionX:
 		return parservX.Parse(query,
 			parservX.WithParams(opts.params),
