@@ -845,12 +845,7 @@ func (p *parser) parseFunctionDefinitions() error {
 }
 
 func (p *parser) isFunctionDefinitionKeyword(s string) bool {
-	switch s {
-	case "fn":
-		return true
-	default:
-		return false
-	}
+	return s == "fn"
 }
 
 /*
