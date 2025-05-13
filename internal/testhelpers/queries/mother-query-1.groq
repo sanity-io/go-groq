@@ -1,3 +1,4 @@
+//groq:version=1.x.x
 //groq:param:myParam="abc"
 
 // The following query exercises all parser-related features for GROQ 1

@@ -11,6 +11,7 @@ import (
 	"reflect"
 	"regexp"
 	"runtime"
+	"sort"
 	"strings"
 	"testing"
 
@@ -27,19 +28,20 @@ var versionRegex = regexp.MustCompile(`//groq:version=(\S+)`)
 var paramRegex = regexp.MustCompile(`//groq:param:([^=]+)=([^\n]+)`)
 
 type Test struct {
-	Name     string
-	Query    string
-	Params   groq.Params
-	Valid    bool
-	Version  *semver.Range
-	FileName string
+	Name      string
+	Query     string
+	Params    groq.Params
+	Functions map[ast.FunctionID]*ast.FunctionDefinition
+	Valid     bool
+	Version   *semver.Range
+	FileName  string
 }
 
 func ASTTest(
 	t *testing.T,
 	test *Test,
 	outputDir string,
-	parser func(query string, params groq.Params) (ast.Expression, error),
+	parser func(query string, params groq.Params, functions map[ast.FunctionID]*ast.FunctionDefinition) (ast.Expression, error),
 ) {
 	fileName := filepath.Join(outputDir, SnapshotFileName(test))
 
@@ -47,18 +49,31 @@ func ASTTest(
 
 	t.Logf("File: %s", fileName)
 
-	parsed, err := parser(test.Query, test.Params)
+	parsed, err := parser(test.Query, test.Params, test.Functions)
 	require.NoError(t, err)
 
 	type Result struct {
-		Query string
-		AST   ast.Expression
+		Query     string
+		AST       ast.Expression
+		Functions []*ast.FunctionDefinition
 	}
 
 	result := Result{
 		Query: test.Query,
 		AST:   parsed,
 	}
+
+	// append to a slice and sort since maps are not ordered
+	for _, fn := range test.Functions {
+		// Make sure we can walk the function body
+		err = ast.ValidateParentAccess(fn.Body)
+		require.NoError(t, err)
+
+		result.Functions = append(result.Functions, fn)
+	}
+	sort.Slice(result.Functions, func(i, j int) bool {
+		return result.Functions[i].ID.String() < result.Functions[j].ID.String()
+	})
 
 	actual := []byte(litter.Options{
 		FieldFilter: func(f reflect.StructField, _ reflect.Value) bool {
@@ -90,11 +105,12 @@ func WithEachTest(t *testing.T, f func(t *testing.T, test *Test)) {
 		query := string(queryBytes)
 
 		test := Test{
-			Name:     name,
-			Query:    query,
-			Params:   make(groq.Params),
-			Valid:    true,
-			FileName: file,
+			Name:      name,
+			Query:     query,
+			Params:    make(groq.Params),
+			Functions: make(map[ast.FunctionID]*ast.FunctionDefinition),
+			Valid:     true,
+			FileName:  file,
 		}
 
 		for _, param := range paramRegex.FindAllStringSubmatch(query, -1) {

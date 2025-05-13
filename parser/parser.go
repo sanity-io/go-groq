@@ -81,7 +81,8 @@ func Parse(query string, options ...Option) (ast.Expression, error) {
 	case VersionGROQ1:
 		return parserv2.Parse(query,
 			parserv2.WithParams(opts.params),
-			parserv2.WithParamNodes(opts.createParamNodes))
+			parserv2.WithParamNodes(opts.createParamNodes),
+			parserv2.WithFunctions(opts.functions))
 	case VersionX:
 		return parservX.Parse(query,
 			parservX.WithParams(opts.params),

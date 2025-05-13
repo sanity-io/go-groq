@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/blang/semver"
+
 	"github.com/sanity-io/litter"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -21,21 +22,20 @@ func TestParser(t *testing.T) {
 	testhelpers.WithEachTest(t, func(t *testing.T, test *testhelpers.Test) {
 		if includeTest(test) {
 			testhelpers.ASTTest(t, test, "snapshots",
-				func(query string, params groq.Params) (ast.Expression, error) {
-					return parserv2.Parse(query, parserv2.WithParams(params))
+				func(query string, params groq.Params, functions map[ast.FunctionID]*ast.FunctionDefinition) (ast.Expression, error) {
+					return parserv2.Parse(query, parserv2.WithParams(params), parserv2.WithFunctions(functions))
 				})
 		}
 	})
 }
 
 func includeTest(test *testhelpers.Test) bool {
-	// Old parser does not have some features
 	return test.Version == nil || (*test.Version)(semver.MustParse("2.0.0"))
 }
 
 func TestBackwardsCompatibility(t *testing.T) {
 	testhelpers.WithEachTest(t, func(t *testing.T, test *testhelpers.Test) {
-		if test.Version != nil && (*test.Version)(semver.MustParse("1.0.0")) {
+		if test.Version != nil && (*test.Version)(semver.MustParse("2.0.0")) {
 			return
 		}
 
@@ -58,6 +58,26 @@ func TestBackwardsCompatibility(t *testing.T) {
 		}
 		assert.Equal(t, litterOpts.Sdump(expected), litterOpts.Sdump(actual))
 	})
+}
+
+func TestParseWithoutFunctions(t *testing.T) {
+	query := "fn foo::bar($baz) = $baz{a, b}; *[]"
+
+	// should parse function definitions without functions: "noop"
+	{
+		_, err := parserv2.Parse(query, parserv2.WithFunctions(nil))
+		require.NoError(t, err)
+	}
+
+	// should parse function definitions with functions defined.
+	{
+		functions := make(map[ast.FunctionID]*ast.FunctionDefinition)
+		_, err := parserv2.Parse(query, parserv2.WithFunctions(functions))
+		require.NoError(t, err)
+		require.Len(t, functions, 1)
+		function := functions[ast.FunctionID{"foo", "bar"}]
+		require.NotNil(t, function)
+	}
 }
 
 func transformToLegacyAST(expr ast.Expression) ast.Expression {
@@ -104,7 +124,7 @@ func transformToLegacyAST(expr ast.Expression) ast.Expression {
 
 func TestErrors(t *testing.T) {
 	assertParseFailure(t, "(person", "expected ')' following parenthesized expression", 0, 8)
-	assertParseFailure(t, "fn(person", "expected ')' following function arguments", 2, 10)
+	assertParseFailure(t, "count(person", "expected ')' following function arguments", 5, 13)
 	assertParseFailure(t, "[1,2", "expected ']' following array body", 0, 5)
 	assertParseFailure(t, "{a", "expected '}' following object body", 0, 3)
 	assertParseFailure(t, "[1,2,3]....", "unable to parse entire expression", 7, 7)
@@ -119,6 +139,17 @@ func TestErrors(t *testing.T) {
 	assertParseFailure(t, "string::length", "expected a function following namespace expression", 8, 14)
 	assertParseFailure(t, "string::+(1, 2)'", "expected a function following namespace expression", 8, 9)
 	assertParseFailure(t, "::length", "unexpected token \"::\", expected expression", 0, 2)
+	assertParseFailure(t, "fn ($bar)", "expected function namespace", 3, 3)
+	assertParseFailure(t, "fn foo($bar)", "expected '::' followed by a function name", 6, 6)
+	assertParseFailure(t, "fn ::foo($bar)", "expected function namespace", 3, 3)
+	assertParseFailure(t, "fn foo::($bar)", "expected a function name", 8, 8)
+	assertParseFailure(t, "fn foo::bar $baz", "expected '(' following function name", 12, 12)
+	assertParseFailure(t, "fn foo::bar($baz", "expected ')' following function arguments", 17, 17)
+	assertParseFailure(t, "fn foo::bar($baz) { a, b }", "expected '=' following ()", 18, 18)
+	assertParseFailure(t, "fn foo::bar(baz) = { a, b }", "expected parameter name", 12, 12)
+	assertParseFailure(t, "fn foo::moo($woo) = $woo{ a, b }; fn foo::bar($baz) = $woo{ a, b }", "param $woo referenced, but not provided", 54, 57)
+	assertParseFailure(t, "fn foo::bar($baz) = $baz{ a, b } fn", "expected ';' at the end of function definition", 33, 33)
+
 }
 
 func assertParseFailure(t *testing.T, src string, message string, start int, end int) {

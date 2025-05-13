@@ -20,7 +20,7 @@ func TestParser(t *testing.T) {
 	testhelpers.WithEachTest(t, func(t *testing.T, test *testhelpers.Test) {
 		if includeTest(test) {
 			testhelpers.ASTTest(t, test, filepath.Join("snapshots", "nonstrict"),
-				func(query string, params groq.Params) (ast.Expression, error) {
+				func(query string, params groq.Params, functions map[ast.FunctionID]*ast.FunctionDefinition) (ast.Expression, error) {
 					return parserv1.Parse(query,
 						parserv1.WithParams(groq.Params{"identity": "someuser"}),
 						parserv1.WithParams(params),
@@ -31,8 +31,13 @@ func TestParser(t *testing.T) {
 }
 
 func includeTest(test *testhelpers.Test) bool {
-	// Old parser does not have some features
-	return (test.Version == nil || (*test.Version)(semver.MustParse("1.0.0")))
+	// Skip tests that are explicitly marked for v2
+	if test.Version != nil && (*test.Version)(semver.MustParse("2.0.0")) {
+		return false
+	}
+
+	// Include tests that are either unversioned or marked for v1
+	return test.Version == nil || (*test.Version)(semver.MustParse("1.0.0"))
 }
 
 func TestErrors(t *testing.T) {
