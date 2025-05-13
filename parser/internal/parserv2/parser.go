@@ -53,7 +53,11 @@ func Parse(src string, opts ...Option) (ast.Expression, error) {
 }
 
 func newParser(src string, opts ...Option) *parser {
-	p := &parser{tk: tokenizer.New(src), src: src, params: groq.Params{}, functions: make(map[ast.FunctionID]*ast.FunctionDefinition)}
+	p := &parser{
+		tk:  tokenizer.New(src),
+		src: src, params: groq.Params{},
+		functions: make(map[ast.FunctionID]*ast.FunctionDefinition),
+	}
 	for _, o := range opts {
 		o(p)
 	}

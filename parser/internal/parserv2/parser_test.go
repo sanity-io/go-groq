@@ -30,14 +30,6 @@ func TestParser(t *testing.T) {
 }
 
 func includeTest(test *testhelpers.Test) bool {
-	// Only include tests for parserv2 (version 2.0.0 or higher)
-	// Exclude tests specifically marked for GROQ 1
-	if test.Version != nil {
-		v1 := semver.MustParse("1.0.0")
-		if (*test.Version)(v1) {
-			return false
-		}
-	}
 	return test.Version == nil || (*test.Version)(semver.MustParse("2.0.0"))
 }
 

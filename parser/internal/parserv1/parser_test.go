@@ -3,7 +3,6 @@ package parserv1_test
 import (
 	"errors"
 	"path/filepath"
-	"strings"
 	"testing"
 
 	"github.com/blang/semver"
@@ -37,22 +36,8 @@ func includeTest(test *testhelpers.Test) bool {
 		return false
 	}
 
-	// Skip tests that contain v2 features
-	if containsV2Features(test.Query) {
-		return false
-	}
-
 	// Include tests that are either unversioned or marked for v1
 	return test.Version == nil || (*test.Version)(semver.MustParse("1.0.0"))
-}
-
-func containsV2Features(query string) bool {
-	// Check for v2 function definition syntax
-	if strings.Contains(query, "fn ") {
-		return true
-	}
-
-	return false
 }
 
 func TestErrors(t *testing.T) {
