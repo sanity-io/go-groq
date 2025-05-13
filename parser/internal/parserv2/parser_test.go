@@ -1,18 +1,8 @@
 package parserv2_test
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
-	"encoding/json"
 	"errors"
-	"io/ioutil"
-	"os"
-	"path/filepath"
 	"reflect"
-	"regexp"
-	"runtime"
-	"sort"
-	"strings"
 	"testing"
 
 	"github.com/blang/semver"
@@ -29,9 +19,9 @@ import (
 )
 
 func TestParser(t *testing.T) {
-	WithEachTest(t, func(t *testing.T, test *Test) {
+	testhelpers.WithEachTest(t, func(t *testing.T, test *testhelpers.Test) {
 		if includeTest(test) {
-			ASTTest(t, test, "snapshots",
+			testhelpers.ASTTest(t, test, "snapshots",
 				func(query string, params groq.Params, functions map[ast.FunctionID]*ast.FunctionDefinition) (ast.Expression, error) {
 					return parserv2.Parse(query, parserv2.WithParams(params), parserv2.WithFunctions(functions))
 				})
@@ -39,9 +29,16 @@ func TestParser(t *testing.T) {
 	})
 }
 
-func includeTest(test *Test) bool {
-	// Old parser does not have some features
-	return test.Version == nil || (*test.Version)(semver.MustParse("0.0.0"))
+func includeTest(test *testhelpers.Test) bool {
+	// Only include tests for parserv2 (version 2.0.0 or higher)
+	// Exclude tests specifically marked for GROQ 1
+	if test.Version != nil {
+		v1 := semver.MustParse("1.0.0")
+		if (*test.Version)(v1) {
+			return false
+		}
+	}
+	return test.Version == nil || (*test.Version)(semver.MustParse("2.0.0"))
 }
 
 func TestBackwardsCompatibility(t *testing.T) {
@@ -171,128 +168,4 @@ func assertParseFailure(t *testing.T, src string, message string, start int, end
 	require.Equal(t, message, parseErr.Message())
 	assert.Equal(t, start, parseErr.Pos().Start)
 	assert.Equal(t, end, parseErr.Pos().End)
-}
-
-// Copy of testhelpers which allows functions to be passed to the parser
-var versionRegex = regexp.MustCompile(`//groq:version=(\S+)`)
-var paramRegex = regexp.MustCompile(`//groq:param:([^=]+)=([^\n]+)`)
-
-type Test struct {
-	Name      string
-	Query     string
-	Params    groq.Params
-	Functions map[ast.FunctionID]*ast.FunctionDefinition
-	Valid     bool
-	Version   *semver.Range
-	FileName  string
-}
-
-func ASTTest(
-	t *testing.T,
-	test *Test,
-	outputDir string,
-	parser func(query string, params groq.Params, functions map[ast.FunctionID]*ast.FunctionDefinition) (ast.Expression, error),
-) {
-	fileName := filepath.Join(outputDir, SnapshotFileName(test))
-
-	require.NoError(t, os.MkdirAll(filepath.Dir(fileName), 0755))
-
-	t.Logf("File: %s", fileName)
-
-	parsed, err := parser(test.Query, test.Params, test.Functions)
-	require.NoError(t, err)
-
-	// Make sure we can walk the AST
-	assert.True(t, ast.Walk(parsed, func(expr ast.Expression) bool { return true }))
-
-	type Result struct {
-		Query     string
-		AST       ast.Expression
-		Functions []*ast.FunctionDefinition
-	}
-
-	result := Result{
-		Query: test.Query,
-		AST:   parsed,
-	}
-
-	// append to a slice and sort since maps are not ordered
-	for _, fn := range test.Functions {
-		// Make sure we can walk the function body
-		err = ast.ValidateParentAccess(fn.Body)
-		require.NoError(t, err)
-
-		result.Functions = append(result.Functions, fn)
-	}
-	sort.Slice(result.Functions, func(i, j int) bool {
-		return result.Functions[i].ID.String() < result.Functions[j].ID.String()
-	})
-
-	actual := []byte(litter.Options{
-		FieldFilter: func(f reflect.StructField, _ reflect.Value) bool {
-			return f.Name != "Source" // Skip the unnecessary source fields
-		},
-		HomePackage: "ast",
-		Compact:     true, // Save space
-	}.Sdump(result))
-
-	expected := testhelpers.ReadSnapshot(t, fileName, actual)
-
-	assert.Equal(t,
-		strings.TrimSpace(string(expected)),
-		strings.TrimSpace(string(actual)),
-	)
-}
-
-func WithEachTest(t *testing.T, f func(t *testing.T, test *Test)) {
-	_, filename, _, _ := runtime.Caller(0)
-
-	pattern := filepath.Join(filepath.Dir(filename), "*.groq")
-	files, err := filepath.Glob(pattern)
-	require.NoError(t, err)
-
-	for _, file := range files {
-		name := filepath.Base(file)
-		queryBytes, err := ioutil.ReadFile(file)
-		require.NoError(t, err)
-		query := string(queryBytes)
-
-		test := Test{
-			Name:      name,
-			Query:     query,
-			Params:    make(groq.Params),
-			Functions: make(map[ast.FunctionID]*ast.FunctionDefinition),
-			Valid:     true,
-			FileName:  file,
-		}
-
-		for _, param := range paramRegex.FindAllStringSubmatch(query, -1) {
-			var paramValue interface{}
-			err := json.Unmarshal([]byte(param[2]), &paramValue)
-			require.NoError(t, err)
-			test.Params[param[1]] = paramValue
-		}
-
-		versionMatch := versionRegex.FindStringSubmatch(query)
-		if versionMatch != nil {
-			rng := semver.MustParseRange(versionMatch[1])
-			test.Version = &rng
-		}
-
-		t.Run(name, func(t *testing.T) {
-			f(t, &test)
-		})
-	}
-}
-
-func SnapshotFileName(test *Test) string {
-	// Hash by both name and query, since queries are not unique
-	s := sha256.New()
-	if _, err := s.Write([]byte(test.Name)); err != nil {
-		panic(err)
-	}
-	if _, err := s.Write([]byte(test.Query)); err != nil {
-		panic(err)
-	}
-	return hex.EncodeToString(s.Sum(nil)) + ".txt"
 }
