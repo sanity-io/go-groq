@@ -7,7 +7,6 @@ import (
 	"github.com/sanity-io/go-groq/ast"
 	"github.com/sanity-io/go-groq/parser/internal/parserv1"
 	"github.com/sanity-io/go-groq/parser/internal/parserv2"
-	"github.com/sanity-io/go-groq/parser/internal/parservX"
 )
 
 // ParseError represents an error during parsing.
@@ -33,9 +32,6 @@ var (
 	// Version2 is an alias for VersionGROQ1.
 	// Deprecated: Use VersionGROQ1.
 	Version2 Version = 2
-
-	// VersionX is an experimental version of the GROQ parser. There's no guarantees that it will be stable and might change at any time.
-	VersionX Version = 0
 )
 
 type Option func(*parserOpts)
@@ -83,11 +79,6 @@ func Parse(query string, options ...Option) (ast.Expression, error) {
 			parserv2.WithParams(opts.params),
 			parserv2.WithParamNodes(opts.createParamNodes),
 			parserv2.WithFunctions(opts.functions))
-	case VersionX:
-		return parservX.Parse(query,
-			parservX.WithParams(opts.params),
-			parservX.WithParamNodes(opts.createParamNodes),
-			parservX.WithFunctions(opts.functions))
 	default:
 		panic(fmt.Sprintf("invalid version %v", opts.version))
 	}
