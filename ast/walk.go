@@ -29,8 +29,13 @@ func Walk(expr Expression, visitor func(Expression) bool) bool {
 	switch e := expr.(type) {
 	case *Everything, *This, *Ellipsis, *Parent, *StringLiteral,
 		*FloatLiteral, *BooleanLiteral, *IntegerLiteral, *NullLiteral, *Attribute,
-		*ArrayTraversal, *Param, *FunctionParam:
+		*Param, *FunctionParam:
 		return true
+	case *ArrayTraversal:
+		if e.Expr == nil {
+			return true
+		}
+		return Walk(e.Expr, visitor)
 	case *Constraint:
 		return Walk(e.Expression, visitor)
 	case *Subscript:
