@@ -89,6 +89,73 @@ func TestAST_TupleEquality(t *testing.T) {
 	assert.False(t, a.Equal(c))
 }
 
+func TestAST_BinaryOperatorEquality(t *testing.T) {
+	a := &ast.BinaryOperator{
+		Operator: ast.Equals,
+		LHS:      &ast.Attribute{Name: "a"},
+		RHS:      &ast.IntegerLiteral{Value: 1},
+	}
+
+	tests := []struct {
+		name  string
+		other ast.Expression
+		equal bool
+	}{
+		{
+			name:  "same expression",
+			other: a,
+			equal: true,
+		},
+		{
+			name: "identical expression",
+			other: &ast.BinaryOperator{
+				Operator: ast.Equals,
+				LHS:      &ast.Attribute{Name: "a"},
+				RHS:      &ast.IntegerLiteral{Value: 1},
+			},
+			equal: true,
+		},
+		{
+			name: "different operator",
+			other: &ast.BinaryOperator{
+				Operator: ast.NEQ,
+				LHS:      &ast.Attribute{Name: "a"},
+				RHS:      &ast.IntegerLiteral{Value: 1},
+			},
+		},
+		{
+			name: "different left operand",
+			other: &ast.BinaryOperator{
+				Operator: ast.Equals,
+				LHS:      &ast.Attribute{Name: "b"},
+				RHS:      &ast.IntegerLiteral{Value: 1},
+			},
+		},
+		{
+			name: "different right operand",
+			other: &ast.BinaryOperator{
+				Operator: ast.Equals,
+				LHS:      &ast.Attribute{Name: "a"},
+				RHS:      &ast.IntegerLiteral{Value: 2},
+			},
+		},
+		{
+			name: "different expression type",
+			other: &ast.DotOperator{
+				LHS: &ast.Attribute{Name: "a"},
+				RHS: &ast.IntegerLiteral{Value: 1},
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(t, tt.equal, a.Equal(tt.other))
+			assert.Equal(t, tt.equal, tt.other.Equal(a))
+		})
+	}
+}
+
 // Note that ValidateParentAccess is exclusively used for custom defined functions,
 // where we don't allow reaching outside the function scope.
 func TestAST_ValidateParentAccess(t *testing.T) {
