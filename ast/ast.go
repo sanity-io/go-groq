@@ -439,7 +439,7 @@ func (e *FunctionCall) Equal(b Expression) bool {
 
 func (e *BinaryOperator) Equal(b Expression) bool {
 	if b, ok := b.(*BinaryOperator); ok {
-		return e.LHS.Equal(b.LHS) && e.RHS.Equal(b.RHS)
+		return e.Operator == b.Operator && e.LHS.Equal(b.LHS) && e.RHS.Equal(b.RHS)
 	}
 	return false
 }
