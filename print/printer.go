@@ -3,14 +3,15 @@ package print
 import (
 	"bufio"
 	"bytes"
+	"encoding/json"
 	"fmt"
-	"github.com/sanity-io/go-groq/tokenizer"
 	"io"
 	"strconv"
 	"strings"
 
 	"github.com/sanity-io/go-groq"
 	"github.com/sanity-io/go-groq/ast"
+	"github.com/sanity-io/go-groq/tokenizer"
 )
 
 // Print prints an AST to GROQ format.
@@ -260,9 +261,8 @@ func (p *Printer) print(expr ast.Expression) {
 		if p.HideLiterals {
 			stream.append("$str")
 		} else {
-			stream.append("\"")
-			stream.append(strings.ReplaceAll(e.Value, "\"", "\\\\"))
-			stream.append("\"")
+			value, _ := json.Marshal(e.Value)
+			stream.append(string(value))
 		}
 	case *ast.IntegerLiteral:
 		if p.HideLiterals {
@@ -288,7 +288,7 @@ func (p *Printer) print(expr ast.Expression) {
 	case *ast.NullLiteral:
 		stream.append("null")
 	case *ast.BinaryOperator:
-		if parenthesizeSubexpr(e, e.LHS) {
+		if parenthesizeSubexpr(e, e.LHS, true) {
 			stream.append("(")
 			p.print(e.LHS)
 			stream.append(")")
@@ -300,7 +300,7 @@ func (p *Printer) print(expr ast.Expression) {
 		}
 		p.printOperator(e.Operator)
 		stream.append(" ")
-		if parenthesizeSubexpr(e, e.RHS) {
+		if parenthesizeSubexpr(e, e.RHS, false) {
 			stream.append("(")
 			p.print(e.RHS)
 			stream.append(")")
@@ -309,7 +309,7 @@ func (p *Printer) print(expr ast.Expression) {
 		}
 	case *ast.PrefixOperator:
 		p.printOperator(e.Operator)
-		if parenthesizeSubexpr(e, e.RHS) {
+		if parenthesizeSubexpr(e, e.RHS, false) {
 			stream.append("(")
 			p.print(e.RHS)
 			stream.append(")")
@@ -369,10 +369,7 @@ func isNonIdentifierAttribute(expr ast.Expression) (string, bool) {
 	if !ok {
 		return "", false
 	}
-	if strings.Contains(attr.Name, " ") {
-		return attr.Name, true
-	}
-	if len(attr.Name) > 0 && !tokenizer.IsLeadingIdentifierCharacter(rune(attr.Name[0])) {
+	if !isIdentifier(attr.Name) {
 		return attr.Name, true
 	}
 	switch attr.Name {
@@ -381,6 +378,33 @@ func isNonIdentifierAttribute(expr ast.Expression) (string, bool) {
 	default:
 		return "", false
 	}
+}
+
+// isIdentifier reports whether s can be printed in dot notation without changing its meaning. The
+// tokenizer only recognizes ASCII letters as identifiers, so "valid_name1" can use dot notation,
+// but "a-b" and "é" require brackets.
+func isIdentifier(s string) bool {
+	for i, char := range s {
+
+		// Although the tokenizer accepts "$<name>" as a name token, the parser interprets it as a
+		// parameter, so it also requires brackets when used as an attribute. This disqualifies
+		// any string containing '$' from being considered an identifier.
+		if char == '$' {
+			return false
+		}
+
+		switch i {
+		case 0:
+			if !tokenizer.IsLeadingIdentifierCharacter(char) {
+				return false
+			}
+		default:
+			if !tokenizer.IsLeadingIdentifierCharacter(char) && !(char >= '0' && char <= '9') {
+				return false
+			}
+		}
+	}
+	return s != ""
 }
 
 func (p *Printer) printOperator(t ast.Token) {
@@ -398,20 +422,23 @@ func (p *Printer) unhandled(expr ast.Expression) {
 
 const indentation = "  "
 
-func parenthesizeSubexpr(parent, expr ast.Expression) bool {
+func parenthesizeSubexpr(parent, expr ast.Expression, isLeft bool) bool {
 	if _, ok := expr.(*ast.Group); ok {
 		return true
 	}
 	switch parent := parent.(type) {
 	case *ast.BinaryOperator:
 		if expr, ok := expr.(*ast.BinaryOperator); ok {
-			if expr.Operator == parent.Operator {
-				// E.g. (a && b) && c
-				return false
+			parentPrecedence, parentAssociativity := groq.PrecedenceAndAssociativity(parent.Operator)
+			childPrecedence, _ := groq.PrecedenceAndAssociativity(expr.Operator)
+			if parentPrecedence != childPrecedence {
+				return childPrecedence < parentPrecedence
 			}
-			a, _ := groq.PrecedenceAndAssociativity(parent.Operator)
-			b, _ := groq.PrecedenceAndAssociativity(expr.Operator)
-			return a > b
+			if parentAssociativity == groq.AssociatesLeft {
+				// e.g. x - (y - z) needs parentheses, while (x - y) - z does not.
+				return !isLeft
+			}
+			return isLeft
 		}
 	case *ast.PrefixOperator:
 		switch expr.(type) {
